@@ -1,0 +1,701 @@
+import { useState } from "react";
+
+const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXXX";
+const AD_SLOTS = { top: "1111111111", mid: "2222222222", result: "3333333333" };
+
+const AFFILIATE = {
+  "docomo": "https://www.docomo.ne.jp/",
+  "au": "https://www.au.com/",
+  "SoftBank": "https://www.softbank.jp/mobile/",
+  "UQ mobile": "https://www.uqwimax.jp/mobile/",
+  "Y!mobile": "https://www.ymobile.jp/",
+  "楽天モバイル": "https://network.mobile.rakuten.co.jp/",
+  "IIJmio": "https://www.iijmio.jp/",
+  "mineo": "https://mineo.jp/",
+  "NUROモバイル": "https://mobile.nuro.jp/",
+};
+
+const PLANS = [
+  { id:"dcm_max_s", carrier:"docomo", name:"ドコモMAX 〜1GB", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本5,698円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ。1GB超えると次の段階へ" },
+  { id:"dcm_max_m", carrier:"docomo", name:"ドコモMAX 1〜3GB", cat:"mno", gb:3, price:3498, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本6,798円）。3GB超えると無制限プランの料金に変更" },
+  { id:"dcm_max_l", carrier:"docomo", name:"ドコモMAX 3GB〜無制限", cat:"mno", gb:9999, price:5148, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["無制限","5G対応","dポイント","家族割対象"], note:"割引適用後の価格（基本8,448円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ" },
+  { id:"ahamo", carrier:"docomo", name:"ahamo 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["5分かけ放題込","海外20GB","5G対応"], note:"オンライン専用・店舗サポートなし" },
+  { id:"ahamoL", carrier:"docomo", name:"ahamo大盛り 110GB", cat:"mno", gb:110, price:4950, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["大容量110GB","5分かけ放題込","5G対応"], note:"オンライン専用" },
+  { id:"dcm_mini_4", carrier:"docomo", name:"ドコモmini 4GB", cat:"mno", gb:4, price:880, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["低価格","5G対応","dポイント"], note:"割引適用後の価格（基本2,750円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
+  { id:"dcm_mini_10", carrier:"docomo", name:"ドコモmini 10GB", cat:"mno", gb:10, price:1980, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["10GB","5G対応","dポイント"], note:"割引適用後の価格（基本3,850円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
+  { id:"au_value", carrier:"au", name:"auバリューリンクプラン 無制限", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["無制限","auスマートバリュー対応","家族割対象"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,008円）。1GB以下の利用で1,650円引き（実質3,828円）" },
+  { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
+  { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
+  { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
+  { id:"au_u12", carrier:"au", name:"U12バリュープラン", cat:"mno", gb:3, price:550, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["12歳以下限定","家族間通話無料","衛星通信対応"], note:"5〜12歳限定（13歳以降も継続利用可）。U12家族割1,100円＋auPAYカード割220円適用後の価格（基本1,870円）。通信速度は最大300Kbps（ベストエフォート）。家族間の国内通話・SMS無料（申込必要）" },
+  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","20GB","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
+  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,278円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,378円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4378, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,478円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_debut4",  carrier:"SoftBank", name:"スマホデビュープラン＋ 4GB",  cat:"mno", gb:4,  price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","5〜18歳/ガラケー乗換対象"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間1,078円、14ヶ月目から2,266円" },
+  { id:"sb_debut20", carrier:"SoftBank", name:"スマホデビュープラン＋ 20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","60歳以上もお得"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間2,728円、14ヶ月目から3,916円" },
+  { id:"linemo3",  carrier:"SoftBank", name:"LINEMOベストプラン 3GB",   cat:"mno", gb:3,  price:990,  callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","低価格"], note:"LINEトーク・通話使い放題。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中。通話定額は通常1,650円→7ヶ月間1,100円キャンペーン中" },
+  { id:"linemo10", carrier:"SoftBank", name:"LINEMOベストプラン 10GB",  cat:"mno", gb:10, price:2090, callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","3GB超〜10GB"], note:"LINEトーク・通話使い放題。3GB超から自動で2,090円。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中" },
+  { id:"linemoV",  carrier:"SoftBank", name:"LINEMOベストプランV 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"SoftBank", features:["5分かけ放題込","LINEギガフリー","30GB"], note:"LINEトーク・通話使い放題。5分国内通話定額込み。通話定額for Vは通常1,100円→7ヶ月間550円キャンペーン中" },
+  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
+  { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
+  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
+  { id:"ym_s", carrier:"Y!mobile", name:"シンプル3 S 5GB", cat:"sub", gb:5, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本3,278円）" },
+  { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["30GB","PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,378円）" },
+  { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3278, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["35GB","10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,478円）" },
+  { id:"rak3", carrier:"楽天モバイル", name:"最強プラン 〜3GB", cat:"sub", gb:3, price:1078, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント"], note:"通常1,078円。最強家族割で110円引き（968円）。12歳以下は最大440円引き（3GB超過後は110円引き）。22歳以下は110円引き。パートナーエリア(au回線)はデータ制限あり" },
+  { id:"rak20", carrier:"楽天モバイル", name:"最強プラン 〜20GB", cat:"sub", gb:20, price:2178, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント","5G"], note:"通常2,178円。最強家族割で110円引き（2,068円）。22歳以下は110円引き。3GB超から自動で2,178円" },
+  { id:"rakU", carrier:"楽天モバイル", name:"最強プラン 無制限", cat:"sub", gb:9999, price:3278, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["無制限","通話無料(RLink)","海外2GB無料"], note:"通常3,278円。最強家族割で110円引き（3,168円）。22歳以下は110円引き。65歳以上は最大990ポイント還元（最強シニアプログラム）。20GB超から自動で3,278円" },
+  { id:"iij2",  carrier:"IIJmio", name:"ギガプラン 2GB",  cat:"mvno", gb:2,  price:850,  callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["低価格","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可" },
+  { id:"iij5",  carrier:"IIJmio", name:"ギガプラン 5GB",  cat:"mvno", gb:5,  price:950,  callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["低価格","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間500円" },
+  { id:"iij10", carrier:"IIJmio", name:"ギガプラン 10GB", cat:"mvno", gb:10, price:1400, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間1,250円" },
+  { id:"iij15", carrier:"IIJmio", name:"ギガプラン 15GB", cat:"mvno", gb:15, price:1600, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間700円" },
+  { id:"iij25", carrier:"IIJmio", name:"ギガプラン 25GB", cat:"mvno", gb:25, price:2000, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["大容量","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間35GBに増量" },
+  { id:"iij35", carrier:"IIJmio", name:"ギガプラン 35GB", cat:"mvno", gb:35, price:2400, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["大容量","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間45GBに増量" },
+  { id:"iij45", carrier:"IIJmio", name:"ギガプラン 45GB", cat:"mvno", gb:45, price:3300, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["大容量","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間55GBに増量" },
+  { id:"iij55", carrier:"IIJmio", name:"ギガプラン 55GB", cat:"mvno", gb:55, price:3900, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["大容量","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間65GBに増量" },
+  { id:"mineo_d3", carrier:"mineo", name:"マイピタ 3GB（音声）", cat:"mvno", gb:3, price:1298, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越","音声通話付き"], note:"ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_d15", carrier:"mineo", name:"マイピタ 15GB（音声）", cat:"mvno", gb:15, price:1958, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越","音声通話付き"], note:"ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_d30", carrier:"mineo", name:"マイピタ 30GB（音声）", cat:"mvno", gb:30, price:2178, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越"], note:"ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_sp", carrier:"mineo", name:"マイそく プレミアム（無制限）", cat:"mvno", gb:9999, price:2200, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大5Mbps","3社回線選択"], note:"月〜金12時台は最大200kbpsに制限" },
+  { id:"mineo_ss", carrier:"mineo", name:"マイそく スタンダード（無制限）", cat:"mvno", gb:9999, price:990, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大1.5Mbps","低価格"], note:"月〜金12時台は最大32kbpsに制限" },
+  { id:"mineo_sl", carrier:"mineo", name:"マイそく ライト（無制限）", cat:"mvno", gb:9999, price:660, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大300kbps","超低価格"], note:"月〜金12時台は最大32kbpsに制限" },
+  { id:"mineo_su", carrier:"mineo", name:"マイそく スーパーライト（無制限）", cat:"mvno", gb:9999, price:250, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大32kbps","最安水準"], note:"新規申込のみ" },
+  { id:"nuro3",  carrier:"NUROモバイル", name:"バリュープラス VSプラン 3GB",  cat:"mvno", gb:3,  price:792,  callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["最安水準","3社回線選択"], note:"nuro光セット割あり。バリューデータフリー・Gigaプラス非対応" },
+  { id:"nuro5",  carrier:"NUROモバイル", name:"バリュープラス VMプラン 5GB",  cat:"mvno", gb:5,  price:990,  callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["LINEギガフリー","Gigaプラス3GB","3社回線選択"], note:"nuro光セット割あり。LINEトーク使い放題。Gigaプラス3GB付き" },
+  { id:"nuro10", carrier:"NUROモバイル", name:"バリュープラス VLプラン 10GB", cat:"mvno", gb:10, price:1485, callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["LINEギガフリー","Gigaプラス6GB","3社回線選択"], note:"nuro光セット割あり。LINEトーク使い放題。Gigaプラス6GB付き" },
+  { id:"nuro15", carrier:"NUROモバイル", name:"バリュープラス VLLプラン 15GB", cat:"mvno", gb:15, price:1790, callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["LINEギガフリー","Gigaプラス9GB","3社回線選択"], note:"LINEトーク使い放題。Gigaプラス9GB付き" },
+  { id:"nuro_neo35", carrier:"NUROモバイル", name:"NEOプラン 35GB", cat:"mvno", gb:35, price:2699, callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["NEOデータフリー","あげ放題","Gigaプラス15GB"], note:"LINE・X・Instagram・TikTokのデータ消費なし。アップロード無制限。Gigaプラス15GB付き" },
+  { id:"nuro_neo55", carrier:"NUROモバイル", name:"NEOプランW 55GB", cat:"mvno", gb:55, price:3980, callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["NEOデータフリー","あげ放題","Gigaプラス15GB"], note:"LINE・X・Instagram・TikTokのデータ消費なし。アップロード無制限。Gigaプラス15GB付き" },
+  { id:"nuro_k5", carrier:"NUROモバイル", name:"かけ放題ジャスト 5分 1GB", cat:"mvno", gb:1, price:930, callType:"5分かけ放題", support:"オンライン", network:"docomo/au", features:["5分かけ放題","LINEギガフリー","低価格"], note:"ドコモ・au回線のみ。LINEトーク使い放題" },
+  { id:"nuro_k10", carrier:"NUROモバイル", name:"かけ放題ジャスト 10分 1GB", cat:"mvno", gb:1, price:1320, callType:"10分かけ放題", support:"オンライン", network:"docomo/au", features:["10分かけ放題","LINEギガフリー"], note:"ドコモ・au回線のみ。LINEトーク使い放題" },
+  { id:"nuro_kf", carrier:"NUROモバイル", name:"かけ放題ジャスト かけ放題 1GB", cat:"mvno", gb:1, price:1870, callType:"完全かけ放題", support:"オンライン", network:"docomo/au", features:["完全かけ放題","低価格"], note:"ドコモ・au回線のみ。かけ放題プランはLINEギガフリー対象外" },
+];
+
+// データ専用プラン
+const DATA_PLANS = [
+  { id:"iij_d2",  carrier:"IIJmio", name:"データeSIM 2GB",  gb:2,  price:440,  network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d5",  carrier:"IIJmio", name:"データeSIM 5GB",  gb:5,  price:650,  network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d10", carrier:"IIJmio", name:"データeSIM 10GB", gb:10, price:1050, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d15", carrier:"IIJmio", name:"データeSIM 15GB", gb:15, price:1320, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d25", carrier:"IIJmio", name:"データeSIM 25GB", gb:25, price:1650, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d35", carrier:"IIJmio", name:"データeSIM 35GB", gb:35, price:2240, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d45", carrier:"IIJmio", name:"データeSIM 45GB", gb:45, price:2940, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"iij_d55", carrier:"IIJmio", name:"データeSIM 55GB", gb:55, price:3540, network:"ドコモ", features:["データ専用","ドコモ回線","eSIM"], note:"音声通話なし。ドコモ回線のみ。eSIM対応" },
+  { id:"mineo_s3",  carrier:"mineo", name:"マイピタ 3GB（データ）",  gb:3,  price:880,  network:"3社選択", features:["データ専用","3社回線選択","パケット繰越"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_s7",  carrier:"mineo", name:"マイピタ 7GB（データ）",  gb:7,  price:1265, network:"3社選択", features:["データ専用","3社回線選択","パケット繰越"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_s15", carrier:"mineo", name:"マイピタ 15GB（データ）", gb:15, price:1705, network:"3社選択", features:["データ専用","3社回線選択"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_s30", carrier:"mineo", name:"マイピタ 30GB（データ）", gb:30, price:1925, network:"3社選択", features:["データ専用","3社回線選択"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"mineo_s50", carrier:"mineo", name:"マイピタ 50GB（データ）", gb:50, price:2695, network:"3社選択", features:["データ専用","大容量50GB"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"nuro_d02",  carrier:"NUROモバイル", name:"お試しプラン 0.2GB", gb:0.2, price:330, network:"3社選択", features:["超低価格","お試し向け"], note:"音声通話なし。ドコモ/au/ソフトバンク回線から選択可" },
+  { id:"nuro_d3",   carrier:"NUROモバイル", name:"VSプラン 3GB（データ）", gb:3,  price:627, network:"3社選択", features:["低価格","3社回線選択"], note:"音声通話なし" },
+  { id:"nuro_d5",   carrier:"NUROモバイル", name:"VMプラン 5GB（データ）", gb:5,  price:825, network:"3社選択", features:["LINEギガフリー","Gigaプラス3GB"], note:"音声通話なし。LINEトーク使い放題。Gigaプラス3GB付き" },
+  { id:"nuro_d10",  carrier:"NUROモバイル", name:"VLプラン 10GB（データ）", gb:10, price:1320, network:"3社選択", features:["LINEギガフリー","Gigaプラス6GB"], note:"音声通話なし。LINEトーク使い放題。Gigaプラス6GB付き" },
+  { id:"nuro_d15",  carrier:"NUROモバイル", name:"VLLプラン 15GB（データ）", gb:15, price:1625, network:"3社選択", features:["LINEギガフリー","Gigaプラス9GB"], note:"音声通話なし。LINEトーク使い放題。Gigaプラス9GB付き" },
+];
+
+const OPTIONS = {
+  warranty: {
+    label:"端末保証・補償", icon:"🛡️",
+    items:[
+      { carrier:"docomo", name:"ケータイ補償サービス", price:825, note:"破損・水濡れ・盗難補償" },
+      { carrier:"docomo", name:"smartあんしん補償", price:550, note:"画面割れ特化" },
+      { carrier:"au", name:"故障紛失サポート", price:715, note:"破損・水濡れ・紛失補償" },
+      { carrier:"SoftBank", name:"あんしん保証パック", price:1100, note:"破損・水濡れ・盗難補償" },
+      { carrier:"UQ mobile", name:"故障紛失サポート", price:715, note:"破損/紛失補償" },
+      { carrier:"Y!mobile", name:"故障安心パックプラス", price:870, note:"修理/交換/盗難対応" },
+      { carrier:"楽天モバイル", name:"Rakuten 最強保証", price:715, note:"破損・水濡れ・盗難補償" },
+    ]
+  },
+  security: {
+    label:"セキュリティ・フィルタリング", icon:"🔒",
+    items:[
+      { carrier:"docomo", name:"あんしんセキュリティ", price:220, note:"ウイルス対策・詐欺SMS検知" },
+      { carrier:"au", name:"ウイルスバスター for au", price:330, note:"ウイルス対策・フィッシング対策" },
+      { carrier:"SoftBank", name:"セキュリティパック", price:550, note:"ウイルス対策+フィルタリングセット" },
+      { carrier:"楽天モバイル", name:"あんしんコントロール by i-フィルター", price:330, note:"有害サイトブロック" },
+    ]
+  },
+  call: {
+    label:"通話オプション", icon:"📞",
+    items:[
+      { carrier:"docomo", name:"5分通話無料オプション", price:880, note:"1回5分以内の通話が何度でも無料（5分超過分は30秒22円）" },
+      { carrier:"docomo", name:"かけ放題オプション", price:1980, note:"国内通話完全かけ放題" },
+      { carrier:"au", name:"通話定額ライト2", price:880, note:"1回5分以内の国内通話が何度でも無料" },
+      { carrier:"au", name:"通話定額2", price:1980, note:"国内通話完全かけ放題" },
+      { carrier:"SoftBank", name:"準定額オプション＋（5分）", price:880,  note:"1回5分以内の国内通話が無料" },
+      { carrier:"SoftBank", name:"定額オプション＋（かけ放題）", price:1980, note:"24時間いつでも国内通話が無料" },
+      { carrier:"SoftBank", name:"通話準定額（5分）LINEMO用", price:550, note:"LINEMO向け。7ヶ月間0円キャンペーン中" },
+      { carrier:"SoftBank", name:"通話定額 LINEMO用", price:1650, note:"LINEMO向け。7ヶ月間1,100円キャンペーン中" },
+      { carrier:"SoftBank", name:"通話定額 for LINEMOベストプランV", price:1100, note:"ベストプランV専用。7ヶ月間550円キャンペーン中" },
+      { carrier:"UQ mobile", name:"通話放題ライト", price:880, note:"1回10分以内の国内通話が24時間かけ放題" },
+      { carrier:"UQ mobile", name:"通話放題", price:1980, note:"国内通話が24時間かけ放題" },
+      { carrier:"Y!mobile", name:"だれとでも定額＋", price:880, note:"1回10分以内の国内通話が何度でも無料" },
+      { carrier:"楽天モバイル", name:"Rakuten Linkで無料", price:0, note:"Rakuten Linkアプリ使用で国内通話無料" },
+      { carrier:"IIJmio", name:"通話定額5分+", price:500, note:"1回5分以内無料。キャンペーン中（最大3ヶ月間0円）" },
+      { carrier:"IIJmio", name:"通話定額10分+", price:700, note:"1回10分以内無料。キャンペーン中（最大6ヶ月間0円）" },
+      { carrier:"IIJmio", name:"かけ放題+", price:1400, note:"国内通話完全無料。キャンペーン中（最大3ヶ月間0円）" },
+      { carrier:"mineo", name:"mineoでんわ10分かけ放題", price:385, note:"専用アプリ経由で10分以内無料" },
+    ]
+  }
+};
+
+const QUESTIONS = [
+  { id:"age", q:"年齢を教えてください", sub:"プランの最適化に使います",
+    opts:[{ label:"18歳以下", val:"young", icon:"🧒" },{ label:"19〜59歳", val:"adult", icon:"🧑" },{ label:"60歳以上", val:"senior", icon:"👴" }] },
+  { id:"usage", q:"主な使い方は？", sub:"データ量の目安に使います",
+    opts:[{ label:"電話・LINEがメイン", val:"call", icon:"📞" },{ label:"SNS・動画をよく見る", val:"data", icon:"📱" },{ label:"外出先でがっつり使う", val:"heavy", icon:"🌐" },{ label:"家Wi-Fiがほぼメイン", val:"light", icon:"🏠" }] },
+  { id:"budget", q:"月々の予算は？", sub:"端末代を除いた通信費のみ",
+    opts:[{ label:"〜1,500円", val:"low", icon:"💴" },{ label:"1,500〜3,000円", val:"mid", icon:"💴" },{ label:"3,000〜5,000円", val:"high", icon:"💴" },{ label:"こだわらない", val:"any", icon:"✨" }] },
+  { id:"call", q:"電話はよくかけますか？", sub:"通話オプションの提案に使います",
+    opts:[{ label:"ほとんどしない", val:"none", icon:"🔇" },{ label:"たまに・短め", val:"light", icon:"📲" },{ label:"よくする・長電話あり", val:"heavy", icon:"☎️" },{ label:"仕事でも使う", val:"work", icon:"💼" }] },
+  { id:"support", q:"サポートの希望は？", sub:"店舗対応の有無に影響します",
+    opts:[{ label:"店舗で対面がほしい", val:"store", icon:"🏪" },{ label:"電話サポートでOK", val:"phone", icon:"📞" },{ label:"ネットで解決できる", val:"online", icon:"💻" },{ label:"不要", val:"none", icon:"👍" }] },
+  { id:"family", q:"家族と同じキャリアにしたい？", sub:"家族割の適用に影響します",
+    opts:[{ label:"はい・家族割を使いたい", val:"yes", icon:"👨‍👩‍👧" },{ label:"いいえ・バラバラでOK", val:"no", icon:"🙆" },{ label:"まだ決まっていない", val:"undecided", icon:"🤔" }] },
+];
+
+function scorePlan(plan, a) {
+  let sc = 0;
+  if (a.budget==="low") sc += plan.price<=1500?35:plan.price<=2500?10:-15;
+  if (a.budget==="mid") sc += plan.price<=3000?30:plan.price<=4000?10:0;
+  if (a.budget==="high") sc += plan.price<=5000?20:5;
+  if (a.budget==="any") sc += 10;
+  if (a.usage==="light") sc += plan.gb<=3?25:plan.gb<=10?10:0;
+  if (a.usage==="call") sc += plan.gb<=5?15:5;
+  if (a.usage==="data") sc += plan.gb>=15?25:plan.gb>=5?10:0;
+  if (a.usage==="heavy") sc += plan.gb>=20?30:plan.gb>=10?10:0;
+  if (a.call==="none") sc += plan.callType.includes("従量")?5:0;
+  if (a.call==="light") sc += plan.callType.includes("5分")?20:plan.callType.includes("従量")?8:15;
+  if (a.call==="heavy") sc += (plan.callType.includes("無制限")||plan.callType.includes("Rakuten"))?30:plan.callType.includes("5分")?12:0;
+  if (a.call==="work") sc += (plan.callType.includes("無制限")||plan.callType.includes("Rakuten"))?35:plan.callType.includes("5分")?15:0;
+  if (a.support==="store") sc += plan.support==="店舗"?25:-15;
+  if (a.support==="online") sc += plan.support==="オンライン"?10:5;
+  if (a.support==="none") sc += 5;
+  if (a.family==="yes") sc += ["docomo","au","SoftBank","UQ mobile","Y!mobile"].includes(plan.carrier)?15:0;
+  if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
+  if (a.age==="young" && plan.price<=2000) sc+=10;
+  return sc;
+}
+
+function recommendOptions(plan, a) {
+  const rec = [];
+  const w = OPTIONS.warranty.items.filter(o=>o.carrier===plan.carrier);
+  if (w.length) rec.push({ category:"warranty", items:w });
+  const needSec = a.age==="senior"||(a.age==="adult"&&a.family==="yes");
+  const sec = OPTIONS.security.items.filter(o=>o.carrier===plan.carrier);
+  if (needSec && sec.length) rec.push({ category:"security", items:sec });
+  const hasCallIncluded = plan.callType.includes("無制限")||plan.callType.includes("Rakuten")||plan.callType.includes("5分かけ放題込");
+  const callOpts = OPTIONS.call.items.filter(o=>o.carrier===plan.carrier);
+  if (!hasCallIncluded && callOpts.length && (a.call==="heavy"||a.call==="work"||a.call==="light")) {
+    rec.push({ category:"call", items: a.call==="light" ? callOpts.slice(0,1) : callOpts });
+  }
+  return rec;
+}
+
+// キャリアグループ（折りたたみ）コンポーネント
+function CarrierGroup({ carrier, plans, showCallType=true }) {
+  const [open, setOpen] = useState(false);
+  const cs = CARRIER_STYLE[carrier]||{color:"#888",bg:"rgba(136,136,136,0.07)",icon:"?"};
+  const affUrl = AFFILIATE[carrier];
+  return (
+    <div style={{marginBottom:8}}>
+      <button onClick={()=>setOpen(o=>!o)} style={{
+        width:"100%", display:"flex", alignItems:"center", gap:10,
+        padding:"10px 12px", background:C.card2,
+        borderRadius: open ? "10px 10px 0 0" : 10,
+        border:`1px solid ${open?cs.color:C.border}`,
+        cursor:"pointer", fontFamily:"inherit",
+      }}>
+        <div style={{
+          width:36,height:36,borderRadius:8,background:cs.color,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:11,fontWeight:900,color:"#fff",flexShrink:0,
+        }}>{cs.icon}</div>
+        <div style={{flex:1, textAlign:"left"}}>
+          <div style={{fontSize:14,fontWeight:900,color:C.text}}>{carrier}</div>
+          <div style={{fontSize:10,color:C.sub}}>{plans.length}プラン</div>
+        </div>
+        {affUrl&&(
+          <a href={affUrl} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} style={{
+            fontSize:11,fontWeight:700,color:cs.color,
+            textDecoration:"none",border:`1px solid ${cs.color}`,
+            padding:"4px 10px",borderRadius:20,
+          }}>公式 →</a>
+        )}
+        <span style={{fontSize:11,color:C.sub,marginLeft:4}}>{open?"▲":"▼"}</span>
+      </button>
+      {open && (
+        <div style={{border:`1px solid ${cs.color}`,borderTop:"none",borderRadius:"0 0 10px 10px",overflow:"hidden",marginBottom:8}}>
+          {plans.map(plan=>(
+            <div key={plan.id} style={{background:C.card, borderTop:`1px solid ${C.border}`, padding:"12px 14px"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:6}}>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:13,fontWeight:700}}>{plan.name}</div>
+                  <div style={{fontSize:10,color:C.sub,marginTop:2}}>
+                    {showCallType ? `${plan.callType} · ${plan.network}` : `📡 ${plan.network}`}
+                  </div>
+                </div>
+                <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}>
+                  <div style={{fontSize:22,fontWeight:900,color:cs.color,lineHeight:1}}>{plan.price.toLocaleString()}</div>
+                  <div style={{fontSize:9,color:C.sub}}>円/月</div>
+                </div>
+              </div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                <span style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:C.card2,border:`1px solid ${C.border}`,color:C.sub}}>
+                  {plan.gb>=9999?"無制限":plan.gb+"GB"}
+                </span>
+                {(plan.features||[]).slice(0,2).map(f=>(
+                  <span key={f} style={{fontSize:10,padding:"2px 6px",borderRadius:4,background:cs.bg,border:`1px solid ${cs.color}44`,color:cs.color}}>{f}</span>
+                ))}
+              </div>
+              {plan.note&&<div style={{fontSize:10,color:C.sub,marginTop:6,lineHeight:1.5}}>⚠️ {plan.note}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+async function fetchAIResult(answers, topPlans) {
+  const qa = QUESTIONS.map(q => {
+    const c = q.opts.find(o=>o.val===answers[q.id]);
+    return `・${q.q} → ${c?.label||"未回答"}`;
+  }).join("\n");
+  const planList = topPlans.slice(0,3).map((p,i)=>
+    `${i+1}位: ${p.carrier}「${p.name}」月${p.price.toLocaleString()}円 (${p.gb>=9999?"無制限":p.gb+"GB"}, ${p.callType})`
+  ).join("\n");
+  const res = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:600,
+      messages:[{ role:"user", content:
+        `あなたは携帯ショップのAIアシスタントです。お客様の回答をもとに提案文を書いてください。\n\n【お客様の回答】\n${qa}\n\n【上位プラン】\n${planList}\n\nJSONのみ返してください:\n{"headline":"一言キャッチ(20文字以内)","summary":"選定理由(60-80文字・です・ます調)","comments":["1位ひとこと(40文字以内)","2位ひとこと(40文字以内)","3位ひとこと(40文字以内)"]}`
+      }]
+    })
+  });
+  const data = await res.json();
+  const text = data.content?.[0]?.text||"";
+  try { const s=text.indexOf("{"),e=text.lastIndexOf("}"); return JSON.parse(text.slice(s,e+1)); }
+  catch { return null; }
+}
+
+const CARRIER_STYLE = {
+  "docomo":     {color:"#e6001a",bg:"rgba(230,0,26,0.07)",    icon:"d"  },
+  "au":         {color:"#e87722",bg:"rgba(232,119,34,0.07)",  icon:"au" },
+  "SoftBank":   {color:"#1a56db",bg:"rgba(26,86,219,0.07)",   icon:"SB" },
+  "UQ mobile":  {color:"#00b259",bg:"rgba(0,178,89,0.07)",    icon:"UQ" },
+  "Y!mobile":   {color:"#e20012",bg:"rgba(226,0,18,0.07)",    icon:"Y!" },
+  "楽天モバイル":{color:"#bf0000",bg:"rgba(191,0,0,0.07)",    icon:"R"  },
+  "IIJmio":     {color:"#005bac",bg:"rgba(0,91,172,0.07)",    icon:"IIJ"},
+  "mineo":      {color:"#f26522",bg:"rgba(242,101,34,0.07)",  icon:"mn" },
+  "NUROモバイル":{color:"#00a0e9",bg:"rgba(0,160,233,0.07)",  icon:"N"  },
+};
+
+const CAT = {mno:"大手キャリア",sub:"サブブランド",mvno:"格安SIM"};
+const C = {
+  bg:"#08090d", card:"#0f1219", card2:"#161b26", border:"#1d2438",
+  text:"#eef2ff", sub:"#6271a0", accent:"#4f8eff", accentG:"rgba(79,142,255,0.12)",
+  green:"#34d399", yellow:"#fbbf24",
+};
+
+function AdBanner({ slotKey }) {
+  return (
+    <div style={{ margin:"10px 12px", borderRadius:8, overflow:"hidden", border:`1px dashed ${C.border}` }}>
+      <div style={{ background:C.card2, padding:"2px 8px", fontSize:9, color:C.sub, letterSpacing:1 }}>広告 · Google AdSense</div>
+      <div style={{ background:C.card, padding:"14px", textAlign:"center", fontSize:11, color:C.sub }}>
+        <div style={{fontSize:20,marginBottom:4}}>📢</div>
+        広告スペース（スロット: {AD_SLOTS[slotKey]}）
+      </div>
+    </div>
+  );
+}
+
+function OptionSection({ category, items }) {
+  const [open, setOpen] = useState(false);
+  const info = OPTIONS[category];
+  return (
+    <div style={{ marginTop:8, borderRadius:10, border:`1px solid ${C.border}`, overflow:"hidden" }}>
+      <button onClick={()=>setOpen(o=>!o)} style={{
+        width:"100%", background:C.card2, border:"none", padding:"10px 14px",
+        display:"flex", alignItems:"center", justifyContent:"space-between",
+        cursor:"pointer", color:C.text, fontFamily:"inherit",
+      }}>
+        <span style={{fontSize:13,fontWeight:700}}>{info.icon} {info.label}</span>
+        <span style={{fontSize:11,color:C.sub}}>{open?"▲ 閉じる":"▼ 詳細"}</span>
+      </button>
+      {open && (
+        <div style={{background:C.card, padding:"10px 12px", display:"flex", flexDirection:"column", gap:8}}>
+          {items.map((item,i)=>(
+            <div key={i} style={{background:C.card2, borderRadius:8, padding:"10px 12px", border:`1px solid ${C.border}`}}>
+              <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4}}>
+                <span style={{fontSize:13,fontWeight:700}}>{item.name}</span>
+                <span style={{fontSize:14,fontWeight:900, color:item.price===0?C.green:C.accent}}>
+                  {item.price===0?"無料":`+${item.price.toLocaleString()}円/月`}
+                </span>
+              </div>
+              <div style={{fontSize:11,color:C.sub}}>{item.note}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PlanCard({ plan, rank, comment, answers }) {
+  const [open, setOpen] = useState(rank===1);
+  const cs = CARRIER_STYLE[plan.carrier]||{color:"#888",bg:"rgba(136,136,136,0.07)",icon:"?"};
+  const isTop = rank===1;
+  const affUrl = AFFILIATE[plan.carrier];
+  const optRecs = recommendOptions(plan, answers);
+
+  return (
+    <div style={{
+      borderRadius:14, border:`1.5px solid ${isTop?cs.color:C.border}`,
+      background: isTop ? `linear-gradient(135deg,${C.card} 0%,${cs.bg} 100%)` : C.card,
+      overflow:"hidden", marginBottom:10,
+    }}>
+      <div style={{
+        background: isTop?cs.color:C.card2, padding:"6px 14px",
+        display:"flex", alignItems:"center", justifyContent:"space-between",
+      }}>
+        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
+          {isTop?"🏆 第1位 · 最もおすすめ":`# ${rank}位`}
+        </span>
+        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
+      </div>
+      <div style={{padding:"14px"}}>
+        <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
+          <div style={{
+            width:44,height:44,borderRadius:10,background:cs.color,
+            display:"flex",alignItems:"center",justifyContent:"center",
+            fontSize:12,fontWeight:900,color:"#fff",flexShrink:0,
+          }}>{cs.icon}</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:14,fontWeight:900}}>{plan.carrier}</div>
+            <div style={{fontSize:11,color:C.sub,marginTop:2}}>{plan.name}</div>
+          </div>
+          <div style={{textAlign:"right",flexShrink:0}}>
+            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:isTop?cs.color:C.accent}}>
+              {plan.price.toLocaleString()}
+            </div>
+            <div style={{fontSize:10,color:C.sub}}>円/月（税込）</div>
+          </div>
+        </div>
+        {comment&&(
+          <div style={{
+            background:C.card2, borderRadius:8, padding:"8px 12px", marginBottom:10,
+            borderLeft:`3px solid ${cs.color}`, fontSize:12, color:C.text, lineHeight:1.65,
+          }}>
+            <span style={{color:cs.color,fontWeight:700,fontSize:10,marginRight:6}}>AI</span>
+            {comment}
+          </div>
+        )}
+        <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:8}}>
+          {[
+            plan.gb>=9999?"無制限":plan.gb+"GB",
+            plan.callType,
+            "📡 "+plan.network,
+            (plan.support==="店舗"?"🏪":"💻")+" "+plan.support,
+          ].map(t=>(
+            <span key={t} style={{
+              fontSize:10,padding:"2px 7px",borderRadius:4,
+              background:C.card2,border:`1px solid ${C.border}`,color:C.sub,
+            }}>{t}</span>
+          ))}
+        </div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:10}}>
+          {plan.features.map(f=>(
+            <span key={f} style={{
+              fontSize:10,padding:"2px 7px",borderRadius:4,
+              background:cs.bg,border:`1px solid ${cs.color}44`,color:cs.color,
+            }}>{f}</span>
+          ))}
+        </div>
+        <button onClick={()=>setOpen(o=>!o)} style={{
+          width:"100%",background:"none",border:`1px solid ${C.border}`,
+          borderRadius:7,padding:"7px",fontSize:11,color:C.sub,
+          cursor:"pointer",fontFamily:"inherit",marginBottom:open?10:0,
+        }}>
+          {open?"▲ 閉じる":"▼ 詳細・注意事項を見る"}
+        </button>
+        {open&&(
+          <div style={{background:C.card2,borderRadius:10,padding:"12px",marginBottom:10}}>
+            {plan.note&&(
+              <div style={{
+                fontSize:11,color:C.yellow,marginBottom:10,padding:"6px 10px",
+                background:"rgba(251,191,36,0.07)",borderRadius:6,border:"1px solid rgba(251,191,36,0.2)",
+              }}>⚠️ {plan.note}</div>
+            )}
+            {[["データ容量",plan.gb>=9999?"無制限":`${plan.gb}GB`],["通話",plan.callType],["回線",plan.network],["サポート",plan.support],["月額(税込)",`${plan.price.toLocaleString()}円`]].map(([k,v])=>(
+              <div key={k} style={{display:"flex",justifyContent:"space-between",fontSize:12,padding:"5px 0",borderBottom:`1px solid ${C.border}`}}>
+                <span style={{color:C.sub}}>{k}</span>
+                <span style={{fontWeight:700}}>{v}</span>
+              </div>
+            ))}
+            {optRecs.map((rec,i)=>(
+              <OptionSection key={i} category={rec.category} items={rec.items} />
+            ))}
+          </div>
+        )}
+        {affUrl&&(
+          <a href={affUrl} target="_blank" rel="noopener noreferrer" style={{
+            display:"block", marginTop:14, padding:"12px",
+            background:`linear-gradient(135deg, ${cs.color}, ${cs.color}bb)`,
+            borderRadius:10, textAlign:"center", textDecoration:"none",
+            color:"#fff", fontSize:13, fontWeight:900, letterSpacing:0.5,
+          }}>
+            {plan.carrier} 公式サイトで申し込む →
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [screen, setScreen] = useState("top");
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [results, setResults] = useState([]);
+  const [aiData, setAiData] = useState(null);
+  const [tab, setTab] = useState("diagnose");
+  const [filterCat, setFilterCat] = useState("all");
+
+  function restart() {
+    setStep(0); setAnswers({}); setResults([]); setAiData(null); setScreen("top");
+  }
+
+  async function answer(val) {
+    const newAns = {...answers,[QUESTIONS[step].id]:val};
+    setAnswers(newAns);
+    if (step<QUESTIONS.length-1){ setStep(step+1); return; }
+    setScreen("loading");
+    const scored = PLANS.map(p=>({...p,score:scorePlan(p,newAns)})).sort((a,b)=>b.score-a.score).slice(0,5);
+    setResults(scored);
+    try { const ai=await fetchAIResult(newAns,scored); setAiData(ai); } catch {}
+    setScreen("result");
+  }
+
+  const W = {minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Hiragino Sans','Noto Sans JP',sans-serif",maxWidth:480,margin:"0 auto",paddingBottom:80};
+
+  const TabBar = () => (
+    <div style={{
+      position:"fixed", bottom:0, left:"50%", transform:"translateX(-50%)",
+      width:"100%", maxWidth:480, background:C.card2,
+      borderTop:`1px solid ${C.border}`, display:"flex", zIndex:100,
+    }}>
+      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"]].map(([key,icon,label])=>(
+        <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
+          flex:1, padding:"12px 0", border:"none", background:"none",
+          color: tab===key ? C.accent : C.sub,
+          fontSize:11, fontWeight: tab===key ? 900 : 400,
+          fontFamily:"inherit", cursor:"pointer",
+          borderTop: tab===key ? `2px solid ${C.accent}` : "2px solid transparent",
+        }}>
+          <div style={{fontSize:18,marginBottom:2}}>{icon}</div>
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+
+  // データSIM一覧
+  if (tab==="data") {
+    const carriers = [...new Set(DATA_PLANS.map(p=>p.carrier))];
+    return (
+      <div style={W}>
+        <div style={{padding:"20px 16px 12px", borderBottom:`1px solid ${C.border}`}}>
+          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>DATA SIM</div>
+          <div style={{fontSize:22,fontWeight:900}}>データ専用SIM一覧</div>
+          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>「通話は不要、データだけ使えればOK」という方向け。タブレットやサブ端末にもおすすめです。</div>
+        </div>
+        <AdBanner slotKey="top"/>
+        <div style={{padding:"0 12px"}}>
+          {carriers.map(carrier=>(
+            <CarrierGroup key={carrier} carrier={carrier} plans={DATA_PLANS.filter(p=>p.carrier===carrier)} showCallType={false} />
+          ))}
+        </div>
+        <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+        </div>
+        <TabBar/>
+      </div>
+    );
+  }
+
+  // プラン一覧
+  if (tab==="list") {
+    const filtered = filterCat==="all" ? PLANS : PLANS.filter(p=>p.cat===filterCat);
+    const grouped = {};
+    filtered.forEach(p=>{ if(!grouped[p.carrier]) grouped[p.carrier]=[]; grouped[p.carrier].push(p); });
+
+    return (
+      <div style={W}>
+        <div style={{padding:"20px 16px 12px", borderBottom:`1px solid ${C.border}`}}>
+          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>PLAN LIST</div>
+          <div style={{fontSize:22,fontWeight:900}}>おすすめプラン一覧</div>
+          <div style={{fontSize:11,color:C.sub,marginTop:4}}>現役店員監修・最新プラン情報</div>
+        </div>
+        <div style={{display:"flex",gap:8,padding:"12px 16px",overflowX:"auto"}}>
+          {[["all","すべて"],["mno","大手"],["sub","サブブランド"],["mvno","格安SIM"]].map(([key,label])=>(
+            <button key={key} onClick={()=>setFilterCat(key)} style={{
+              padding:"6px 14px", borderRadius:20, border:"none", whiteSpace:"nowrap",
+              background: filterCat===key ? C.accent : C.card2,
+              color: filterCat===key ? "#fff" : C.sub,
+              fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+            }}>{label}</button>
+          ))}
+        </div>
+        <AdBanner slotKey="top"/>
+        <div style={{padding:"0 12px"}}>
+          {Object.entries(grouped).map(([carrier, plans])=>(
+            <CarrierGroup key={carrier} carrier={carrier} plans={plans} showCallType={true} />
+          ))}
+        </div>
+        <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+        </div>
+        <TabBar/>
+      </div>
+    );
+  }
+
+  // TOP
+  if (screen==="top") return (
+    <div style={W}>
+      <AdBanner slotKey="top"/>
+      <div style={{padding:"36px 20px 28px",textAlign:"center"}}>
+        <div style={{
+          display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,
+          color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,
+          padding:"5px 14px",borderRadius:20,marginBottom:18,
+        }}>現役ケータイショップスタッフ監修</div>
+        <div style={{
+          fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,
+          background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
+        }}>スマホプラン<br/>かんたん診断</div>
+        <div style={{fontSize:13,color:C.sub,lineHeight:1.8,marginBottom:24}}>
+          現役店員が本音でおすすめするプランを<br/>AIがあなたに合わせて提案します
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
+          {[["🤖","AIが最適プランを選定"],["📊","主要キャリア対応"],["👨‍💼","現役店員が監修"],["⏱️","所要時間 1分以内"]].map(([icon,text])=>(
+            <div key={text} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 8px",textAlign:"center"}}>
+              <div style={{fontSize:22,marginBottom:6}}>{icon}</div>
+              <div style={{fontSize:11,color:C.sub,lineHeight:1.4}}>{text}</div>
+            </div>
+          ))}
+        </div>
+        <button onClick={()=>setScreen("quiz")} style={{
+          width:"100%",padding:"16px",borderRadius:12,border:"none",
+          background:`linear-gradient(135deg,${C.accent},#2563eb)`,
+          color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"inherit",
+        }}>診断スタート →</button>
+        <div style={{fontSize:10,color:C.sub,marginTop:12,lineHeight:1.6}}>
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+        </div>
+      </div>
+      <TabBar/>
+    </div>
+  );
+
+  // QUIZ
+  if (screen==="quiz") {
+    const q = QUESTIONS[step];
+    const prog = (step/QUESTIONS.length)*100;
+    return (
+      <div style={W}>
+        <div style={{height:3,background:C.border}}>
+          <div style={{height:"100%",width:`${prog}%`,background:C.accent,transition:"width 0.3s"}}/>
+        </div>
+        <div style={{display:"flex",justifyContent:"space-between",padding:"10px 16px 0",fontSize:11,color:C.sub}}>
+          <span>質問 {step+1} / {QUESTIONS.length}</span>
+          <span style={{display:"flex",gap:4}}>
+            {QUESTIONS.map((_,i)=>(
+              <span key={i} style={{width:6,height:6,borderRadius:"50%",background:i<=step?C.accent:C.border,opacity:i<step?0.4:1,display:"inline-block"}}/>
+            ))}
+          </span>
+        </div>
+        <div style={{padding:"28px 20px"}}>
+          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:8}}>{q.sub}</div>
+          <div style={{fontSize:20,fontWeight:900,lineHeight:1.4,marginBottom:24}}>{q.q}</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+            {q.opts.map(opt=>(
+              <button key={opt.val} onClick={()=>answer(opt.val)} style={{
+                background:C.card,border:`1px solid ${C.border}`,borderRadius:12,
+                padding:"18px 10px",cursor:"pointer",color:C.text,
+                fontFamily:"inherit",textAlign:"center",
+              }}>
+                <div style={{fontSize:28,marginBottom:8}}>{opt.icon}</div>
+                <div style={{fontSize:12,fontWeight:700,lineHeight:1.4}}>{opt.label}</div>
+              </button>
+            ))}
+          </div>
+          {step>0&&(
+            <button onClick={()=>setStep(step-1)} style={{
+              marginTop:16, width:"100%", padding:"14px",
+              borderRadius:12, border:`1px solid ${C.border}`,
+              background:C.card2, color:C.sub,
+              fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+            }}>← もどる</button>
+          )}
+        </div>
+        {step===3&&<AdBanner slotKey="mid"/>}
+        <TabBar/>
+      </div>
+    );
+  }
+
+  // LOADING
+  if (screen==="loading") return (
+    <div style={{...W,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16,minHeight:"100vh"}}>
+      <div style={{fontSize:44}}>🤖</div>
+      <div style={{fontSize:16,fontWeight:700}}>AIが分析中…</div>
+      <div style={{fontSize:12,color:C.sub}}>最適なプランを計算しています</div>
+    </div>
+  );
+
+  // RESULT
+  return (
+    <div style={W}>
+      <div style={{
+        padding:"20px 16px 16px",
+        background:`linear-gradient(180deg,${C.accentG} 0%,transparent 100%)`,
+        borderBottom:`1px solid ${C.border}`,marginBottom:8,
+      }}>
+        <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:6}}>診断結果</div>
+        {aiData?(
+          <>
+            <div style={{fontSize:22,fontWeight:900,marginBottom:6}}>{aiData.headline}</div>
+            <div style={{fontSize:12,color:C.sub,lineHeight:1.7}}>{aiData.summary}</div>
+          </>
+        ):(
+          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {results.length}</div>
+        )}
+      </div>
+      <AdBanner slotKey="result"/>
+      <div style={{padding:"0 12px"}}>
+        {results.map((plan,i)=>(
+          <PlanCard key={plan.id} plan={plan} rank={i+1} comment={aiData?.comments?.[i]||""} answers={answers}/>
+        ))}
+      </div>
+      <div style={{padding:"0 12px"}}>
+        <button onClick={restart} style={{
+          width:"100%",padding:"14px",borderRadius:10,
+          border:`1px solid ${C.border}`,background:C.card,
+          color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:14,
+        }}>もう一度診断する</button>
+        <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:20}}>
+          ※料金は税込・参考価格です。割引・セット割は含みません。<br/>
+          ※最新・正確な情報は各社公式サイトでご確認ください。
+        </div>
+      </div>
+      <TabBar/>
+    </div>
+  );
+}
