@@ -161,10 +161,10 @@ const OPTIONS = {
 const QUESTIONS = [
   { id:"age", q:"年齢を教えてください", sub:"プランの最適化に使います",
     opts:[{ label:"18歳以下", val:"young", icon:"🧒" },{ label:"19〜59歳", val:"adult", icon:"🧑" },{ label:"60歳以上", val:"senior", icon:"👴" }] },
-  { id:"usage", q:"主な使い方は？", sub:"データ量の目安に使います",
-    opts:[{ label:"電話・LINEがメイン", val:"call", icon:"📞" },{ label:"SNS・動画をよく見る", val:"data", icon:"📱" },{ label:"外出先でがっつり使う", val:"heavy", icon:"🌐" },{ label:"家Wi-Fiがほぼメイン", val:"light", icon:"🏠" }] },
-  { id:"budget", q:"月々の予算は？", sub:"端末代を除いた通信費のみ",
-    opts:[{ label:"〜1,500円", val:"low", icon:"💴" },{ label:"1,500〜3,000円", val:"mid", icon:"💴" },{ label:"3,000〜5,000円", val:"high", icon:"💴" },{ label:"こだわらない", val:"any", icon:"✨" }] },
+  { id:"usage", q:"機種の購入予定はありますか？", sub:"端末の選択肢に影響します",
+    opts:[{ label:"最新機種が欲しい", val:"heavy", icon:"📱" },{ label:"今の機種をそのまま使う", val:"light", icon:"♻️" },{ label:"安い機種でいい", val:"call", icon:"💡" },{ label:"まだ決めてない", val:"data", icon:"🤔" }] },
+  { id:"budget", q:"毎月どのくらいデータを使いますか？", sub:"最適なデータ容量のプランを提案します",
+    opts:[{ label:"1GB以下\nほぼWi-Fi", val:"low", icon:"📶" },{ label:"3〜10GB\n普通に使う", val:"mid", icon:"📱" },{ label:"10〜30GB\nよく使う", val:"high", icon:"🌐" },{ label:"30GB以上\nがっつり使う", val:"any", icon:"🚀" }] },
   { id:"call", q:"電話はよくかけますか？", sub:"通話オプションの提案に使います",
     opts:[{ label:"ほとんどしない", val:"none", icon:"🔇" },{ label:"たまに・短め", val:"light", icon:"📲" },{ label:"よくする・長電話あり", val:"heavy", icon:"☎️" },{ label:"仕事でも使う", val:"work", icon:"💼" }] },
   { id:"support", q:"サポートの希望は？", sub:"店舗対応の有無に影響します",
@@ -175,14 +175,15 @@ const QUESTIONS = [
 
 function scorePlan(plan, a) {
   let sc = 0;
-  if (a.budget==="low") sc += plan.price<=1500?35:plan.price<=2500?10:-15;
-  if (a.budget==="mid") sc += plan.price<=3000?30:plan.price<=4000?10:0;
-  if (a.budget==="high") sc += plan.price<=5000?20:5;
-  if (a.budget==="any") sc += 10;
-  if (a.usage==="light") sc += plan.gb<=3?25:plan.gb<=10?10:0;
-  if (a.usage==="call") sc += plan.gb<=5?15:5;
-  if (a.usage==="data") sc += plan.gb>=15?25:plan.gb>=5?10:0;
-  if (a.usage==="heavy") sc += plan.gb>=20?30:plan.gb>=10?10:0;
+  if (a.budget==="low") sc += plan.gb<=3?35:plan.gb<=10?10:-10;
+  if (a.budget==="mid") sc += plan.gb>=3&&plan.gb<=10?35:plan.gb<=15?15:0;
+  if (a.budget==="high") sc += plan.gb>=10&&plan.gb<=30?35:plan.gb>=5?10:0;
+  if (a.budget==="any") sc += plan.gb>=30||plan.gb>=9999?35:plan.gb>=20?20:5;
+  // 機種購入予定
+  if (a.usage==="heavy") sc += ["docomo","au","SoftBank"].includes(plan.carrier)?25:-5; // 最新機種→大手優先
+  if (a.usage==="light") sc += 5; // そのまま使う→どこでもOK
+  if (a.usage==="call") sc += plan.cat==="mvno"?15:plan.cat==="sub"?10:5; // 安い機種→格安・サブ優先
+  if (a.usage==="data") sc += 5; // 未定→フラット
   if (a.call==="none") sc += plan.callType.includes("従量")?5:0;
   if (a.call==="light") sc += plan.callType.includes("5分")?20:plan.callType.includes("従量")?8:15;
   if (a.call==="heavy") sc += (plan.callType.includes("無制限")||plan.callType.includes("Rakuten"))?30:plan.callType.includes("5分")?12:0;
@@ -323,15 +324,7 @@ const C = {
 };
 
 function AdBanner({ slotKey }) {
-  return (
-    <div style={{ margin:"10px 12px", borderRadius:8, overflow:"hidden", border:`1px dashed ${C.border}` }}>
-      <div style={{ background:C.card2, padding:"2px 8px", fontSize:9, color:C.sub, letterSpacing:1 }}>広告 · Google AdSense</div>
-      <div style={{ background:C.card, padding:"14px", textAlign:"center", fontSize:11, color:C.sub }}>
-        <div style={{fontSize:20,marginBottom:4}}>📢</div>
-        広告スペース（スロット: {AD_SLOTS[slotKey]}）
-      </div>
-    </div>
-  );
+  return null;
 }
 
 function OptionSection({ category, items }) {
@@ -495,20 +488,30 @@ function App() {
     setAnswers(newAns);
     if (step<QUESTIONS.length-1){ setStep(step+1); return; }
     setScreen("loading");
-    const scored = PLANS.map(p=>({...p,score:scorePlan(p,newAns)})).sort((a,b)=>b.score-a.score).slice(0,5);
-    setResults(scored);
+    const scored = PLANS.map(p=>({...p,score:scorePlan(p,newAns)})).sort((a,b)=>b.score-a.score);
+    // キャリアごとに1つだけ表示
+    const seen = new Set();
+    const unique = scored.filter(p => {
+      if (seen.has(p.carrier)) return false;
+      seen.add(p.carrier);
+      return true;
+    }).slice(0,5);
+    setResults(unique);
     try { const ai=await fetchAIResult(newAns,scored); setAiData(ai); } catch {}
     setScreen("result");
   }
 
-  const W = {minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Hiragino Sans','Noto Sans JP',sans-serif",maxWidth:480,margin:"0 auto",paddingBottom:80};
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const W = {minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Hiragino Sans','Noto Sans JP',sans-serif",maxWidth: isMobile ? 480 : "100%",margin:"0 auto",paddingBottom:80};
 
   const TabBar = () => (
     <div style={{
-      position:"fixed", bottom:0, left:"50%", transform:"translateX(-50%)",
-      width:"100%", maxWidth:480, background:C.card2,
+      position:"fixed", bottom:0, left:0, right:0,
+      background:C.card2,
       borderTop:`1px solid ${C.border}`, display:"flex", zIndex:100,
+      justifyContent:"center",
     }}>
+      <div style={{display:"flex", width:"100%", maxWidth: isMobile ? 480 : 900}}>
       {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"]].map(([key,icon,label])=>(
         <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
           flex:1, padding:"12px 0", border:"none", background:"none",
@@ -521,8 +524,11 @@ function App() {
           {label}
         </button>
       ))}
+      </div>
     </div>
   );
+
+  const ContentW = {maxWidth: isMobile ? 480 : 900, margin:"0 auto", width:"100%"};
 
   // データSIM一覧
   if (tab==="data") {
