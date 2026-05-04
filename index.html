@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#08090d;}</style>
+  <style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#e8f4fd;}</style>
 </head>
 <body>
   <div id="root"></div>
@@ -18,7 +18,8 @@ const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXXX";
 const AD_SLOTS = { top: "1111111111", mid: "2222222222", result: "3333333333" };
 
 const AFFILIATE = {
-  "docomo": "https://px.a8.net/svt/ejp?a8mat=4B3IIF+5VYC4Y+4TIO+626XU",
+  "docomo": "https://www.docomo.ne.jp/",
+  "ahamo": "https://px.a8.net/svt/ejp?a8mat=4B3IIF+5VYC4Y+4TIO+626XU",
   "au": "https://www.au.com/",
   "SoftBank": "https://www.softbank.jp/mobile/",
   "UQ mobile": "https://www.uqwimax.jp/mobile/",
@@ -33,8 +34,8 @@ const PLANS = [
   { id:"dcm_max_s", carrier:"docomo", name:"ドコモMAX 〜1GB", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本5,698円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ。1GB超えると次の段階へ" },
   { id:"dcm_max_m", carrier:"docomo", name:"ドコモMAX 1〜3GB", cat:"mno", gb:3, price:3498, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本6,798円）。3GB超えると無制限プランの料金に変更" },
   { id:"dcm_max_l", carrier:"docomo", name:"ドコモMAX 3GB〜無制限", cat:"mno", gb:9999, price:5148, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["無制限","5G対応","dポイント","家族割対象"], note:"割引適用後の価格（基本8,448円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ" },
-  { id:"ahamo", carrier:"docomo", name:"ahamo 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["5分かけ放題込","5G対応"], note:"オンライン専用・店舗サポートなし" },
-  { id:"ahamoL", carrier:"docomo", name:"ahamo大盛り 110GB", cat:"mno", gb:110, price:4950, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["大容量110GB","5分かけ放題込","5G対応"], note:"オンライン専用" },
+  { id:"ahamo", carrier:"ahamo", name:"ahamo 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["5分かけ放題込","5G対応"], note:"オンライン専用・店舗サポートなし" },
+  { id:"ahamoL", carrier:"ahamo", name:"ahamo大盛り 110GB", cat:"mno", gb:110, price:4950, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["大容量110GB","5分かけ放題込","5G対応"], note:"オンライン専用" },
   { id:"dcm_mini_4", carrier:"docomo", name:"ドコモmini 4GB", cat:"mno", gb:4, price:880, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["低価格","5G対応","dポイント"], note:"割引適用後の価格（基本2,750円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
   { id:"dcm_mini_10", carrier:"docomo", name:"ドコモmini 10GB", cat:"mno", gb:10, price:1980, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["10GB","5G対応","dポイント"], note:"割引適用後の価格（基本3,850円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
   { id:"au_value", carrier:"au", name:"auバリューリンクプラン 無制限", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["無制限","auスマートバリュー対応","家族割対象"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,008円）。1GB以下の利用で1,650円引き（実質3,828円）" },
@@ -192,6 +193,10 @@ function scorePlan(plan, a) {
   if (a.family==="yes") sc += ["docomo","au","SoftBank","UQ mobile","Y!mobile"].includes(plan.carrier)?15:0;
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
+  // U18・U12は18歳以下以外には表示しない
+  const isYouthPlan = ["au_u18_s","au_u18_l","au_u12"].includes(plan.id);
+  if (isYouthPlan && a.age!=="young") sc -= 999;
+  if (isYouthPlan && a.age==="young") sc += 30;
   return sc;
 }
 
@@ -299,6 +304,7 @@ async function fetchAIResult(answers, topPlans) {
 
 const CARRIER_STYLE = {
   "docomo":     {color:"#e6001a",bg:"rgba(230,0,26,0.07)",    icon:"d"  },
+  "ahamo":      {color:"#000000",bg:"rgba(0,0,0,0.07)",       icon:"ah" },
   "au":         {color:"#e87722",bg:"rgba(232,119,34,0.07)",  icon:"au" },
   "SoftBank":   {color:"#1a56db",bg:"rgba(26,86,219,0.07)",   icon:"SB" },
   "UQ mobile":  {color:"#00b259",bg:"rgba(0,178,89,0.07)",    icon:"UQ" },
@@ -311,9 +317,9 @@ const CARRIER_STYLE = {
 
 const CAT = {mno:"大手キャリア",sub:"サブブランド",mvno:"格安SIM"};
 const C = {
-  bg:"#08090d", card:"#0f1219", card2:"#161b26", border:"#1d2438",
-  text:"#eef2ff", sub:"#6271a0", accent:"#4f8eff", accentG:"rgba(79,142,255,0.12)",
-  green:"#34d399", yellow:"#fbbf24",
+  bg:"#e8f4fd", card:"#ffffff", card2:"#d0e8f8", border:"#a8d0ef",
+  text:"#0d2137", sub:"#4a7fa5", accent:"#1565c0", accentG:"rgba(21,101,192,0.08)",
+  green:"#2e7d32", yellow:"#f57f17",
 };
 
 function AdBanner({ slotKey }) {
@@ -610,8 +616,11 @@ function App() {
           background:`linear-gradient(135deg,${C.accent},#2563eb)`,
           color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"inherit",
         }}>診断スタート →</button>
-        <div style={{fontSize:10,color:C.sub,marginTop:12,lineHeight:1.6}}>
-          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+        <div style={{fontSize:12,color:C.green,marginTop:10,fontWeight:700,textAlign:"center"}}>
+          ✓ 登録不要・完全無料
+        </div>
+        <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
+          ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
         </div>
       </div>
       <TabBar/>
@@ -705,7 +714,7 @@ function App() {
           color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:14,
         }}>もう一度診断する</button>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:20}}>
-          ※料金は税込・参考価格です。割引・セット割は含みません。<br/>
+          ※料金は税込・割引適用後の参考価格です。<br/>
           ※最新・正確な情報は各社公式サイトでご確認ください。
         </div>
       </div>
