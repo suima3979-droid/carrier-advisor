@@ -47,6 +47,9 @@ const PLANS = [
   { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","20GB","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
+  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
+  { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
+  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
   { id:"povo_3gb_30d",  carrier:"povo", name:"povo 3GB（30日間）",   cat:"mno", gb:3,   price:990,   callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_5gb_30d",  carrier:"povo", name:"povo 5GB（30日間）",   cat:"mno", gb:5,   price:1380,  callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_30gb_30d", carrier:"povo", name:"povo 30GB（30日間）",  cat:"mno", gb:30,  price:2780,  callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
@@ -58,20 +61,13 @@ const PLANS = [
   { id:"povo_180gb_180d",carrier:"povo", name:"povo 180GB（180日間）",cat:"mno", gb:180, price:14880, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","180日間"], note:"基本料0円。1日あたり約83円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_120gb_365d",carrier:"povo", name:"povo 120GB（365日間）",cat:"mno", gb:120, price:21600, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","365日間"], note:"基本料0円。1日あたり約59円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_360gb_365d",carrier:"povo", name:"povo 360GB（365日間）",cat:"mno", gb:360, price:26400, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","超大容量","365日間"], note:"基本料0円。1日あたり約72円。128kbpsの低速通信は無料で使い放題" },
-  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
-  { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
-  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" }, carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,278円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,378円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4378, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,478円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_debut4",  carrier:"SoftBank", name:"スマホデビュープラン＋ 4GB",  cat:"mno", gb:4,  price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","5〜18歳/ガラケー乗換対象"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間1,078円、14ヶ月目から2,266円" },
   { id:"sb_debut20", carrier:"SoftBank", name:"スマホデビュープラン＋ 20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","60歳以上もお得"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間2,728円、14ヶ月目から3,916円" },
   { id:"linemo3",  carrier:"SoftBank", name:"LINEMOベストプラン 3GB",   cat:"mno", gb:3,  price:990,  callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","低価格"], note:"LINEトーク・通話使い放題。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中。通話定額は通常1,650円→7ヶ月間1,100円キャンペーン中" },
-  { id:"linemo10", carrier:"SoftBank", name:"LINEMOベストプラン 10GB",  cat:"mno", gb:10, price:2090, callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","3GB超〜10GB"], note:"LINEトーク・通話使い放題。3GB超から自動で2,090円。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中" },
-  { id:"linemoV",  carrier:"SoftBank", name:"LINEMOベストプランV 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"SoftBank", features:["5分かけ放題込","LINEギガフリー","30GB"], note:"LINEトーク・通話使い放題。5分国内通話定額込み。通話定額for Vは通常1,100円→7ヶ月間550円キャンペーン中" },
-  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
-  { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
-  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
   { id:"ym_s", carrier:"Y!mobile", name:"シンプル3 S 5GB", cat:"sub", gb:5, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本3,278円）" },
   { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["30GB","PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,378円）" },
   { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3278, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["35GB","10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,478円）" },
@@ -580,6 +576,8 @@ function App() {
     const filtered = filterCat==="all" ? PLANS : PLANS.filter(p=>p.cat===filterCat);
     const grouped = {};
     filtered.forEach(p=>{ if(!grouped[p.carrier]) grouped[p.carrier]=[]; grouped[p.carrier].push(p); });
+    const carrierOrder = [...new Set(PLANS.map(p=>p.carrier))];
+    const sortedGrouped = Object.fromEntries(carrierOrder.filter(c=>grouped[c]).map(c=>[c,grouped[c]]));
 
     return (
       <div style={W}>
@@ -600,7 +598,7 @@ function App() {
         </div>
         <AdBanner slotKey="top"/>
         <div style={{padding:"0 12px"}}>
-          {Object.entries(grouped).map(([carrier, plans])=>(
+          {Object.entries(sortedGrouped).map(([carrier, plans])=>(
             <CarrierGroup key={carrier} carrier={carrier} plans={plans} showCallType={true} />
           ))}
         </div>
@@ -621,14 +619,14 @@ function App() {
           display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,
           color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,
           padding:"5px 14px",borderRadius:20,marginBottom:18,
-        }}>現役ケータイショップスタッフ監修</div>
+        }}>ケータイショップ店員おすすめ</div>
         <div style={{
           fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,
           background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,
           WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
         }}>スマホプラン<br/>かんたん診断</div>
         <div style={{fontSize:13,color:C.sub,lineHeight:1.8,marginBottom:24}}>
-          現役店員が本音でおすすめするプランを<br/>AIがあなたに合わせて提案します
+          AIがあなたに合わせて最適なプランを提案します
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
           {[["🤖","AIが最適プランを選定"],["📊","主要キャリア対応"],["👨‍💼","現役店員が監修"],["⏱️","所要時間 1分以内"]].map(([icon,text])=>(
