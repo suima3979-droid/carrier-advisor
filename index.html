@@ -58,7 +58,9 @@ const PLANS = [
   { id:"povo_180gb_180d",carrier:"povo", name:"povo 180GB（180日間）",cat:"mno", gb:180, price:14880, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","180日間"], note:"基本料0円。1日あたり約83円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_120gb_365d",carrier:"povo", name:"povo 120GB（365日間）",cat:"mno", gb:120, price:21600, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","365日間"], note:"基本料0円。1日あたり約59円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_360gb_365d",carrier:"povo", name:"povo 360GB（365日間）",cat:"mno", gb:360, price:26400, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","超大容量","365日間"], note:"基本料0円。1日あたり約72円。128kbpsの低速通信は無料で使い放題" },
-  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
+  { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
+  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" }, carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,278円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,378円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4378, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,478円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
@@ -209,9 +211,13 @@ function scorePlan(plan, a) {
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
   // U18・U12は18歳以下以外には表示しない
-  const isYouthPlan = ["au_u18_s","au_u18_l","au_u12"].includes(plan.id);
+  const isYouthPlan = ["au_u18_s","au_u18_l","au_u12","sb_debut4","sb_debut20"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
   if (isYouthPlan && a.age==="young") sc += 30;
+  // シニアプランは60歳以上以外には表示しない
+  const isSeniorPlan = ["au_senior"].includes(plan.id);
+  if (isSeniorPlan && a.age!=="senior") sc -= 999;
+  if (isSeniorPlan && a.age==="senior") sc += 30;
   return sc;
 }
 
