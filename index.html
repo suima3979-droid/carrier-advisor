@@ -43,7 +43,6 @@ const PLANS = [
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
   { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
-  { id:"au_u12", carrier:"au", name:"U12バリュープラン", cat:"mno", gb:3, price:550, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["12歳以下限定","家族間通話無料","衛星通信対応"], note:"5〜12歳限定（13歳以降も継続利用可）。U12家族割1,100円＋auPAYカード割220円適用後の価格（基本1,870円）。通信速度は最大300Kbps（ベストエフォート）。家族間の国内通話・SMS無料（申込必要）" },
   { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
@@ -207,7 +206,7 @@ function scorePlan(plan, a) {
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
   // U18・U12は18歳以下以外には表示しない
-  const isYouthPlan = ["au_u18_s","au_u18_l","au_u12","sb_debut4","sb_debut20"].includes(plan.id);
+  const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
   if (isYouthPlan && a.age==="young") sc += 30;
   // シニアプランは60歳以上以外には表示しない
