@@ -1,4 +1,4 @@
-　<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8"/>
@@ -34,22 +34,22 @@ const AFFILIATE = {
 const PLANS = [
   { id:"dcm_max_s", carrier:"docomo", name:"ドコモMAX 〜1GB", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本5,698円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ。1GB超えると次の段階へ" },
   { id:"dcm_max_m", carrier:"docomo", name:"ドコモMAX 1〜3GB", cat:"mno", gb:3, price:3498, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["段階式料金","5G対応","dポイント"], note:"割引適用後の価格（基本6,798円）。3GB超えると無制限プランの料金に変更" },
-  { id:"dcm_max_l", carrier:"docomo", name:"ドコモMAX 3GB〜無制限", cat:"mno", gb:9999, price:5148, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["無制限","5G対応","dポイント","家族割対象"], note:"割引適用後の価格（基本8,448円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ" },
+  { id:"dcm_max_l", carrier:"docomo", name:"ドコモMAX 3GB〜無制限", cat:"mno", gb:9999, price:5148, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["5G対応","dポイント","家族割対象"], note:"割引適用後の価格（基本8,448円）。みんなドコモ割・長期利用割・dカード割・ドコモ光セット割等の組み合わせ" },
   { id:"ahamo", carrier:"ahamo", name:"ahamo 30GB", cat:"mno", gb:30, price:2970, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["5分かけ放題込","5G対応"], note:"オンライン専用・店舗サポートなし" },
   { id:"ahamoL", carrier:"ahamo", name:"ahamo大盛り 110GB", cat:"mno", gb:110, price:4950, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["大容量110GB","5分かけ放題込","5G対応"], note:"オンライン専用" },
   { id:"dcm_mini_4", carrier:"docomo", name:"ドコモmini 4GB", cat:"mno", gb:4, price:880, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["低価格","5G対応","dポイント"], note:"割引適用後の価格（基本2,750円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
-  { id:"dcm_mini_10", carrier:"docomo", name:"ドコモmini 10GB", cat:"mno", gb:10, price:1980, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["10GB","5G対応","dポイント"], note:"割引適用後の価格（基本3,850円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
-  { id:"au_value", carrier:"au", name:"auバリューリンクプラン 無制限", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["無制限","auスマートバリュー対応","家族割対象"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,008円）。1GB以下の利用で1,650円引き（実質3,828円）" },
+  { id:"dcm_mini_10", carrier:"docomo", name:"ドコモmini 10GB", cat:"mno", gb:10, price:1980, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["5G対応","dポイント"], note:"割引適用後の価格（基本3,850円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
+  { id:"au_value", carrier:"au", name:"auバリューリンクプラン 無制限", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["auスマートバリュー対応","家族割対象"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,008円）。1GB以下の利用で1,650円引き（実質3,828円）" },
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
   { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
   { id:"au_u12", carrier:"au", name:"U12バリュープラン", cat:"mno", gb:3, price:550, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["12歳以下限定","家族間通話無料","衛星通信対応"], note:"5〜12歳限定（13歳以降も継続利用可）。U12家族割1,100円＋auPAYカード割220円適用後の価格（基本1,870円）。通信速度は最大300Kbps（ベストエフォート）。家族間の国内通話・SMS無料（申込必要）" },
   { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
-  { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","20GB","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
   { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
   { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
-  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["30GB","自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
+  { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
   { id:"povo_3gb_30d",  carrier:"povo", name:"povo 3GB（30日間）",   cat:"mno", gb:3,   price:990,   callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_5gb_30d",  carrier:"povo", name:"povo 5GB（30日間）",   cat:"mno", gb:5,   price:1380,  callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_30gb_30d", carrier:"povo", name:"povo 30GB（30日間）",  cat:"mno", gb:30,  price:2780,  callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
@@ -61,7 +61,7 @@ const PLANS = [
   { id:"povo_180gb_180d",carrier:"povo", name:"povo 180GB（180日間）",cat:"mno", gb:180, price:14880, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","180日間"], note:"基本料0円。1日あたり約83円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_120gb_365d",carrier:"povo", name:"povo 120GB（365日間）",cat:"mno", gb:120, price:21600, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","365日間"], note:"基本料0円。1日あたり約59円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_360gb_365d",carrier:"povo", name:"povo 360GB（365日間）",cat:"mno", gb:360, price:26400, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","超大容量","365日間"], note:"基本料0円。1日あたり約72円。128kbpsの低速通信は無料で使い放題" },
-  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["無制限","2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,278円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,378円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
   { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4378, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,478円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
@@ -69,11 +69,11 @@ const PLANS = [
   { id:"sb_debut20", carrier:"SoftBank", name:"スマホデビュープラン＋ 20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","60歳以上もお得"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間2,728円、14ヶ月目から3,916円" },
   { id:"linemo3",  carrier:"SoftBank", name:"LINEMOベストプラン 3GB",   cat:"mno", gb:3,  price:990,  callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","低価格"], note:"LINEトーク・通話使い放題。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中。通話定額は通常1,650円→7ヶ月間1,100円キャンペーン中" },
   { id:"ym_s", carrier:"Y!mobile", name:"シンプル3 S 5GB", cat:"sub", gb:5, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本3,278円）" },
-  { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["30GB","PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,378円）" },
-  { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3278, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["35GB","10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,478円）" },
+  { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,378円）" },
+  { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3278, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,478円）" },
   { id:"rak3", carrier:"楽天モバイル", name:"最強プラン 〜3GB", cat:"sub", gb:3, price:1078, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント"], note:"通常1,078円。最強家族割で110円引き（968円）。12歳以下は最大440円引き（3GB超過後は110円引き）。22歳以下は110円引き。パートナーエリア(au回線)はデータ制限あり" },
   { id:"rak20", carrier:"楽天モバイル", name:"最強プラン 〜20GB", cat:"sub", gb:20, price:2178, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント","5G"], note:"通常2,178円。最強家族割で110円引き（2,068円）。22歳以下は110円引き。3GB超から自動で2,178円" },
-  { id:"rakU", carrier:"楽天モバイル", name:"最強プラン 無制限", cat:"sub", gb:9999, price:3278, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["無制限","通話無料(RLink)","海外2GB無料"], note:"通常3,278円。最強家族割で110円引き（3,168円）。22歳以下は110円引き。65歳以上は最大990ポイント還元（最強シニアプログラム）。20GB超から自動で3,278円" },
+  { id:"rakU", carrier:"楽天モバイル", name:"最強プラン 無制限", cat:"sub", gb:9999, price:3278, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","海外2GB無料"], note:"通常3,278円。最強家族割で110円引き（3,168円）。22歳以下は110円引き。65歳以上は最大990ポイント還元（最強シニアプログラム）。20GB超から自動で3,278円" },
   { id:"iij2",  carrier:"IIJmio", name:"ギガプラン 2GB",  cat:"mvno", gb:2,  price:850,  callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["低価格","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可" },
   { id:"iij5",  carrier:"IIJmio", name:"ギガプラン 5GB",  cat:"mvno", gb:5,  price:950,  callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["低価格","安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間500円" },
   { id:"iij10", carrier:"IIJmio", name:"ギガプラン 10GB", cat:"mvno", gb:10, price:1400, callType:"従量(11円/30秒)", support:"オンライン", network:"docomo/au", features:["安定品質","複数SIM割引"], note:"音声eSIM対応。ドコモ/au回線選択可。キャンペーン中（〜2026/6/8）は6ヶ月間1,250円" },
@@ -85,10 +85,10 @@ const PLANS = [
   { id:"mineo_d3", carrier:"mineo", name:"マイピタ 3GB（音声）", cat:"mvno", gb:3, price:1298, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越","音声通話付き"], note:"ドコモ/au/ソフトバンク回線から選択可" },
   { id:"mineo_d15", carrier:"mineo", name:"マイピタ 15GB（音声）", cat:"mvno", gb:15, price:1958, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越","音声通話付き"], note:"ドコモ/au/ソフトバンク回線から選択可" },
   { id:"mineo_d30", carrier:"mineo", name:"マイピタ 30GB（音声）", cat:"mvno", gb:30, price:2178, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["3社回線選択","パケット繰越"], note:"ドコモ/au/ソフトバンク回線から選択可" },
-  { id:"mineo_sp", carrier:"mineo", name:"マイそく プレミアム（無制限）", cat:"mvno", gb:9999, price:2200, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大5Mbps","3社回線選択"], note:"月〜金12時台は最大200kbpsに制限" },
-  { id:"mineo_ss", carrier:"mineo", name:"マイそく スタンダード（無制限）", cat:"mvno", gb:9999, price:990, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大1.5Mbps","低価格"], note:"月〜金12時台は最大32kbpsに制限" },
-  { id:"mineo_sl", carrier:"mineo", name:"マイそく ライト（無制限）", cat:"mvno", gb:9999, price:660, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大300kbps","超低価格"], note:"月〜金12時台は最大32kbpsに制限" },
-  { id:"mineo_su", carrier:"mineo", name:"マイそく スーパーライト（無制限）", cat:"mvno", gb:9999, price:250, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["無制限","最大32kbps","最安水準"], note:"新規申込のみ" },
+  { id:"mineo_sp", carrier:"mineo", name:"マイそく プレミアム（無制限）", cat:"mvno", gb:9999, price:2200, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["最大5Mbps","3社回線選択"], note:"月〜金12時台は最大200kbpsに制限" },
+  { id:"mineo_ss", carrier:"mineo", name:"マイそく スタンダード（無制限）", cat:"mvno", gb:9999, price:990, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["最大1.5Mbps","低価格"], note:"月〜金12時台は最大32kbpsに制限" },
+  { id:"mineo_sl", carrier:"mineo", name:"マイそく ライト（無制限）", cat:"mvno", gb:9999, price:660, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["最大300kbps","超低価格"], note:"月〜金12時台は最大32kbpsに制限" },
+  { id:"mineo_su", carrier:"mineo", name:"マイそく スーパーライト（無制限）", cat:"mvno", gb:9999, price:250, callType:"従量(22円/30秒)", support:"オンライン", network:"3社選択", features:["最大32kbps","最安水準"], note:"新規申込のみ" },
   { id:"nuro3",  carrier:"NUROモバイル", name:"バリュープラス VSプラン 3GB",  cat:"mvno", gb:3,  price:792,  callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["最安水準","3社回線選択"], note:"nuro光セット割あり。バリューデータフリー・Gigaプラス非対応" },
   { id:"nuro5",  carrier:"NUROモバイル", name:"バリュープラス VMプラン 5GB",  cat:"mvno", gb:5,  price:990,  callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["LINEギガフリー","Gigaプラス3GB","3社回線選択"], note:"nuro光セット割あり。LINEトーク使い放題。Gigaプラス3GB付き" },
   { id:"nuro10", carrier:"NUROモバイル", name:"バリュープラス VLプラン 10GB", cat:"mvno", gb:10, price:1485, callType:"従量(11円/30秒)", support:"オンライン", network:"3社選択", features:["LINEギガフリー","Gigaプラス6GB","3社回線選択"], note:"nuro光セット割あり。LINEトーク使い放題。Gigaプラス6GB付き" },
@@ -646,6 +646,11 @@ function App() {
         </div>
         <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
           ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
+        </div>
+        <div style={{textAlign:"center",marginTop:12}}>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>
+            📩 お問い合わせ
+          </a>
         </div>
       </div>
       <TabBar/>
