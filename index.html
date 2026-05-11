@@ -218,11 +218,6 @@ function scorePlan(plan, a) {
 
 function recommendOptions(plan, a) {
   const rec = [];
-  const w = OPTIONS.warranty.items.filter(o=>o.carrier===plan.carrier);
-  if (w.length) rec.push({ category:"warranty", items:w });
-  const needSec = a.age==="senior"||(a.age==="adult"&&a.family==="yes");
-  const sec = OPTIONS.security.items.filter(o=>o.carrier===plan.carrier);
-  if (needSec && sec.length) rec.push({ category:"security", items:sec });
   const hasCallIncluded = plan.callType.includes("無制限")||plan.callType.includes("Rakuten")||plan.callType.includes("5分かけ放題込");
   const callOpts = OPTIONS.call.items.filter(o=>o.carrier===plan.carrier);
   if (!hasCallIncluded && callOpts.length && (a.call==="heavy"||a.call==="work"||a.call==="light")) {
