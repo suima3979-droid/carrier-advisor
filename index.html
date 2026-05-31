@@ -25,10 +25,10 @@ const AFFILIATE = {
   "SoftBank": "https://www.softbank.jp/mobile/",
   "UQ mobile": "https://www.uqwimax.jp/mobile/",
   "Y!mobile": "https://px.a8.net/svt/ejp?a8mat=4B3IIF+6F07HU+424K+BYLJM",
-  "楽天モバイル": "https://px.a8.net/svt/ejp?a8mat=4B3IIF+7118VM+5W58+5YJRM",
+  "楽天モバイル": "https://network.mobile.rakuten.co.jp/",
   "IIJmio": "https://www.iijmio.jp/",
   "mineo": "https://mineo.jp/",
-  "NUROモバイル": "https://px.a8.net/svt/ejp?a8mat=4B3IIF+70FT9U+3MP0+60WN6",
+  "NUROモバイル": "https://mobile.nuro.jp/",
 };
 
 const PLANS = [
@@ -43,7 +43,7 @@ const PLANS = [
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
   { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
-  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜3GB", cat:"mno", gb:3, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
   { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
@@ -121,268 +121,6 @@ const DATA_PLANS = [
   { id:"nuro_d15",  carrier:"NUROモバイル", name:"VLLプラン 15GB（データ）", gb:15, price:1625, network:"3社選択", features:["LINEギガフリー","Gigaプラス9GB"], note:"音声通話なし。LINEトーク使い放題。Gigaプラス9GB付き" },
 ];
 
-function PrivacyModal({ onClose }) {
-  return (
-    <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.5)",zIndex:1000,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={onClose}>
-      <div style={{width:"100%",maxWidth:480,background:"#fff",borderRadius:"16px 16px 0 0",padding:"20px 16px 40px",maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-          <div style={{fontSize:16,fontWeight:900}}>プライバシーポリシー</div>
-          <button onClick={onClose} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",padding:"0 4px"}}>✕</button>
-        </div>
-        <div style={{fontSize:11,lineHeight:1.9}}>
-          <p style={{marginBottom:12}}>当サイト「スマホプランかんたん診断」（以下「当サイト」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めます。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ 広告について</div>
-          <p style={{marginBottom:12}}>当サイトはA8.net等のアフィリエイトプログラムに参加しています。リンク経由で購入・申し込みされた場合に報酬を受け取ることがあります。紹介している商品・サービスの選定には公平性を保つよう努めています。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ アクセス解析ツール（Googleアナリティクス）について</div>
-          <p style={{marginBottom:12}}>当サイトではGoogleアナリティクスを使用してアクセス情報を収集しています。Googleアナリティクスはデータ収集のためにCookieを使用しており、このデータはGoogleのプライバシーポリシーに基づいて管理されます。収集されるデータは個人を特定するものではありません。Cookieの使用を無効にしたい場合は、お使いのブラウザの設定よりCookieを無効にしてください。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ Cookieについて</div>
-          <p style={{marginBottom:12}}>当サイトではCookieを使用することがあります。Cookieはウェブサイトの利便性向上のために使用されるものであり、個人情報を含むものではありません。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ お問い合わせフォームについて</div>
-          <p style={{marginBottom:12}}>お問い合わせフォームにご入力いただいた情報は、返答のみに使用し、第三者への提供は行いません。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ 免責事項</div>
-          <p style={{marginBottom:12}}>掲載内容の正確性・最新性を保証するものではありません。料金・サービス内容は各社公式サイトにてご確認ください。当サイトの情報をもとに生じたいかなる損害についても責任を負いかねます。</p>
-
-          <div style={{fontWeight:900,marginBottom:6,fontSize:12}}>■ プライバシーポリシーの変更</div>
-          <p style={{marginBottom:12}}>本ポリシーは予告なく変更する場合があります。変更後は当サイトに掲載した時点で有効となります。</p>
-
-          <p style={{color:"#607d8b",fontSize:10}}>制定日：2026年4月</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ===== スマホ診断データ =====
-const MAKER_INFO = {
-  "Apple":   { color:"#1d1d1f", bg:"rgba(29,29,31,0.08)",   icon:"🍎" },
-  "Samsung": { color:"#1428a0", bg:"rgba(20,40,160,0.08)",  icon:"◈"  },
-  "Google":  { color:"#ea4335", bg:"rgba(234,67,53,0.08)",  icon:"G"  },
-  "Sony":    { color:"#222",    bg:"rgba(34,34,34,0.08)",   icon:"S"  },
-  "Sharp":   { color:"#003087", bg:"rgba(0,48,135,0.08)",   icon:"⬡"  },
-  "FCNT":    { color:"#e65100", bg:"rgba(230,81,0,0.08)",   icon:"F"  },
-  "OPPO":    { color:"#1d8348", bg:"rgba(29,131,72,0.08)",  icon:"O"  },
-  "Motorola":{ color:"#d32f2f", bg:"rgba(211,47,47,0.08)",  icon:"M"  },
-  "Xiaomi":  { color:"#ff6900", bg:"rgba(255,105,0,0.08)",  icon:"小"  },
-  "Kyocera": { color:"#1565c0", bg:"rgba(21,101,192,0.08)", icon:"K"  },
-  "Brain":   { color:"#6a1b9a", bg:"rgba(106,27,154,0.08)", icon:"AI" },
-  "Nothing": { color:"#333",    bg:"rgba(51,51,51,0.08)",   icon:"∅"  },
-};
-
-const SMARTPHONES = [
-  { id:"ip17",    name:"iPhone 17",             maker:"Apple",   os:"iOS",     priceRange:"💰💰💰", budget:"high", size:"normal",  camera:5, battery:3, performance:5, tags:["ハイエンド","高性能カメラ","軽量"],        note:"2025年9月発売。最新フラグシップ。幅広い人におすすめの定番モデル。",            compatible:["docomo","ahamo","au","UQ mobile","povo","SoftBank","LINEMO","Y!mobile","楽天モバイル"] },
-  { id:"ip17pro", name:"iPhone 17 Pro",         maker:"Apple",   os:"iOS",     priceRange:"💰💰💰", budget:"high", size:"normal",  camera:5, battery:4, performance:5, tags:["ハイエンド","高性能カメラ","薄型"],        note:"2025年9月発売。カメラ・動画にとことんこだわりたい人向けの最上位モデル。",      compatible:["docomo","ahamo","au","UQ mobile","SoftBank","Y!mobile","楽天モバイル"] },
-  { id:"ip17e",   name:"iPhone 17e",            maker:"Apple",   os:"iOS",     priceRange:"💰💰",   budget:"mid",  size:"compact", camera:3, battery:3, performance:4, tags:["ミドルレンジ","コンパクト","軽量"],        note:"2026年3月発売。iPhoneの中でお手頃価格。シンプルに使いたい人・初iPhoneの人に。", compatible:["docomo","ahamo","au","SoftBank","楽天モバイル","UQ mobile","Y!mobile"] },
-  { id:"gs26",    name:"Galaxy S26",            maker:"Samsung", os:"Android", priceRange:"💰💰💰", budget:"high", size:"compact", camera:5, battery:4, performance:5, tags:["ハイエンド","高性能カメラ","AI機能"],      note:"2025年2月発売。王道ハイエンドAndroid。軽量薄型でカメラも超優秀。",             compatible:["docomo","au","SoftBank","楽天モバイル","UQ mobile","Y!mobile"] },
-  { id:"px10",    name:"Google Pixel 10",       maker:"Google",  os:"Android", priceRange:"💰💰💰", budget:"high", size:"normal",  camera:5, battery:4, performance:5, tags:["ハイエンド","AI機能","高性能カメラ"],      note:"2025年8月発売。AI機能が突出。楽天モバイル・ahamoとの相性が特に良い。",          compatible:["ahamo","楽天モバイル","IIJmio","mineo","NUROモバイル"] },
-  { id:"xp1vii",  name:"Xperia 1 VII",          maker:"Sony",    os:"Android", priceRange:"💰💰💰", budget:"high", size:"large",   camera:5, battery:4, performance:5, tags:["ハイエンド","高性能カメラ","国産"],        note:"2025年6月発売。Xperiaファン・写真・音楽好きには唯一無二の存在。",               compatible:["docomo","au","SoftBank"] },
-  { id:"aq10",    name:"AQUOS sense10",         maker:"Sharp",   os:"Android", priceRange:"💰💰",   budget:"mid",  size:"compact", camera:3, battery:4, performance:3, tags:["ミドルレンジ","大容量バッテリー","防水"],  note:"2025年11月発売。国産コスパ最強。防水・おサイフ対応でバランス抜群。",            compatible:["docomo","au","SoftBank","UQ mobile","Y!mobile","IIJmio","mineo"] },
-  { id:"ga36",    name:"Galaxy A36 5G",         maker:"Samsung", os:"Android", priceRange:"💰💰",   budget:"mid",  size:"normal",  camera:4, battery:4, performance:3, tags:["ミドルレンジ","大容量バッテリー","AI機能"],note:"2025年6月発売。コスパ良くカメラも優秀。Galaxy AIの一部機能も使える。",          compatible:["docomo","au","SoftBank","楽天モバイル","IIJmio"] },
-  { id:"oppa5",   name:"OPPO A5 5G",            maker:"OPPO",    os:"Android", priceRange:"💰",     budget:"low",  size:"large",   camera:2, battery:5, performance:2, tags:["ローエンド","大容量バッテリー","大画面"],  note:"とにかく電池持ちを重視したい人に。コストを抑えてスマホを持ちたい人向け。",      compatible:["楽天モバイル","IIJmio","mineo","NUROモバイル"] },
-  { id:"xp10vii", name:"Xperia 10 VII",         maker:"Sony",    os:"Android", priceRange:"💰💰",   budget:"mid",  size:"compact", camera:3, battery:4, performance:3, tags:["ミドルレンジ","コンパクト","軽量"],        note:"2025年10月発売。軽量コンパクトで日常使いに最適なミドルレンジ。",                compatible:["docomo","au","SoftBank","UQ mobile","Y!mobile"] },
-  { id:"nth4ap",  name:"Nothing Phone (4a) Pro",maker:"Nothing", os:"Android", priceRange:"💰💰",   budget:"mid",  size:"normal",  camera:3, battery:4, performance:3, tags:["ミドルレンジ","薄型","AI機能"],            note:"2026年4月発売・楽天モバイル限定。背面LEDが光る唯一無二のデザイン。",            compatible:["楽天モバイル"] },
-];
-
-const PHONE_QUESTIONS = [
-  { id:"priority", multi:true,  sub:"STEP 1", q:"重視したい項目は？",
-    opts:[
-      { val:"camera",      icon:"📷", label:"カメラ",    desc:"写真・動画にこだわりたい" },
-      { val:"battery",     icon:"🔋", label:"バッテリー", desc:"電池切れが心配な方" },
-      { val:"performance", icon:"⚡", label:"処理能力",   desc:"ゲーム・動画編集もサクサク" },
-    ]},
-  { id:"size",     multi:false, sub:"STEP 2", q:"サイズの希望は？",
-    opts:[
-      { val:"compact", icon:"🤏", label:"コンパクト",   desc:"片手で使いやすい" },
-      { val:"large",   icon:"📺", label:"大きめでOK",   desc:"画面が広い方が好き" },
-      { val:"any",     icon:"🤷", label:"どっちでもOK", desc:"こだわりなし" },
-    ]},
-  { id:"budget",   multi:false, sub:"STEP 3", q:"予算はどのくらい？",
-    opts:[
-      { val:"low",  icon:"💰",    label:"安く抑えたい",       desc:"〜5万円台" },
-      { val:"mid",  icon:"💰💰",  label:"多少はかけてもいい",  desc:"6〜10万円くらい" },
-      { val:"high", icon:"💰💰💰",label:"こだわらない",        desc:"10万円超もOK" },
-    ]},
-  { id:"os",       multi:false, sub:"STEP 4", q:"OSの希望は？",
-    opts:[
-      { val:"iOS",     icon:"🍎", label:"iPhoneがいい",   desc:"使い慣れてるし安心" },
-      { val:"Android", icon:"🤖", label:"Androidでも平気", desc:"選択肢が広い方がいい" },
-      { val:"any",     icon:"🤷", label:"どっちでもOK",   desc:"おすすめに従う" },
-    ]},
-];
-
-const PHONE_CATEGORIES = [
-  { id:"high", icon:"👑", label:"ハイエンド", color:"#b8860b", desc:"スペック・カメラ・性能にとことんこだわりたい方へ",
-    phones:[
-      { name:"iPhone 17 Pro",    maker:"Apple",   os:"iOS",     price:"💰💰💰", tags:["ハイエンド","高性能カメラ","薄型"],    note:"2025年9月発売。トリプルカメラ＋A19 Pro搭載。iPhoneの頂点。" },
-      { name:"iPhone 17",        maker:"Apple",   os:"iOS",     price:"💰💰💰", tags:["ハイエンド","高性能カメラ","軽量"],    note:"2025年9月発売。最新フラグシップ。幅広い人に定番の1台。" },
-      { name:"Galaxy S26 Ultra", maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","大画面"],  note:"2025年2月発売。Sペン内蔵の最上位Galaxy。プロ志向の方に。" },
-      { name:"Galaxy S26+",      maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","大画面","大容量バッテリー"],note:"2025年2月発売。S26より大画面でバッテリー容量も大きめ。" },
-      { name:"Galaxy S26",       maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","AI機能"],  note:"2025年2月発売。王道ハイエンドAndroid。軽量薄型で優秀なカメラ。" },
-      { name:"Google Pixel 10",  maker:"Google",  os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","AI機能"],  note:"2025年8月発売。AI機能が突出。消しゴムマジックなどPixelならではの機能が豊富。" },
-      { name:"Xperia 1 VII",     maker:"Sony",    os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","国産"],    note:"2025年6月発売。α連携カメラ＋ハイレゾ音源対応。Sony好きの究極の1台。" },
-      { name:"OPPO Find X9",     maker:"OPPO",    os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","薄型"],    note:"2025年12月発売。Hasselblad共同開発カメラ搭載のOPPOフラグシップ。" },
-      { name:"AQUOS R10",        maker:"Sharp",   os:"Android", price:"💰💰💰", tags:["ハイエンド","高性能カメラ","国産"],    note:"2025年発売。240Hz対応のプロ仕様ディスプレイ。国産ハイエンドの雄。" },
-    ]},
-  { id:"mid", icon:"💰", label:"ミドルレンジ・コスパ", color:"#2e7d32", desc:"コスパよく必要十分なスペックを求める方へ",
-    phones:[
-      { name:"iPhone 17e",       maker:"Apple",   os:"iOS",     price:"💰💰",   tags:["ミドルレンジ","コンパクト","軽量"],    note:"2026年3月発売。iPhoneの中でお手頃価格。初iPhoneの人に最適。" },
-      { name:"iPhone 16",        maker:"Apple",   os:"iOS",     price:"💰💰💰", tags:["ハイエンド","高性能カメラ","AI機能"],  note:"2024年9月発売。iPhone 17登場で値こなれ感が出てきたお得な1台。" },
-      { name:"Galaxy A57",       maker:"Samsung", os:"Android", price:"💰💰",   tags:["ミドルレンジ","高性能カメラ","大容量バッテリー"],note:"2025年発売。docomo・SoftBank取扱。コスパ良くカメラも優秀なAシリーズ。" },
-      { name:"Galaxy A36 5G",    maker:"Samsung", os:"Android", price:"💰💰",   tags:["ミドルレンジ","大容量バッテリー","AI機能"],note:"2025年6月発売。Galaxy AIの一部機能が使えるコスパモデル。" },
-      { name:"Galaxy A25 5G",    maker:"Samsung", os:"Android", price:"💰",     tags:["ローエンド","大画面","大容量バッテリー"],note:"エントリー価格帯でも5G対応のGalaxy入門機。" },
-      { name:"Google Pixel 10a", maker:"Google",  os:"Android", price:"💰💰",   tags:["ミドルレンジ","高性能カメラ","AI機能"], note:"2025年発売。Pixelのコスパモデル。AI機能はそのままに価格を抑えた1台。" },
-      { name:"AQUOS wish5",      maker:"Sharp",   os:"Android", price:"💰",     tags:["ローエンド","コンパクト","防水"],       note:"国産エントリーモデル。防水・おサイフ対応でシンプルに使いたい人向け。" },
-      { name:"AQUOS sense10",    maker:"Sharp",   os:"Android", price:"💰💰",   tags:["ミドルレンジ","大容量バッテリー","防水"],note:"2025年11月発売。国産コスパ最強。防水・おサイフ対応でバランス抜群。" },
-      { name:"Xperia 10 VII",    maker:"Sony",    os:"Android", price:"💰💰",   tags:["ミドルレンジ","コンパクト","軽量"],     note:"2025年10月発売。軽量コンパクトで日常使いに最適なミドルレンジ。" },
-      { name:"Redmi 15",         maker:"Xiaomi",  os:"Android", price:"💰",     tags:["ローエンド","大容量バッテリー","大画面"],note:"Xiaomiのコスパ最強モデル。格安SIMとの組み合わせで維持費を最小限に。" },
-      { name:"OPPO A5 5G",       maker:"OPPO",    os:"Android", price:"💰",     tags:["ローエンド","大容量バッテリー","大画面"],note:"6000mAhの超大容量バッテリー。電池持ちを最優先したい人に。" },
-      { name:"Nothing Phone (4a) Pro",maker:"Nothing",os:"Android",price:"💰💰",tags:["ミドルレンジ","薄型","AI機能"],         note:"2026年4月発売・楽天モバイル限定。背面LEDが光る唯一無二のデザイン。" },
-      { name:"arrows ALpha",     maker:"FCNT",    os:"Android", price:"💰💰",   tags:["ミドルレンジ","防水","国産"],            note:"FCNTのarrowsハイエンドモデル。国産ならではの安心感と長期サポート。" },
-    ]},
-  { id:"ai", icon:"🤖", label:"AI特化", color:"#6a1b9a", desc:"最新のAI機能をフル活用したい方へ",
-    phones:[
-      { name:"Natural AI Phone", maker:"Brain",   os:"Android", price:"💰💰💰", tags:["ハイエンド","AI機能","薄型"],           note:"2026年4月発売・SoftBank1年間独占。AIがアプリを横断して操作する次世代スマホ。" },
-      { name:"Google Pixel 10",  maker:"Google",  os:"Android", price:"💰💰💰", tags:["ハイエンド","AI機能","高性能カメラ"],   note:"Tensor G5搭載。消しゴムマジック・リアルタイム翻訳などAI機能が豊富。" },
-      { name:"Galaxy S26",       maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","AI機能","高性能カメラ"],   note:"Galaxy AI搭載。かこって検索など日常で使えるAI機能が充実。" },
-    ]},
-  { id:"tough", icon:"🦺", label:"タフネス", color:"#bf360c", desc:"アウトドアや現場仕事など過酷な環境で使いたい方へ",
-    phones:[
-      { name:"TORQUE G07",       maker:"Kyocera", os:"Android", price:"💰💰",   tags:["ミドルレンジ","タフネス","防水"],        note:"au限定のタフネスモデル。MIL規格準拠で落下・水没・砂塵に強い現場の味方。" },
-    ]},
-  { id:"senior", icon:"👴", label:"シニア向け", color:"#1565c0", desc:"シンプルで使いやすいスマホをお探しの方・ご家族へ",
-    phones:[
-      { name:"らくらくスマートフォン Lite MR01",maker:"FCNT",os:"Android",price:"💰💰",tags:["ミドルレンジ","シニア向け","大画面"],note:"2024年12月発売。6.1インチ大画面でシンプル操作。docomo・au・SoftBank・UQ mobileで取扱。" },
-      { name:"BASIO active3",    maker:"Kyocera", os:"Android", price:"💰💰",   tags:["ミドルレンジ","シニア向け","防水"],      note:"au向けのシニアスマホ。大きな文字と使いやすいUIで初めてのスマホにも最適。" },
-      { name:"arrows We2",       maker:"FCNT",    os:"Android", price:"💰",     tags:["ローエンド","シニア向け","軽量"],        note:"軽量コンパクトで使いやすいエントリーモデル。シンプルホーム搭載。" },
-    ]},
-  { id:"fold", icon:"🔄", label:"折りたたみ", color:"#00695c", desc:"コンパクトに持ち歩いて大画面を楽しみたい方へ",
-    phones:[
-      { name:"Galaxy Z Flip7",   maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","折りたたみ","コンパクト"],  note:"2025年発売。縦折りデザインでポケットにスッキリ収まる人気の折りたたみ。" },
-      { name:"Galaxy Z Fold7",   maker:"Samsung", os:"Android", price:"💰💰💰", tags:["ハイエンド","折りたたみ","大画面"],      note:"2025年発売。開くとタブレット級の大画面に。マルチタスク派に最高の1台。" },
-      { name:"motorola razr 60 ULTRA",maker:"Motorola",os:"Android",price:"💰💰💰",tags:["ハイエンド","折りたたみ","高性能カメラ"],note:"2025年12月発売。大型外部ディスプレイと優秀なカメラを備えた縦折りスマホ。" },
-    ]},
-];
-
-function diagnosePhone(answers) {
-  const priority = answers.priority || [];
-  const { size, budget, os } = answers;
-
-  const scored = SMARTPHONES.map(p => {
-    let score = 0;
-    let penalty = 0;
-
-    // OS
-    if (os==="iOS"     && p.os!=="iOS")     penalty += 10;
-    if (os==="Android" && p.os!=="Android") penalty += 10;
-
-    // 予算
-    if (budget==="low"  && p.budget!=="low")  penalty += 5;
-    if (budget==="mid"  && p.budget==="high") penalty += 3;
-
-    // サイズ
-    if (size==="compact" && p.size==="large")   penalty += 2;
-    if (size==="large"   && p.size==="compact") penalty += 1;
-
-    // 重視項目
-    if (priority.includes("camera"))      score += p.camera      * 2;
-    if (priority.includes("battery"))     score += p.battery     * 2;
-    if (priority.includes("performance")) score += p.performance * 2;
-    if (priority.length===0) score += (p.camera + p.battery + p.performance);
-
-    return { ...p, score: score - penalty };
-  }).sort((a,b)=>b.score-a.score);
-
-  // 上位5件を返す（条件が厳しくても関連性の高いものを補完）
-  return scored.slice(0,5);
-}
-
-function CategoryPhoneCard({ phone, onGoDiagnose }) {
-  const m = MAKER_INFO[phone.maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
-  return (
-    <div style={{borderRadius:12,border:`1px solid #d0e4f7`,background:"#fff",marginBottom:8,overflow:"hidden"}}>
-      <div style={{padding:"12px 14px"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
-          <div style={{width:38,height:38,borderRadius:9,background:m.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:900,color:"#fff",flexShrink:0}}>{m.icon}</div>
-          <div style={{flex:1,minWidth:0}}>
-            <div style={{fontSize:13,fontWeight:900,color:"#1a2a3a"}}>{phone.name}</div>
-            <div style={{fontSize:10,color:"#607d8b",marginTop:1}}>{phone.maker} · {phone.os}</div>
-          </div>
-          <div style={{fontSize:18,flexShrink:0}}>{phone.price}</div>
-        </div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:6}}>
-          {phone.tags.map(t=>(<span key={t} style={{fontSize:9,padding:"2px 7px",borderRadius:4,background:m.bg,border:`1px solid ${m.color}44`,color:m.color,fontWeight:700}}>{t}</span>))}
-        </div>
-        <div style={{fontSize:10,color:"#607d8b",lineHeight:1.6}}>{phone.note}</div>
-      </div>
-      <button onClick={onGoDiagnose} style={{display:"block",width:"100%",padding:"10px",background:`linear-gradient(135deg,${m.color},${m.color}bb)`,border:"none",color:"#fff",fontSize:11,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>
-        🔍 このスマホに合うプランを診断 →
-      </button>
-    </div>
-  );
-}
-
-function CategorySection({ cat, onGoDiagnose }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{marginBottom:10}}>
-      <button onClick={()=>setOpen(o=>!o)} style={{width:"100%",padding:"14px 16px",borderRadius:12,border:`1.5px solid ${cat.color}44`,background:`linear-gradient(135deg,${cat.color}11,${cat.color}06)`,cursor:"pointer",fontFamily:"inherit",textAlign:"left",display:"flex",alignItems:"center",gap:10}}>
-        <span style={{fontSize:22}}>{cat.icon}</span>
-        <div style={{flex:1}}>
-          <div style={{fontSize:15,fontWeight:900,color:cat.color}}>{cat.label}</div>
-          <div style={{fontSize:10,color:"#607d8b",marginTop:2}}>{cat.desc}</div>
-        </div>
-        <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-          <span style={{fontSize:10,color:"#607d8b"}}>{cat.phones.length}機種</span>
-          <span style={{fontSize:14,color:cat.color,fontWeight:900}}>{open?"▲":"▼"}</span>
-        </div>
-      </button>
-      {open && (
-        <div style={{marginTop:8,paddingLeft:4}}>
-          {cat.phones.map(p=>(<CategoryPhoneCard key={p.name} phone={p} onGoDiagnose={onGoDiagnose}/>))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function SmartphoneCard({ phone, rank, onGoDiagnose }) {
-  const m = MAKER_INFO[phone.maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
-  const isTop = rank===0;
-  return (
-    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
-      <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"🏆 第1位 · 最もおすすめ":`# ${rank+1}位`}</span>
-        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
-      </div>
-      <div style={{padding:"14px"}}>
-        <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
-          <div style={{width:44,height:44,borderRadius:10,background:m.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:900,color:"#fff",flexShrink:0}}>{m.icon}</div>
-          <div style={{flex:1,minWidth:0}}>
-            <div style={{fontSize:14,fontWeight:900,color:"#1a2a3a"}}>{phone.name}</div>
-            <div style={{fontSize:11,color:"#607d8b",marginTop:2}}>{phone.maker}</div>
-          </div>
-          <div style={{textAlign:"right",flexShrink:0}}>
-            <div style={{fontSize:24,lineHeight:1}}>{phone.priceRange}</div>
-            <div style={{fontSize:9,color:"#607d8b",marginTop:2}}>価格帯</div>
-          </div>
-        </div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:8}}>
-          {phone.tags.map(t=>(<span key={t} style={{fontSize:10,padding:"2px 7px",borderRadius:4,background:m.bg,border:`1px solid ${m.color}44`,color:m.color,fontWeight:700}}>{t}</span>))}
-        </div>
-        <div style={{fontSize:11,color:"#607d8b",lineHeight:1.7,marginBottom:10}}>{phone.note}</div>
-        <button onClick={onGoDiagnose} style={{display:"block",width:"100%",padding:"12px",background:`linear-gradient(135deg,${m.color},${m.color}bb)`,borderRadius:10,textAlign:"center",border:"none",color:"#fff",fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>
-          🔍 このスマホに合うプランを診断 →
-        </button>
-      </div>
-    </div>
-  );
-}
-// ===== スマホ診断データ ここまで =====
-
 const OPTIONS = {
   warranty: {
     label:"端末保証・補償", icon:"🛡️",
@@ -412,7 +150,6 @@ const OPTIONS = {
       { carrier:"docomo", name:"かけ放題オプション", price:1980, note:"国内通話完全かけ放題" },
       { carrier:"au", name:"通話定額ライト2", price:880, note:"1回5分以内の国内通話が何度でも無料" },
       { carrier:"au", name:"通話定額2", price:1980, note:"国内通話完全かけ放題" },
-      { carrier:"au", name:"通話定額2（シニアバリュー向け）", price:1100, note:"シニアバリュープラン加入者向け。国内通話完全かけ放題", seniorOnly:true },
       { carrier:"SoftBank", name:"準定額オプション＋（5分）", price:880,  note:"1回5分以内の国内通話が無料" },
       { carrier:"SoftBank", name:"定額オプション＋（かけ放題）", price:1980, note:"24時間いつでも国内通話が無料" },
       { carrier:"SoftBank", name:"通話準定額（5分）LINEMO用", price:550, note:"LINEMO向け。7ヶ月間0円キャンペーン中" },
@@ -481,17 +218,15 @@ function scorePlan(plan, a) {
 
 function recommendOptions(plan, a) {
   const rec = [];
-  const hasFullCall = plan.callType.includes("無制限")||plan.callType.includes("Rakuten");
-  const isSeniorPlan = plan.id === "au_senior";
-  let callOpts = OPTIONS.call.items.filter(o=>o.carrier===plan.carrier);
-  if (!hasFullCall && callOpts.length && (a.call==="heavy"||a.call==="work"||a.call==="light")) {
-    if (isSeniorPlan) {
-      const opts = callOpts.filter(o=>o.seniorOnly);
-      if (opts.length) rec.push({ category:"call", items: opts });
-    } else {
-      const opts = callOpts.filter(o=>!o.seniorOnly);
-      rec.push({ category:"call", items: a.call==="light" ? opts.slice(0,1) : opts });
-    }
+  const w = OPTIONS.warranty.items.filter(o=>o.carrier===plan.carrier);
+  if (w.length) rec.push({ category:"warranty", items:w });
+  const needSec = a.age==="senior"||(a.age==="adult"&&a.family==="yes");
+  const sec = OPTIONS.security.items.filter(o=>o.carrier===plan.carrier);
+  if (needSec && sec.length) rec.push({ category:"security", items:sec });
+  const hasCallIncluded = plan.callType.includes("無制限")||plan.callType.includes("Rakuten")||plan.callType.includes("5分かけ放題込");
+  const callOpts = OPTIONS.call.items.filter(o=>o.carrier===plan.carrier);
+  if (!hasCallIncluded && callOpts.length && (a.call==="heavy"||a.call==="work"||a.call==="light")) {
+    rec.push({ category:"call", items: a.call==="light" ? callOpts.slice(0,1) : callOpts });
   }
   return rec;
 }
@@ -759,13 +494,6 @@ function App() {
   const [aiData, setAiData] = useState(null);
   const [tab, setTab] = useState("diagnose");
   const [filterCat, setFilterCat] = useState("all");
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [phoneScreen, setPhoneScreen] = useState("top");
-  const [phoneStep, setPhoneStep]     = useState(0);
-  const [phoneAnswers, setPhoneAnswers] = useState({});
-  const [phoneMultiSel, setPhoneMultiSel] = useState([]);
-  const [phoneResults, setPhoneResults]   = useState([]);
-  const [phoneSubTab, setPhoneSubTab] = useState("diagnose");
 
   function restart() {
     setStep(0); setAnswers({}); setResults([]); setAiData(null); setScreen("top");
@@ -801,7 +529,7 @@ function App() {
     }}>
       <div style={{display:"flex", width:"100%", maxWidth: isMobile ? 480 : 900}}>
       {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"]].map(([key,icon,label])=>(
-        <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); if(key==="phone") setPhoneScreen("top"); }} style={{
+        <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
           flex:1, padding:"12px 0", border:"none", background:"none",
           color: tab===key ? C.accent : C.sub,
           fontSize:11, fontWeight: tab===key ? 900 : 400,
@@ -817,212 +545,6 @@ function App() {
   );
 
   const ContentW = {maxWidth: isMobile ? 480 : 900, margin:"0 auto", width:"100%"};
-
-  // ===== スマホ診断タブ =====
-  if (tab==="phone") {
-    const pq = PHONE_QUESTIONS[phoneStep];
-
-    function phoneRestart() { setPhoneScreen("top"); setPhoneStep(0); setPhoneAnswers({}); setPhoneMultiSel([]); setPhoneResults([]); setPhoneSubTab("diagnose"); }
-    function phoneAdvance(newAns) {
-      const next = phoneStep + 1;
-      if (next < PHONE_QUESTIONS.length) { setPhoneStep(next); setPhoneMultiSel([]); }
-      else { setPhoneResults(diagnosePhone(newAns)); setPhoneScreen("result"); }
-    }
-    function phoneAnswer(val) {
-      const newAns = { ...phoneAnswers, [pq.id]: val };
-      setPhoneAnswers(newAns);
-      phoneAdvance(newAns);
-    }
-    function phoneToggleMulti(val) {
-      setPhoneMultiSel(prev => prev.includes(val) ? prev.filter(v=>v!==val) : [...prev, val]);
-    }
-    function phoneMultiNext() {
-      const newAns = { ...phoneAnswers, [pq.id]: phoneMultiSel };
-      setPhoneAnswers(newAns);
-      phoneAdvance(newAns);
-    }
-
-    const PhoneTabBar = () => (
-      <div style={{position:"fixed",bottom:0,left:0,right:0,background:C.card2,borderTop:`1px solid ${C.border}`,display:"flex",zIndex:100,justifyContent:"center"}}>
-        <div style={{display:"flex",width:"100%",maxWidth:480}}>
-          {[["diagnose","🔍","スマホ診断"],["list","📱","スマホ一覧"],["category","📂","カテゴリー"]].map(([key,icon,label])=>(
-            <button key={key} onClick={()=>{ setPhoneSubTab(key); if(key==="diagnose") setPhoneScreen("top"); }} style={{
-              flex:1,padding:"12px 0",border:"none",background:"none",
-              color:phoneSubTab===key?C.accent:C.sub,
-              fontSize:11,fontWeight:phoneSubTab===key?900:400,
-              fontFamily:"inherit",cursor:"pointer",
-              borderTop:phoneSubTab===key?`2px solid ${C.accent}`:"2px solid transparent",
-            }}>
-              <div style={{fontSize:18,marginBottom:2}}>{icon}</div>
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-
-    // カテゴリーサブタブ
-    if (phoneSubTab==="category") return (
-      <div style={W}>
-        <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
-          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>CATEGORY</div>
-          <div style={{fontSize:22,fontWeight:900}}>カテゴリーから探す</div>
-          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>用途や目的から絞り込めます。</div>
-          <div style={{fontSize:10,color:C.sub,marginTop:4}}>💰 〜5万円台　💰💰 6〜10万円　💰💰💰 10万円超（参考価格帯）</div>
-        </div>
-        <div style={{padding:"12px"}}>
-          {PHONE_CATEGORIES.map(cat=>(<CategorySection key={cat.id} cat={cat} onGoDiagnose={()=>{ setPhoneSubTab("diagnose"); setPhoneScreen("top"); }}/>))}
-        </div>
-        <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.8}}>
-          ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
-        </div>
-        <PhoneTabBar/>
-      </div>
-    );
-
-    // スマホ一覧サブタブ
-    if (phoneSubTab==="list") {
-      const allPhones = PHONE_CATEGORIES.flatMap(cat => cat.phones);
-      const makers = [];
-      const byMaker = {};
-      allPhones.forEach(p => {
-        if (!byMaker[p.maker]) { byMaker[p.maker] = []; makers.push(p.maker); }
-        if (!byMaker[p.maker].find(x=>x.name===p.name)) byMaker[p.maker].push(p);
-      });
-      return (
-        <div style={W}>
-          <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
-            <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>SMARTPHONE</div>
-            <div style={{fontSize:22,fontWeight:900}}>スマホ一覧</div>
-            <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>メーカーごとに一覧で見られます。</div>
-            <div style={{fontSize:10,color:C.sub,marginTop:4}}>💰 〜5万円台　💰💰 6〜10万円　💰💰💰 10万円超（参考価格帯）</div>
-          </div>
-          <div style={{padding:"8px 12px 0"}}>
-            {makers.map(maker => {
-              const m = MAKER_INFO[maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
-              return (
-                <div key={maker} style={{marginBottom:16}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 4px 8px"}}>
-                    <div style={{width:28,height:28,borderRadius:8,background:m.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:900,color:"#fff",flexShrink:0}}>{m.icon}</div>
-                    <div style={{fontSize:15,fontWeight:900,color:C.text}}>{maker}</div>
-                    <div style={{fontSize:11,color:C.sub}}>{byMaker[maker].length}機種</div>
-                    <div style={{flex:1,height:1,background:C.border}}/>
-                  </div>
-                  {byMaker[maker].map(p=>(<CategoryPhoneCard key={p.name} phone={p} onGoDiagnose={()=>{ setPhoneSubTab("diagnose"); setPhoneScreen("top"); }}/>))}
-                </div>
-              );
-            })}
-          </div>
-          <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.7}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
-          </div>
-          <PhoneTabBar/>
-        </div>
-      );
-    }
-
-    // TOP
-    if (phoneScreen==="top") return (
-      <div style={W}>
-        <div style={{padding:"36px 20px 28px",textAlign:"center"}}>
-          <div style={{display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"5px 14px",borderRadius:20,marginBottom:18}}>ケータイショップ店員おすすめ</div>
-          <div style={{fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>おすすめスマホ<br/>かんたん診断</div>
-          <div style={{fontSize:13,color:C.sub,lineHeight:1.8,marginBottom:24}}>AIがあなたにぴったりの1台を提案します</div>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
-            {[["📷","カメラ・性能・バッテリー"],["📊","主要メーカーから選ぶ"],["👨‍💼","現役店員が監修"],["⏱️","所要時間 約1分"]].map(([icon,text])=>(
-              <div key={text} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 8px",textAlign:"center"}}>
-                <div style={{fontSize:22,marginBottom:6}}>{icon}</div>
-                <div style={{fontSize:11,color:C.sub,lineHeight:1.4}}>{text}</div>
-              </div>
-            ))}
-          </div>
-          <button onClick={()=>setPhoneScreen("quiz")} style={{width:"100%",padding:"16px",borderRadius:12,border:"none",background:`linear-gradient(135deg,${C.accent},#2563eb)`,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>診断スタート →</button>
-          <div style={{fontSize:12,color:C.green,marginTop:10,fontWeight:700,textAlign:"center"}}>✓ 登録不要・完全無料</div>
-          <div style={{marginTop:16}}>
-            <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>🔍 プランをAI診断する →</button>
-          </div>
-          <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-            ※価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。
-          </div>
-          <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>📩 お問い合わせ</a>
-            <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>🔒 プライバシーポリシー</button>
-          </div>
-        </div>
-        <PhoneTabBar/>
-        {showPrivacy && <PrivacyModal onClose={()=>setShowPrivacy(false)}/>}
-      </div>
-    );
-
-    // QUIZ
-    if (phoneScreen==="quiz") {
-      const prog = (phoneStep / PHONE_QUESTIONS.length) * 100;
-      return (
-        <div style={W}>
-          <div style={{height:3,background:C.border}}>
-            <div style={{height:"100%",width:`${prog}%`,background:C.accent,transition:"width 0.3s"}}/>
-          </div>
-          <div style={{display:"flex",justifyContent:"space-between",padding:"10px 16px 0",fontSize:11,color:C.sub}}>
-            <span>質問 {phoneStep+1} / {PHONE_QUESTIONS.length}</span>
-            <span style={{display:"flex",gap:4}}>
-              {PHONE_QUESTIONS.map((_,i)=>(<span key={i} style={{width:6,height:6,borderRadius:"50%",display:"inline-block",background:i<=phoneStep?C.accent:C.border,opacity:i<phoneStep?0.4:1}}/>))}
-            </span>
-          </div>
-          <div style={{padding:"28px 20px"}}>
-            <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:8}}>{pq.sub}</div>
-            <div style={{fontSize:20,fontWeight:900,lineHeight:1.4,marginBottom:pq.multi?6:24}}>{pq.q}</div>
-            {pq.multi && <div style={{fontSize:11,color:C.accent,fontWeight:700,marginBottom:16}}>複数選択OK</div>}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-              {pq.opts.map(opt=>{
-                const sel = pq.multi ? phoneMultiSel.includes(opt.val) : false;
-                return (
-                  <button key={opt.val} onClick={()=>pq.multi?phoneToggleMulti(opt.val):phoneAnswer(opt.val)} style={{background:sel?C.accentG:C.card,border:sel?`2px solid ${C.accent}`:`1px solid ${C.border}`,borderRadius:12,padding:"18px 10px",cursor:"pointer",color:C.text,fontFamily:"inherit",textAlign:"center"}}>
-                    <div style={{fontSize:28,marginBottom:8}}>{opt.icon}</div>
-                    <div style={{fontSize:12,fontWeight:700,lineHeight:1.4}}>{opt.label}</div>
-                    <div style={{fontSize:10,color:C.sub,marginTop:4,lineHeight:1.4}}>{opt.desc}</div>
-                  </button>
-                );
-              })}
-            </div>
-            {pq.multi && (
-              <button onClick={phoneMultiNext} disabled={phoneMultiSel.length===0} style={{marginTop:16,width:"100%",padding:"14px",borderRadius:12,border:"none",background:phoneMultiSel.length>0?`linear-gradient(135deg,${C.accent},#2563eb)`:C.border,color:phoneMultiSel.length>0?"#fff":C.sub,fontSize:14,fontWeight:900,cursor:phoneMultiSel.length>0?"pointer":"default",fontFamily:"inherit"}}>
-                {phoneMultiSel.length>0?`次へ（${phoneMultiSel.length}項目選択中）→`:"項目を選んでください"}
-              </button>
-            )}
-            {phoneStep>0 && (
-              <button onClick={()=>{ setPhoneStep(phoneStep-1); setPhoneMultiSel([]); }} style={{marginTop:12,width:"100%",padding:"14px",borderRadius:12,border:`1px solid ${C.border}`,background:C.card2,color:C.sub,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>← もどる</button>
-            )}
-          </div>
-          <PhoneTabBar/>
-        </div>
-      );
-    }
-
-    // RESULT
-    return (
-      <div style={W}>
-        <div style={{padding:"20px 16px 16px",background:`linear-gradient(180deg,${C.accentG} 0%,transparent 100%)`,borderBottom:`1px solid ${C.border}`,marginBottom:8}}>
-          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:6}}>診断結果</div>
-          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {phoneResults.length}</div>
-        </div>
-        <div style={{padding:"0 12px"}}>
-          {phoneResults.length===0
-            ? <div style={{padding:32,textAlign:"center",color:C.sub,fontSize:13}}>条件に合うスマホが見つかりませんでした。条件を変えてお試しください。</div>
-            : phoneResults.map((p,i)=><SmartphoneCard key={p.id} phone={p} rank={i} onGoDiagnose={()=>{ setTab("diagnose"); setScreen("top"); }}/>)
-          }
-        </div>
-        <div style={{padding:"0 12px"}}>
-          <button onClick={phoneRestart} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.border}`,background:C.card,color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:10}}>もう一度診断する</button>
-          <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,fontFamily:"inherit",cursor:"pointer",marginBottom:14}}>🔍 プランもAI診断する →</button>
-          <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:80}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
-          </div>
-        </div>
-        <PhoneTabBar/>
-      </div>
-    );
-  }
-  // ===== スマホ診断タブ ここまで =====
 
   // データSIM一覧
   if (tab==="data") {
@@ -1121,27 +643,16 @@ function App() {
         <div style={{fontSize:12,color:C.green,marginTop:10,fontWeight:700,textAlign:"center"}}>
           ✓ 登録不要・完全無料
         </div>
-        <div style={{marginTop:16}}>
-          <button onClick={()=>{ setTab("phone"); setPhoneScreen("top"); setPhoneSubTab("diagnose"); }} style={{
-            width:"100%",padding:"12px",borderRadius:12,
-            border:`1px solid ${C.accent}`,background:C.accentG,
-            color:C.accent,fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit",
-          }}>📱 おすすめスマホを診断する →</button>
-        </div>
         <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
           ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
         </div>
-        <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
+        <div style={{textAlign:"center",marginTop:12}}>
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>
             📩 お問い合わせ
           </a>
-          <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>
-            🔒 プライバシーポリシー
-          </button>
         </div>
       </div>
       <TabBar/>
-      {showPrivacy && <PrivacyModal onClose={()=>setShowPrivacy(false)}/>}
     </div>
   );
 
@@ -1229,13 +740,8 @@ function App() {
         <button onClick={restart} style={{
           width:"100%",padding:"14px",borderRadius:10,
           border:`1px solid ${C.border}`,background:C.card,
-          color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:10,
+          color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:14,
         }}>もう一度診断する</button>
-        <button onClick={()=>{ setTab("phone"); setPhoneScreen("top"); setPhoneSubTab("diagnose"); }} style={{
-          width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.accent}`,
-          background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,
-          fontFamily:"inherit",cursor:"pointer",marginBottom:14,
-        }}>📱 スマホも診断する →</button>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:20}}>
           ※料金は税込・割引適用後の参考価格です。<br/>
           ※最新・正確な情報は各社公式サイトでご確認ください。
