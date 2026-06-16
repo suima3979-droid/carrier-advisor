@@ -43,7 +43,7 @@ const PLANS = [
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
   { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
-  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜3GB", cat:"mno", gb:3, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
   { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
@@ -206,6 +206,8 @@ function scorePlan(plan, a) {
   if (a.family==="yes") sc += ["docomo","au","SoftBank","UQ mobile","Y!mobile"].includes(plan.carrier)?15:0;
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
+  // UQ mobileは店舗サポートありで格安なため、コスパ重視層に出やすく微調整
+  if (plan.carrier==="UQ mobile") sc += 8;
   // U18・U12は18歳以下以外には表示しない
   const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
@@ -471,7 +473,7 @@ function SmartphoneCard({ phone, rank, onGoDiagnose }) {
   return (
     <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
       <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"🏆 第1位 · 最もおすすめ":`# ${rank+1}位`}</span>
+        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"⭐ イチオシ":"おすすめ"}</span>
         <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
       </div>
       <div style={{padding:"14px"}}>
@@ -661,7 +663,7 @@ function PlanCard({ plan, rank, comment, answers }) {
         display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
         <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
-          {isTop?"🏆 第1位 · 最もおすすめ":`# ${rank}位`}
+          {isTop?"⭐ イチオシ":"おすすめ"}
         </span>
         <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
       </div>
@@ -862,7 +864,7 @@ function App() {
           {PHONE_CATEGORIES.map(cat=>(<CategorySection key={cat.id} cat={cat} onGoDiagnose={()=>{ setPhoneSubTab("diagnose"); setPhoneScreen("top"); }}/>))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.8}}>
-          ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+          ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
         </div>
         <PhoneTabBar/>
       </div>
@@ -896,7 +898,7 @@ function App() {
             })}
           </div>
           <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.7}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+            ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
           </div>
           <PhoneTabBar/>
         </div>
@@ -923,7 +925,7 @@ function App() {
             <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>🔍 プランをAI診断する →</button>
           </div>
           <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-            ※価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。
+            ※この情報は2026年6月時点のものです。価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。
           </div>
           <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>📩 お問い合わせ</a>
@@ -978,7 +980,7 @@ function App() {
       <div style={W}>
         <div style={{padding:"20px 16px 16px",background:`linear-gradient(180deg,${C.accentG} 0%,transparent 100%)`,borderBottom:`1px solid ${C.border}`,marginBottom:8}}>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:6}}>診断結果</div>
-          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {phoneResults.length}</div>
+          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめスマホ</div>
         </div>
         <div style={{padding:"0 12px"}}>
           {phoneResults.length===0
@@ -990,7 +992,7 @@ function App() {
           <button onClick={phoneRestart} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.border}`,background:C.card,color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:10}}>もう一度診断する</button>
           <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,fontFamily:"inherit",cursor:"pointer",marginBottom:14}}>🔍 プランもAI診断する →</button>
           <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:80}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+            ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
           </div>
         </div>
         <PhoneTabBar/>
@@ -1016,7 +1018,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※この情報は2026年6月時点のものです。料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
         </div>
         <TabBar/>
       </div>
@@ -1055,7 +1057,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※この情報は2026年6月時点のものです。料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
         </div>
         <TabBar/>
       </div>
@@ -1104,7 +1106,7 @@ function App() {
           }}>📱 おすすめスマホを診断する →</button>
         </div>
         <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-          ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※この情報は2026年6月時点のものです。料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
         </div>
         <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>
@@ -1191,7 +1193,7 @@ function App() {
             <div style={{fontSize:12,color:C.sub,lineHeight:1.7}}>{aiData.summary}</div>
           </>
         ):(
-          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {results.length}</div>
+          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめプラン</div>
         )}
       </div>
       <AdBanner slotKey="result"/>
@@ -1212,7 +1214,7 @@ function App() {
           fontFamily:"inherit",cursor:"pointer",marginBottom:14,
         }}>📱 スマホも診断する →</button>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:20}}>
-          ※料金は税込・割引適用後の参考価格です。<br/>
+          ※この情報は2026年6月時点のものです。料金は税込・割引適用後の参考価格です。<br/>
           ※最新・正確な情報は各社公式サイトでご確認ください。
         </div>
       </div>
