@@ -473,7 +473,7 @@ function SmartphoneCard({ phone, rank, onGoDiagnose }) {
   return (
     <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
       <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"⭐ イチオシ":"おすすめ"}</span>
+        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>おすすめ</span>
         <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
       </div>
       <div style={{padding:"14px"}}>
@@ -663,7 +663,7 @@ function PlanCard({ plan, rank, comment, answers }) {
         display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
         <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
-          {isTop?"⭐ イチオシ":"おすすめ"}
+          {isTop?"✓ おすすめ":"おすすめ"}
         </span>
         <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
       </div>
