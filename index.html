@@ -839,7 +839,7 @@ function App() {
 
     const PhoneTabBar = () => (
       <div style={{position:"fixed",bottom:0,left:0,right:0,background:C.card2,borderTop:`1px solid ${C.border}`,display:"flex",zIndex:100,justifyContent:"center"}}>
-        <div style={{display:"flex",width:"100%",maxWidth:480}}>
+        <div style={{display:"flex",width:"100%",maxWidth:isMobile?480:900}}>
           {[["diagnose","🔍","スマホ診断"],["list","📱","スマホ一覧"],["category","📂","カテゴリー"]].map(([key,icon,label])=>(
             <button key={key} onClick={()=>{ setPhoneSubTab(key); if(key==="diagnose") setPhoneScreen("top"); }} style={{
               flex:1,padding:"12px 0",border:"none",background:"none",
@@ -930,6 +930,9 @@ function App() {
           <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>📩 お問い合わせ</a>
             <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>🔒 プライバシーポリシー</button>
+          </div>
+          <div style={{fontSize:10,color:C.sub,textAlign:"center",marginTop:8}}>
+            ※本サイトはアフィリエイト広告を利用しています
           </div>
         </div>
         <PhoneTabBar/>
@@ -1115,6 +1118,9 @@ function App() {
           <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>
             🔒 プライバシーポリシー
           </button>
+        </div>
+        <div style={{fontSize:10,color:C.sub,textAlign:"center",marginTop:8}}>
+          ※本サイトはアフィリエイト広告を利用しています
         </div>
       </div>
       <TabBar/>
