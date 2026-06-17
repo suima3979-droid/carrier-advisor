@@ -471,10 +471,10 @@ function SmartphoneCard({ phone, rank, onGoDiagnose }) {
   const m = MAKER_INFO[phone.maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
   const isTop = rank===0;
   return (
-    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
-      <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>おすすめ</span>
-        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
+    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1px solid #d0e4f7`,background:"#fff"}}>
+      <div style={{background:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontSize:11,fontWeight:900,color:"#607d8b",letterSpacing:1}}>おすすめ</span>
+        <span style={{fontSize:10,color:"#607d8b"}}>{phone.os}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -654,18 +654,18 @@ function PlanCard({ plan, rank, comment, answers }) {
 
   return (
     <div style={{
-      borderRadius:14, border:`1.5px solid ${isTop?cs.color:C.border}`,
-      background: isTop ? `linear-gradient(135deg,${C.card} 0%,${cs.bg} 100%)` : C.card,
+      borderRadius:14, border:`1px solid ${C.border}`,
+      background:C.card,
       overflow:"hidden", marginBottom:10,
     }}>
       <div style={{
-        background: isTop?cs.color:C.card2, padding:"6px 14px",
+        background:C.card2, padding:"6px 14px",
         display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
-          {isTop?"✓ おすすめ":"おすすめ"}
+        <span style={{fontSize:11,fontWeight:900,color:C.sub,letterSpacing:1}}>
+          おすすめ
         </span>
-        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
+        <span style={{fontSize:10,color:C.sub}}>{CAT[plan.cat]||plan.cat}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -679,7 +679,7 @@ function PlanCard({ plan, rank, comment, answers }) {
             <div style={{fontSize:11,color:C.sub,marginTop:2}}>{plan.name}</div>
           </div>
           <div style={{textAlign:"right",flexShrink:0}}>
-            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:isTop?cs.color:C.accent}}>
+            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:C.accent}}>
               {plan.price.toLocaleString()}
             </div>
             <div style={{fontSize:10,color:C.sub}}>円/月（税込）</div>
@@ -765,6 +765,7 @@ function App() {
   const [tab, setTab] = useState("diagnose");
   const [filterCat, setFilterCat] = useState("all");
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [openId, setOpenId] = useState(null);
   const [phoneScreen, setPhoneScreen] = useState("top");
   const [phoneStep, setPhoneStep]     = useState(0);
   const [phoneAnswers, setPhoneAnswers] = useState({});
@@ -805,7 +806,7 @@ function App() {
       justifyContent:"center",
     }}>
       <div style={{display:"flex", width:"100%", maxWidth: isMobile ? 480 : 900}}>
-      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"]].map(([key,icon,label])=>(
+      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"],["guide","📖","解説"]].map(([key,icon,label])=>(
         <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
           flex:1, padding:"12px 0", border:"none", background:"none",
           color: tab===key ? C.accent : C.sub,
@@ -1004,7 +1005,84 @@ function App() {
   }
   // ===== スマホ診断タブ ここまで =====
 
-  // データSIM一覧
+  // 解説記事
+  if (tab==="guide") {
+    const articles = [
+      {
+        id:"sub", icon:"📱", title:"サブブランドって何？（Y!mobile・UQ mobile）",
+        content:[
+          { h:"サブブランドとは", p:"大手キャリア（docomo・au・SoftBank）が提供する、別ブランド名の廉価プランのことです。同じ回線を使いながら、料金を抑えられるのが特徴です。" },
+          { h:"主なサブブランド", p:"・Y!mobile（SoftBank系）\n・UQ mobile（au系）\nの2つが代表的です。大手キャリアの回線をそのまま使うため、通信品質は大手とほぼ同等です。" },
+          { h:"大手との違い", p:"料金が安い反面、家族割や光セット割などの割引が少ないこと、最新機種の取り扱いが限られることがあります。" },
+          { h:"こんな人におすすめ", p:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
+        ]
+      },
+      {
+        id:"online", icon:"💻", title:"オンライン専用プランって何が違うの？",
+        content:[
+          { h:"オンライン専用プランとは", p:"店舗での契約・サポートを省くことで料金を大幅に下げたプランです。ahamo・povo・LINEMOなどが代表例です。" },
+          { h:"メリット", p:"料金が安い。ahamoは30GBで2,970円と大容量ながらコスパ抜群。手続きはすべてスマホやPCから完結できます。" },
+          { h:"デメリット", p:"困ったときに店舗に行けない点がデメリット。チャットや電話サポートは用意されていますが、対面でのサポートを求める方には不向きです。" },
+          { h:"こんな人におすすめ", p:"スマホ操作に慣れていて、自分で設定や手続きができる方向け。サポートより料金の安さを優先したい方に最適です。" },
+        ]
+      },
+      {
+        id:"mvno", icon:"💰", title:"格安SIM（MVNO）って何？",
+        content:[
+          { h:"格安SIMとは", p:"大手キャリアの回線を借りて、独自のサービスを提供する事業者のことをMVNO（仮想移動体通信事業者）といいます。IIJmio・mineo・NUROモバイルなどが代表例です。" },
+          { h:"メリット", p:"とにかく安い。月額1,000円以下のプランも多く、維持費を最小限に抑えられます。3社の回線から選べるMVNOも多く、自分の利用エリアに合わせて選べます。" },
+          { h:"デメリット", p:"昼休みや夕方など混雑する時間帯は速度が遅くなることがあります。店舗サポートがないことが多く、基本的にオンラインで手続きが必要です。" },
+          { h:"こんな人におすすめ", p:"とにかく安さ優先の方、データ通信をあまり使わない方、サブ回線として使いたい方におすすめです。" },
+        ]
+      },
+    ];
+
+    return (
+      <div style={W}>
+        <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
+          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>GUIDE</div>
+          <div style={{fontSize:22,fontWeight:900}}>スマホプラン解説</div>
+          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>現役ケータイショップ店員が解説します。</div>
+        </div>
+        <div style={{padding:"12px"}}>
+          {articles.map(a=>(
+            <div key={a.id} style={{marginBottom:10,borderRadius:12,overflow:"hidden",border:`1px solid ${C.border}`,background:C.card}}>
+              <button onClick={()=>setOpenId(openId===a.id?null:a.id)} style={{
+                width:"100%",padding:"16px",background:"none",border:"none",
+                cursor:"pointer",fontFamily:"inherit",textAlign:"left",
+                display:"flex",alignItems:"center",gap:12,
+              }}>
+                <span style={{fontSize:24}}>{a.icon}</span>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:14,fontWeight:900,color:C.text,lineHeight:1.4}}>{a.title}</div>
+                </div>
+                <span style={{fontSize:12,color:C.sub,fontWeight:700}}>{openId===a.id?"▲":"▼"}</span>
+              </button>
+              {openId===a.id && (
+                <div style={{padding:"0 16px 16px"}}>
+                  <div style={{height:1,background:C.border,marginBottom:16}}/>
+                  <div style={{display:"inline-block",fontSize:10,color:C.accent,fontWeight:700,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"3px 10px",borderRadius:20,marginBottom:12}}>
+                    👨‍💼 現役店員が解説
+                  </div>
+                  {a.content.map((c,i)=>(
+                    <div key={i} style={{marginBottom:14}}>
+                      <div style={{fontSize:13,fontWeight:900,color:C.text,marginBottom:4}}>■ {c.h}</div>
+                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,whiteSpace:"pre-line"}}>{c.p}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.8}}>
+          ※この情報は2026年6月時点のものです。最新情報は各社公式サイトでご確認ください。<br/>
+          ※本サイトはアフィリエイト広告を利用しています
+        </div>
+        <TabBar/>
+      </div>
+    );
+  }
   if (tab==="data") {
     const carriers = [...new Set(DATA_PLANS.map(p=>p.carrier))];
     return (
