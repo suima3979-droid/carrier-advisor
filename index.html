@@ -806,7 +806,7 @@ function App() {
       justifyContent:"center",
     }}>
       <div style={{display:"flex", width:"100%", maxWidth: isMobile ? 480 : 900}}>
-      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"],["guide","📖","解説"]].map(([key,icon,label])=>(
+      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"],["guide","📖","Q&A"]].map(([key,icon,label])=>(
         <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
           flex:1, padding:"12px 0", border:"none", background:"none",
           color: tab===key ? C.accent : C.sub,
@@ -1010,29 +1010,47 @@ function App() {
     const articles = [
       {
         id:"sub", icon:"📱", title:"サブブランドって何？（Y!mobile・UQ mobile）",
-        content:[
-          { h:"サブブランドとは", p:"大手キャリア（docomo・au・SoftBank）が提供する、別ブランド名の廉価プランのことです。同じ回線を使いながら、料金を抑えられるのが特徴です。" },
-          { h:"主なサブブランド", p:"・Y!mobile（SoftBank系）\n・UQ mobile（au系）\nの2つが代表的です。大手キャリアの回線をそのまま使うため、通信品質は大手とほぼ同等です。" },
-          { h:"大手との違い", p:"料金が安い反面、家族割や光セット割などの割引が少ないこと、最新機種の取り扱いが限られることがあります。" },
-          { h:"こんな人におすすめ", p:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
+        qa:[
+          { q:"サブブランドって何ですか？", a:"大手キャリア（docomo・au・SoftBank）が提供する、別ブランド名の廉価プランのことです。同じ回線を使いながら、料金を抑えられるのが特徴です。" },
+          { q:"代表的なサブブランドは？", a:"Y!mobile（SoftBank系）とUQ mobile（au系）の2つが代表的です。大手キャリアの回線をそのまま使うため、通信品質は大手とほぼ同等です。" },
+          { q:"大手キャリアとの違いは？", a:"料金が安い反面、家族割や光セット割などの割引が少ないこと、最新機種の取り扱いが限られることがあります。" },
+          { q:"どんな人におすすめ？", a:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
         ]
       },
       {
         id:"online", icon:"💻", title:"オンライン専用プランって何が違うの？",
-        content:[
-          { h:"オンライン専用プランとは", p:"店舗での契約・サポートを省くことで料金を大幅に下げたプランです。ahamo・povo・LINEMOなどが代表例です。" },
-          { h:"メリット", p:"料金が安い。ahamoは30GBで2,970円と大容量ながらコスパ抜群。手続きはすべてスマホやPCから完結できます。" },
-          { h:"デメリット", p:"困ったときに店舗に行けない点がデメリット。チャットや電話サポートは用意されていますが、対面でのサポートを求める方には不向きです。" },
-          { h:"こんな人におすすめ", p:"スマホ操作に慣れていて、自分で設定や手続きができる方向け。サポートより料金の安さを優先したい方に最適です。" },
+        qa:[
+          { q:"オンライン専用プランとは何ですか？", a:"店舗での契約・サポートを省くことで料金を大幅に下げたプランです。ahamo・povo・LINEMOなどが代表例です。" },
+          { q:"どんなメリットがありますか？", a:"料金が安い点が最大のメリットです。ahamoは30GBで2,970円と大容量ながらコスパ抜群。手続きはすべてスマホやPCから完結できます。" },
+          { q:"デメリットはありますか？", a:"困ったときに店舗に行けない点がデメリットです。チャットや電話サポートは用意されていますが、対面でのサポートを求める方には不向きです。" },
+          { q:"どんな人におすすめ？", a:"スマホ操作に慣れていて、自分で設定や手続きができる方向けです。サポートより料金の安さを優先したい方に最適です。" },
         ]
       },
       {
         id:"mvno", icon:"💰", title:"格安SIM（MVNO）って何？",
-        content:[
-          { h:"格安SIMとは", p:"大手キャリアの回線を借りて、独自のサービスを提供する事業者のことをMVNO（仮想移動体通信事業者）といいます。IIJmio・mineo・NUROモバイルなどが代表例です。" },
-          { h:"メリット", p:"とにかく安い。月額1,000円以下のプランも多く、維持費を最小限に抑えられます。3社の回線から選べるMVNOも多く、自分の利用エリアに合わせて選べます。" },
-          { h:"デメリット", p:"昼休みや夕方など混雑する時間帯は速度が遅くなることがあります。店舗サポートがないことが多く、基本的にオンラインで手続きが必要です。" },
-          { h:"こんな人におすすめ", p:"とにかく安さ優先の方、データ通信をあまり使わない方、サブ回線として使いたい方におすすめです。" },
+        qa:[
+          { q:"格安SIMとは何ですか？", a:"大手キャリアの回線を借りて、独自のサービスを提供する事業者のことをMVNO（仮想移動体通信事業者）といいます。IIJmio・mineo・NUROモバイルなどが代表例です。" },
+          { q:"どんなメリットがありますか？", a:"とにかく安い点が最大のメリットです。月額1,000円以下のプランも多く、維持費を最小限に抑えられます。3社の回線から選べるMVNOも多いです。" },
+          { q:"デメリットはありますか？", a:"昼休みや夕方など混雑する時間帯は速度が遅くなることがあります。店舗サポートがないことが多く、基本的にオンラインで手続きが必要です。" },
+          { q:"どんな人におすすめ？", a:"とにかく安さ優先の方、データ通信をあまり使わない方、サブ回線として使いたい方におすすめです。" },
+        ]
+      },
+      {
+        id:"mnp", icon:"🔄", title:"MNPって何？",
+        qa:[
+          { q:"MNPとは何ですか？", a:"MNP（番号ポータビリティ）とは、今使っている電話番号をそのままに、別のキャリアへ乗り換えられる制度のことです。" },
+          { q:"MNPの手順を教えてください", a:"①今のキャリアでMNP予約番号を取得（オンラインや店舗で可能）→②乗り換え先のキャリアで新規契約時にMNP予約番号を提示→③開通手続き完了、という流れです。" },
+          { q:"MNP予約番号の有効期限は？", a:"MNP予約番号の有効期限は15日間です。乗り換え先キャリアへの申し込みは有効期限内に行う必要があります。" },
+          { q:"乗り換えで電話番号は変わりますか？", a:"MNPを利用すれば電話番号はそのまま引き継げます。ただしMNPを使わずに新規契約した場合は新しい番号になります。" },
+        ]
+      },
+      {
+        id:"simfree", icon:"📵", title:"SIMフリーって何？",
+        qa:[
+          { q:"SIMフリーとは何ですか？", a:"特定のキャリアに縛られず、どのSIMカードでも使えるスマートフォンのことです。キャリアのSIMロックがかかっていない状態を指します。" },
+          { q:"SIMロックとの違いは？", a:"SIMロックとは、特定のキャリアのSIMカードしか使えないように制限がかかった状態のことです。2021年以降に販売されたスマートフォンはSIMロックなしが義務化されています。" },
+          { q:"SIMフリースマホのメリットは？", a:"どのキャリアのSIMカードでも使えるため、乗り換えが自由にできます。格安SIMと組み合わせることで維持費を大幅に抑えられます。" },
+          { q:"購入時の注意点はありますか？", a:"キャリアで購入した端末は対応バンド（周波数帯）が限られている場合があります。格安SIMで使う場合は、対応バンドの確認が必要です。" },
         ]
       },
     ];
@@ -1040,8 +1058,8 @@ function App() {
     return (
       <div style={W}>
         <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
-          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>GUIDE</div>
-          <div style={{fontSize:22,fontWeight:900}}>スマホプラン解説</div>
+          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>Q&A</div>
+          <div style={{fontSize:22,fontWeight:900}}>よくある質問・Q&A</div>
           <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>現役ケータイショップ店員が解説します。</div>
         </div>
         <div style={{padding:"12px"}}>
@@ -1064,10 +1082,10 @@ function App() {
                   <div style={{display:"inline-block",fontSize:10,color:C.accent,fontWeight:700,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"3px 10px",borderRadius:20,marginBottom:12}}>
                     👨‍💼 現役店員が解説
                   </div>
-                  {a.content.map((c,i)=>(
+                  {a.qa.map((item,i)=>(
                     <div key={i} style={{marginBottom:14}}>
-                      <div style={{fontSize:13,fontWeight:900,color:C.text,marginBottom:4}}>■ {c.h}</div>
-                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,whiteSpace:"pre-line"}}>{c.p}</div>
+                      <div style={{fontSize:12,fontWeight:900,color:C.accent,marginBottom:4}}>Q. {item.q}</div>
+                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,paddingLeft:12,borderLeft:`2px solid ${C.border}`}}>{item.a}</div>
                     </div>
                   ))}
                 </div>
