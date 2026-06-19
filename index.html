@@ -743,12 +743,14 @@ function PlanCard({ plan, rank, comment, answers }) {
         )}
         {affUrl&&(
           <a href={affUrl} target="_blank" rel="noopener noreferrer" style={{
-            display:"block", marginTop:14, padding:"12px",
-            background:`linear-gradient(135deg, ${cs.color}, ${cs.color}bb)`,
-            borderRadius:10, textAlign:"center", textDecoration:"none",
-            color:"#fff", fontSize:13, fontWeight:900, letterSpacing:0.5,
+            display:"block", margin:"14px", padding:"16px",
+            background:"#fff",
+            border:`2.5px solid ${cs.color}`,
+            borderRadius:12, textAlign:"center", textDecoration:"none",
+            color:cs.color, fontSize:15, fontWeight:900, letterSpacing:0.5,
+            boxShadow:`0 2px 8px ${cs.color}33`,
           }}>
-            {plan.carrier} 公式サイトで申し込む →
+            🔗 {plan.carrier} 公式サイトで申し込む →
           </a>
         )}
       </div>
@@ -1009,13 +1011,23 @@ function App() {
   if (tab==="guide") {
     const articles = [
       {
+        id:"carrier", icon:"📶", title:"キャリアって何？",
+        qa:[
+          { q:"キャリアとは何ですか？", a:"携帯電話サービスを提供する通信事業者のことです。日本ではdocomo・au・SoftBankの3社が大手キャリアと呼ばれています。" },
+          { q:"キャリアと格安SIMの違いは？", a:"大手キャリアは自社で通信インフラ（基地局）を持っています。格安SIM（MVNO）はその回線を借りてサービスを提供するため、料金が安い反面、速度が遅くなる場合があります。" },
+          { q:"どのキャリアを選べばいい？", a:"家族でまとめたい・最新機種が欲しい方は大手キャリア、料金を抑えたい方はサブブランドや格安SIMがおすすめです。" },
+        ],
+        related:["sub","online","mvno"]
+      },
+      {
         id:"sub", icon:"📱", title:"サブブランドって何？（Y!mobile・UQ mobile）",
         qa:[
           { q:"サブブランドって何ですか？", a:"大手キャリア（docomo・au・SoftBank）が提供する、別ブランド名の廉価プランのことです。同じ回線を使いながら、料金を抑えられるのが特徴です。" },
           { q:"代表的なサブブランドは？", a:"Y!mobile（SoftBank系）とUQ mobile（au系）の2つが代表的です。大手キャリアの回線をそのまま使うため、通信品質は大手とほぼ同等です。" },
           { q:"大手キャリアとの違いは？", a:"料金が安い反面、家族割や光セット割などの割引が少ないこと、最新機種の取り扱いが限られることがあります。" },
           { q:"どんな人におすすめ？", a:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
-        ]
+        ],
+        related:["carrier","mvno","online"]
       },
       {
         id:"online", icon:"💻", title:"オンライン専用プランって何が違うの？",
@@ -1024,7 +1036,8 @@ function App() {
           { q:"どんなメリットがありますか？", a:"料金が安い点が最大のメリットです。ahamoは30GBで2,970円と大容量ながらコスパ抜群。手続きはすべてスマホやPCから完結できます。" },
           { q:"デメリットはありますか？", a:"困ったときに店舗に行けない点がデメリットです。チャットや電話サポートは用意されていますが、対面でのサポートを求める方には不向きです。" },
           { q:"どんな人におすすめ？", a:"スマホ操作に慣れていて、自分で設定や手続きができる方向けです。サポートより料金の安さを優先したい方に最適です。" },
-        ]
+        ],
+        related:["mnp","simfree","mvno"]
       },
       {
         id:"mvno", icon:"💰", title:"格安SIM（MVNO）って何？",
@@ -1033,7 +1046,8 @@ function App() {
           { q:"どんなメリットがありますか？", a:"とにかく安い点が最大のメリットです。月額1,000円以下のプランも多く、維持費を最小限に抑えられます。3社の回線から選べるMVNOも多いです。" },
           { q:"デメリットはありますか？", a:"昼休みや夕方など混雑する時間帯は速度が遅くなることがあります。店舗サポートがないことが多く、基本的にオンラインで手続きが必要です。" },
           { q:"どんな人におすすめ？", a:"とにかく安さ優先の方、データ通信をあまり使わない方、サブ回線として使いたい方におすすめです。" },
-        ]
+        ],
+        related:["simfree","esim","carrier"]
       },
       {
         id:"mnp", icon:"🔄", title:"MNPって何？",
@@ -1042,7 +1056,8 @@ function App() {
           { q:"MNPの手順を教えてください", a:"①今のキャリアでMNP予約番号を取得（オンラインや店舗で可能）→②乗り換え先のキャリアで新規契約時にMNP予約番号を提示→③開通手続き完了、という流れです。" },
           { q:"MNP予約番号の有効期限は？", a:"MNP予約番号の有効期限は15日間です。乗り換え先キャリアへの申し込みは有効期限内に行う必要があります。" },
           { q:"乗り換えで電話番号は変わりますか？", a:"MNPを利用すれば電話番号はそのまま引き継げます。ただしMNPを使わずに新規契約した場合は新しい番号になります。" },
-        ]
+        ],
+        related:["simfree","carrier","sub"]
       },
       {
         id:"simfree", icon:"📵", title:"SIMフリーって何？",
@@ -1051,9 +1066,59 @@ function App() {
           { q:"SIMロックとの違いは？", a:"SIMロックとは、特定のキャリアのSIMカードしか使えないように制限がかかった状態のことです。2021年以降に販売されたスマートフォンはSIMロックなしが義務化されています。" },
           { q:"SIMフリースマホのメリットは？", a:"どのキャリアのSIMカードでも使えるため、乗り換えが自由にできます。格安SIMと組み合わせることで維持費を大幅に抑えられます。" },
           { q:"購入時の注意点はありますか？", a:"キャリアで購入した端末は対応バンド（周波数帯）が限られている場合があります。格安SIMで使う場合は、対応バンドの確認が必要です。" },
-        ]
+        ],
+        related:["esim","dualsim","mnp"]
+      },
+      {
+        id:"esim", icon:"💳", title:"eSIMって何？",
+        qa:[
+          { q:"eSIMとは何ですか？", a:"スマートフォンに内蔵された電子SIMのことです。物理的なSIMカードを差し込まなくても、オンラインで通信サービスを開通できます。" },
+          { q:"物理SIMとの違いは？", a:"物理SIMはカードを端末に挿入する従来の方式です。eSIMはカード不要でオンラインだけで開通できるため、即日利用が可能です。" },
+          { q:"eSIMのメリットは？", a:"契約してすぐ使えること、カードの紛失や破損がないこと、デュアルSIM（2つの番号を1台で使う）が簡単にできることが主なメリットです。" },
+          { q:"対応していない機種はありますか？", a:"古い機種はeSIM非対応のものもあります。最新のiPhoneやAndroid上位機種はほぼ対応していますが、購入前に確認することをおすすめします。" },
+        ],
+        related:["dualsim","simfree","mvno"]
+      },
+      {
+        id:"dualsim", icon:"📲", title:"デュアルSIMって何？",
+        qa:[
+          { q:"デュアルSIMとは何ですか？", a:"1台のスマートフォンで2つのSIMカード（または1枚の物理SIM＋eSIM）を使える機能のことです。2つの電話番号を使い分けられます。" },
+          { q:"どんな使い方ができますか？", a:"仕事用と個人用で番号を分ける、メインのキャリアとデータ通信専用の格安SIMを組み合わせる、海外旅行時に現地SIMを入れるなど、さまざまな使い方ができます。" },
+          { q:"対応機種は？", a:"最新のiPhone・Androidの多くが対応しています。ただし物理SIM2枚が使えるかeSIM対応かは機種によって異なります。" },
+        ],
+        related:["esim","simfree","mvno"]
+      },
+      {
+        id:"5g", icon:"🚀", title:"5Gって何？",
+        qa:[
+          { q:"5Gとは何ですか？", a:"第5世代移動通信システムのことです。4Gと比べて最大100倍の通信速度、低遅延、多数同時接続が特徴です。" },
+          { q:"4Gとどう違うの？", a:"5Gは通信速度が大幅に速く、動画のストリーミングやオンラインゲームがより快適になります。ただし現時点では対応エリアがまだ限られています。" },
+          { q:"5Gを使うには何が必要？", a:"5G対応のスマートフォンと、5Gに対応したプランへの加入が必要です。また対応エリア内にいる必要があります。" },
+          { q:"今すぐ5Gにする必要はありますか？", a:"エリアが広がってきているため、5G対応機種を選んでおくと長く使えます。ただし4Gでも日常使用では十分快適です。" },
+        ],
+        related:["carrier","sub","esim"]
+      },
+      {
+        id:"support", icon:"📞", title:"各キャリアのカスタマーセンター",
+        qa:[
+          { q:"docomoのカスタマーセンターは？", a:"携帯から：151（無料）\n一般電話から：0120-800-000（無料）\n受付時間：9:00〜20:00（年中無休）" },
+          { q:"auのカスタマーセンターは？", a:"携帯から：157（無料）\n一般電話から：0077-7-111（無料）\n受付時間：9:00〜20:00（年中無休）" },
+          { q:"SoftBankのカスタマーセンターは？", a:"携帯から：157（無料）\n一般電話から：0800-919-0157（無料）\n受付時間：9:00〜20:00（年中無休）" },
+          { q:"UQ mobileのカスタマーセンターは？", a:"携帯・一般電話から：0120-001-659（無料）\n受付時間：9:00〜20:00（年中無休）" },
+          { q:"Y!mobileのカスタマーセンターは？", a:"携帯から：151（無料）\n一般電話から：0120-921-156（無料）\n受付時間：9:00〜20:00（年中無休）" },
+          { q:"楽天モバイルのカスタマーセンターは？", a:"Rakuten Linkアプリから：無料通話で問い合わせ可能\nチャットサポート：my楽天モバイルアプリから24時間対応" },
+        ],
+        related:["carrier","mnp","sub"]
       },
     ];
+
+    const scrollTo = (id) => {
+      setOpenId(id);
+      setTimeout(()=>{
+        const el = document.getElementById("qa-"+id);
+        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+      }, 50);
+    };
 
     return (
       <div style={W}>
@@ -1064,7 +1129,7 @@ function App() {
         </div>
         <div style={{padding:"12px"}}>
           {articles.map(a=>(
-            <div key={a.id} style={{marginBottom:10,borderRadius:12,overflow:"hidden",border:`1px solid ${C.border}`,background:C.card}}>
+            <div id={"qa-"+a.id} key={a.id} style={{marginBottom:10,borderRadius:12,overflow:"hidden",border:`1px solid ${C.border}`,background:C.card}}>
               <button onClick={()=>setOpenId(openId===a.id?null:a.id)} style={{
                 width:"100%",padding:"16px",background:"none",border:"none",
                 cursor:"pointer",fontFamily:"inherit",textAlign:"left",
@@ -1085,9 +1150,27 @@ function App() {
                   {a.qa.map((item,i)=>(
                     <div key={i} style={{marginBottom:14}}>
                       <div style={{fontSize:12,fontWeight:900,color:C.accent,marginBottom:4}}>Q. {item.q}</div>
-                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,paddingLeft:12,borderLeft:`2px solid ${C.border}`}}>{item.a}</div>
+                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,paddingLeft:12,borderLeft:`2px solid ${C.border}`,whiteSpace:"pre-line"}}>{item.a}</div>
                     </div>
                   ))}
+                  {a.related && (
+                    <div style={{marginTop:16,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
+                      <div style={{fontSize:11,color:C.sub,fontWeight:700,marginBottom:8}}>関連記事</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                        {a.related.map(rid=>{
+                          const rel = articles.find(x=>x.id===rid);
+                          if(!rel) return null;
+                          return (
+                            <button key={rid} onClick={()=>scrollTo(rid)} style={{
+                              fontSize:11,padding:"5px 12px",borderRadius:20,
+                              border:`1px solid ${C.accent}`,background:C.accentG,
+                              color:C.accent,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                            }}>{rel.icon} {rel.title}</button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
