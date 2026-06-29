@@ -43,10 +43,10 @@ const PLANS = [
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
   { id:"au_mini_5", carrier:"au", name:"スマホミニプラン＋（〜5GB）", cat:"mno", gb:5, price:5698, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,228円）" },
-  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜3GB", cat:"mno", gb:3, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。23歳になる月の翌月から通常料金へ変更" },
+  { id:"au_u18_s", carrier:"au", name:"U18バリュープラン 〜10GB", cat:"mno", gb:10, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","10GBに増量中","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本2,398円）。U18ギガ増量キャンペーンで通常3GB→10GBに増量中。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_u18_l", carrier:"au", name:"U18バリュープラン 〜20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["18歳以下限定","段階式料金"], note:"5〜18歳限定。auスマートバリュー550円＋家族割プラス550円＋auPAYカード割220円適用後の価格（基本4,048円）。23歳になる月の翌月から通常料金へ変更" },
   { id:"au_senior", carrier:"au", name:"シニアバリュープラン（〜5GB）", cat:"mno", gb:5, price:2728, callType:"5分かけ放題込", support:"店舗", network:"au", features:["60歳以上限定","5分かけ放題込","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋auPAYカード割220円適用後の価格（基本4,048円）。60歳以上限定プラン" },
-  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"39歳以下は1年間550円引き（3,278円）" },
+  { id:"uq_komikomi", carrier:"UQ mobile", name:"コミコミプランバリュー 35GB", cat:"sub", gb:35, price:3828, callType:"10分かけ放題", support:"店舗", network:"au", features:["Pontaパス込み","10分かけ放題","5G対応"], note:"1年間660円引きキャンペーン中（3,168円）" },
   { id:"uq_toku_s", carrier:"UQ mobile", name:"トクトクプラン2（〜5GB）", cat:"sub", gb:5, price:1628, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
   { id:"uq_toku_l", carrier:"UQ mobile", name:"トクトクプラン2（〜30GB）", cat:"sub", gb:30, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["自宅セット割対応","5G対応","親子応援割対象"], note:"自宅セット割1,100円＋auPAYカード割220円適用後の価格（基本4,048円）" },
   { id:"povo_3gb_30d",  carrier:"povo", name:"povo 3GB（30日間）",   cat:"mno", gb:3,   price:990,   callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","トッピング制","30日間"], note:"基本料0円。128kbpsの低速通信は無料で使い放題" },
@@ -60,16 +60,16 @@ const PLANS = [
   { id:"povo_180gb_180d",carrier:"povo", name:"povo 180GB（180日間）",cat:"mno", gb:180, price:14880, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","180日間"], note:"基本料0円。1日あたり約83円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_120gb_365d",carrier:"povo", name:"povo 120GB（365日間）",cat:"mno", gb:120, price:21600, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","大容量","365日間"], note:"基本料0円。1日あたり約59円。128kbpsの低速通信は無料で使い放題" },
   { id:"povo_360gb_365d",carrier:"povo", name:"povo 360GB（365日間）",cat:"mno", gb:360, price:26400, callType:"従量(22円/30秒)", support:"オンライン", network:"au", features:["基本料0円","超大容量","365日間"], note:"基本料0円。1日あたり約72円。128kbpsの低速通信は無料で使い放題" },
-  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:4928, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,425円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ予定。新規受付は2026年6月1日まで" },
-  { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,278円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
-  { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,378円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
-  { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4378, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,478円）。2026年7月1日より330円値上げ予定。新規受付は2026年6月1日まで" },
+  { id:"sb_unlimited", carrier:"SoftBank", name:"メリハリ無制限＋", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["2GB以下自動割引","5G対応","家族割対象"], note:"割引適用後の価格（基本7,975円）。新みんな家族割1,210円＋おうち割光セット1,100円＋PayPayカード割187円適用。2026年7月1日より550円値上げ" },
+  { id:"sb_mini1", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜1GB", cat:"mno", gb:1, price:2508, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金","少量利用で安い"], note:"おうち割光セット1,100円適用後の価格（基本3,608円）。2026年7月1日より330円値上げ" },
+  { id:"sb_mini2", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜2GB", cat:"mno", gb:2, price:3608, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本4,708円）。2026年7月1日より330円値上げ" },
+  { id:"sb_mini3", carrier:"SoftBank", name:"ミニフィットプラン＋ 〜3GB", cat:"mno", gb:3, price:4708, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["段階式料金"], note:"おうち割光セット1,100円適用後の価格（基本5,808円）。2026年7月1日より330円値上げ" },
   { id:"sb_debut4",  carrier:"SoftBank", name:"スマホデビュープラン＋ 4GB",  cat:"mno", gb:4,  price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","5〜18歳/ガラケー乗換対象"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間1,078円、14ヶ月目から2,266円" },
   { id:"sb_debut20", carrier:"SoftBank", name:"スマホデビュープラン＋ 20GB", cat:"mno", gb:20, price:2728, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["初スマホ向け","60歳以上もお得"], note:"新規（5〜18歳）・ガラケーからの乗換/機種変更限定。12ヶ月間2,728円、14ヶ月目から3,916円" },
   { id:"linemo3",  carrier:"SoftBank", name:"LINEMOベストプラン 3GB",   cat:"mno", gb:3,  price:990,  callType:"従量(22円/30秒)", support:"オンライン", network:"SoftBank", features:["LINEギガフリー","低価格"], note:"LINEトーク・通話使い放題。通話準定額（5分）は通常550円→7ヶ月間0円キャンペーン中。通話定額は通常1,650円→7ヶ月間1,100円キャンペーン中" },
-  { id:"ym_s", carrier:"Y!mobile", name:"シンプル3 S 5GB", cat:"sub", gb:5, price:1078, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本3,278円）" },
-  { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2178, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,378円）" },
-  { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3278, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,478円）" },
+  { id:"ym_s", carrier:"Y!mobile", name:"シンプル3 S 5GB", cat:"sub", gb:5, price:1298, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本3,498円）。2026年6月2日より220円値上げ" },
+  { id:"ym_m", carrier:"Y!mobile", name:"シンプル3 M 30GB", cat:"sub", gb:30, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"SoftBank", features:["PayPay連携","おうち割対応","家族割対象"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本4,598円）。2026年6月2日より220円値上げ" },
+  { id:"ym_l", carrier:"Y!mobile", name:"シンプル3 L 35GB", cat:"sub", gb:35, price:3498, callType:"10分かけ放題込", support:"店舗", network:"SoftBank", features:["10分かけ放題込","PayPay連携","おうち割対応"], note:"おうち割光セット1,650円＋PayPayゴールドカード割550円適用後の価格（基本5,698円）。2026年6月2日より220円値上げ" },
   { id:"rak3", carrier:"楽天モバイル", name:"最強プラン 〜3GB", cat:"sub", gb:3, price:1078, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント"], note:"通常1,078円。最強家族割で110円引き（968円）。12歳以下は最大440円引き（3GB超過後は110円引き）。22歳以下は110円引き。パートナーエリア(au回線)はデータ制限あり" },
   { id:"rak20", carrier:"楽天モバイル", name:"最強プラン 〜20GB", cat:"sub", gb:20, price:2178, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","楽天ポイント","5G"], note:"通常2,178円。最強家族割で110円引き（2,068円）。22歳以下は110円引き。3GB超から自動で2,178円" },
   { id:"rakU", carrier:"楽天モバイル", name:"最強プラン 無制限", cat:"sub", gb:9999, price:3278, callType:"Rakuten Link無料", support:"店舗", network:"楽天/au", features:["通話無料(RLink)","海外2GB無料"], note:"通常3,278円。最強家族割で110円引き（3,168円）。22歳以下は110円引き。65歳以上は最大990ポイント還元（最強シニアプログラム）。20GB超から自動で3,278円" },
@@ -206,8 +206,6 @@ function scorePlan(plan, a) {
   if (a.family==="yes") sc += ["docomo","au","SoftBank","UQ mobile","Y!mobile"].includes(plan.carrier)?15:0;
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
-  // UQ mobileは店舗サポートありで格安なため、コスパ重視層に出やすく微調整
-  if (plan.carrier==="UQ mobile") sc += 8;
   // U18・U12は18歳以下以外には表示しない
   const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
@@ -471,10 +469,10 @@ function SmartphoneCard({ phone, rank, onGoDiagnose }) {
   const m = MAKER_INFO[phone.maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
   const isTop = rank===0;
   return (
-    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1px solid #d0e4f7`,background:"#fff"}}>
-      <div style={{background:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:"#607d8b",letterSpacing:1}}>おすすめ</span>
-        <span style={{fontSize:10,color:"#607d8b"}}>{phone.os}</span>
+    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
+      <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"🏆 第1位 · 最もおすすめ":`# ${rank+1}位`}</span>
+        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -654,18 +652,18 @@ function PlanCard({ plan, rank, comment, answers }) {
 
   return (
     <div style={{
-      borderRadius:14, border:`1px solid ${C.border}`,
-      background:C.card,
+      borderRadius:14, border:`1.5px solid ${isTop?cs.color:C.border}`,
+      background: isTop ? `linear-gradient(135deg,${C.card} 0%,${cs.bg} 100%)` : C.card,
       overflow:"hidden", marginBottom:10,
     }}>
       <div style={{
-        background:C.card2, padding:"6px 14px",
+        background: isTop?cs.color:C.card2, padding:"6px 14px",
         display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
-        <span style={{fontSize:11,fontWeight:900,color:C.sub,letterSpacing:1}}>
-          おすすめ
+        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
+          {isTop?"🏆 第1位 · 最もおすすめ":`# ${rank}位`}
         </span>
-        <span style={{fontSize:10,color:C.sub}}>{CAT[plan.cat]||plan.cat}</span>
+        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -679,7 +677,7 @@ function PlanCard({ plan, rank, comment, answers }) {
             <div style={{fontSize:11,color:C.sub,marginTop:2}}>{plan.name}</div>
           </div>
           <div style={{textAlign:"right",flexShrink:0}}>
-            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:C.accent}}>
+            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:isTop?cs.color:C.accent}}>
               {plan.price.toLocaleString()}
             </div>
             <div style={{fontSize:10,color:C.sub}}>円/月（税込）</div>
@@ -743,14 +741,12 @@ function PlanCard({ plan, rank, comment, answers }) {
         )}
         {affUrl&&(
           <a href={affUrl} target="_blank" rel="noopener noreferrer" style={{
-            display:"block", margin:"14px", padding:"16px",
-            background:"#fff",
-            border:`2.5px solid ${cs.color}`,
-            borderRadius:12, textAlign:"center", textDecoration:"none",
-            color:cs.color, fontSize:15, fontWeight:900, letterSpacing:0.5,
-            boxShadow:`0 2px 8px ${cs.color}33`,
+            display:"block", marginTop:14, padding:"12px",
+            background:`linear-gradient(135deg, ${cs.color}, ${cs.color}bb)`,
+            borderRadius:10, textAlign:"center", textDecoration:"none",
+            color:"#fff", fontSize:13, fontWeight:900, letterSpacing:0.5,
           }}>
-            🔗 {plan.carrier} 公式サイトで申し込む →
+            {plan.carrier} 公式サイトで申し込む →
           </a>
         )}
       </div>
@@ -767,7 +763,6 @@ function App() {
   const [tab, setTab] = useState("diagnose");
   const [filterCat, setFilterCat] = useState("all");
   const [showPrivacy, setShowPrivacy] = useState(false);
-  const [openId, setOpenId] = useState(null);
   const [phoneScreen, setPhoneScreen] = useState("top");
   const [phoneStep, setPhoneStep]     = useState(0);
   const [phoneAnswers, setPhoneAnswers] = useState({});
@@ -808,7 +803,7 @@ function App() {
       justifyContent:"center",
     }}>
       <div style={{display:"flex", width:"100%", maxWidth: isMobile ? 480 : 900}}>
-      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"],["guide","📖","Q&A"]].map(([key,icon,label])=>(
+      {[["diagnose","🔍","AI診断"],["list","📋","プラン一覧"],["data","📡","データSIM"]].map(([key,icon,label])=>(
         <button key={key} onClick={()=>{ setTab(key); if(key==="diagnose") setScreen("top"); }} style={{
           flex:1, padding:"12px 0", border:"none", background:"none",
           color: tab===key ? C.accent : C.sub,
@@ -842,7 +837,7 @@ function App() {
 
     const PhoneTabBar = () => (
       <div style={{position:"fixed",bottom:0,left:0,right:0,background:C.card2,borderTop:`1px solid ${C.border}`,display:"flex",zIndex:100,justifyContent:"center"}}>
-        <div style={{display:"flex",width:"100%",maxWidth:isMobile?480:900}}>
+        <div style={{display:"flex",width:"100%",maxWidth:480}}>
           {[["diagnose","🔍","スマホ診断"],["list","📱","スマホ一覧"],["category","📂","カテゴリー"]].map(([key,icon,label])=>(
             <button key={key} onClick={()=>{ setPhoneSubTab(key); if(key==="diagnose") setPhoneScreen("top"); }} style={{
               flex:1,padding:"12px 0",border:"none",background:"none",
@@ -867,7 +862,7 @@ function App() {
           {PHONE_CATEGORIES.map(cat=>(<CategorySection key={cat.id} cat={cat} onGoDiagnose={()=>{ setPhoneSubTab("diagnose"); setPhoneScreen("top"); }}/>))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.8}}>
-          ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+          ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
         </div>
         <PhoneTabBar/>
       </div>
@@ -901,7 +896,7 @@ function App() {
             })}
           </div>
           <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.7}}>
-            ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
           </div>
           <PhoneTabBar/>
         </div>
@@ -928,14 +923,11 @@ function App() {
             <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>🔍 プランをAI診断する →</button>
           </div>
           <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-            ※この情報は2026年6月時点のものです。価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。
+            ※価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
           </div>
           <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>📩 お問い合わせ</a>
             <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>🔒 プライバシーポリシー</button>
-          </div>
-          <div style={{fontSize:10,color:C.sub,textAlign:"center",marginTop:8}}>
-            ※本サイトはアフィリエイト広告を利用しています
           </div>
         </div>
         <PhoneTabBar/>
@@ -986,7 +978,7 @@ function App() {
       <div style={W}>
         <div style={{padding:"20px 16px 16px",background:`linear-gradient(180deg,${C.accentG} 0%,transparent 100%)`,borderBottom:`1px solid ${C.border}`,marginBottom:8}}>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:6}}>診断結果</div>
-          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめスマホ</div>
+          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {phoneResults.length}</div>
         </div>
         <div style={{padding:"0 12px"}}>
           {phoneResults.length===0
@@ -998,7 +990,7 @@ function App() {
           <button onClick={phoneRestart} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.border}`,background:C.card,color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:10}}>もう一度診断する</button>
           <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,fontFamily:"inherit",cursor:"pointer",marginBottom:14}}>🔍 プランもAI診断する →</button>
           <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:80}}>
-            ※この情報は2026年6月時点のものです。価格帯は目安です。最新情報は各社公式サイトでご確認ください。
+            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
           </div>
         </div>
         <PhoneTabBar/>
@@ -1007,183 +999,7 @@ function App() {
   }
   // ===== スマホ診断タブ ここまで =====
 
-  // 解説記事
-  if (tab==="guide") {
-    const articles = [
-      {
-        id:"carrier", icon:"📶", title:"キャリアって何？",
-        qa:[
-          { q:"キャリアとは何ですか？", a:"携帯電話サービスを提供する通信事業者のことです。日本ではdocomo・au・SoftBankの3社が大手キャリアと呼ばれています。" },
-          { q:"キャリアと格安SIMの違いは？", a:"大手キャリアは自社で通信インフラ（基地局）を持っています。格安SIM（MVNO）はその回線を借りてサービスを提供するため、料金が安い反面、速度が遅くなる場合があります。" },
-          { q:"どのキャリアを選べばいい？", a:"家族でまとめたい・最新機種が欲しい方は大手キャリア、料金を抑えたい方はサブブランドや格安SIMがおすすめです。" },
-        ],
-        related:["sub","online","mvno"]
-      },
-      {
-        id:"sub", icon:"📱", title:"サブブランドって何？（Y!mobile・UQ mobile）",
-        qa:[
-          { q:"サブブランドって何ですか？", a:"大手キャリア（docomo・au・SoftBank）が提供する、別ブランド名の廉価プランのことです。同じ回線を使いながら、料金を抑えられるのが特徴です。" },
-          { q:"代表的なサブブランドは？", a:"Y!mobile（SoftBank系）とUQ mobile（au系）の2つが代表的です。大手キャリアの回線をそのまま使うため、通信品質は大手とほぼ同等です。" },
-          { q:"大手キャリアとの違いは？", a:"料金が安い反面、家族割や光セット割などの割引が少ないこと、最新機種の取り扱いが限られることがあります。" },
-          { q:"どんな人におすすめ？", a:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
-        ],
-        related:["carrier","mvno","online"]
-      },
-      {
-        id:"online", icon:"💻", title:"オンライン専用プランって何が違うの？",
-        qa:[
-          { q:"オンライン専用プランとは何ですか？", a:"店舗での契約・サポートを省くことで料金を大幅に下げたプランです。ahamo・povo・LINEMOなどが代表例です。" },
-          { q:"どんなメリットがありますか？", a:"料金が安い点が最大のメリットです。ahamoは30GBで2,970円と大容量ながらコスパ抜群。手続きはすべてスマホやPCから完結できます。" },
-          { q:"デメリットはありますか？", a:"困ったときに店舗に行けない点がデメリットです。チャットや電話サポートは用意されていますが、対面でのサポートを求める方には不向きです。" },
-          { q:"どんな人におすすめ？", a:"スマホ操作に慣れていて、自分で設定や手続きができる方向けです。サポートより料金の安さを優先したい方に最適です。" },
-        ],
-        related:["mnp","simfree","mvno"]
-      },
-      {
-        id:"mvno", icon:"💰", title:"格安SIM（MVNO）って何？",
-        qa:[
-          { q:"格安SIMとは何ですか？", a:"大手キャリアの回線を借りて、独自のサービスを提供する事業者のことをMVNO（仮想移動体通信事業者）といいます。IIJmio・mineo・NUROモバイルなどが代表例です。" },
-          { q:"どんなメリットがありますか？", a:"とにかく安い点が最大のメリットです。月額1,000円以下のプランも多く、維持費を最小限に抑えられます。3社の回線から選べるMVNOも多いです。" },
-          { q:"デメリットはありますか？", a:"昼休みや夕方など混雑する時間帯は速度が遅くなることがあります。店舗サポートがないことが多く、基本的にオンラインで手続きが必要です。" },
-          { q:"どんな人におすすめ？", a:"とにかく安さ優先の方、データ通信をあまり使わない方、サブ回線として使いたい方におすすめです。" },
-        ],
-        related:["simfree","esim","carrier"]
-      },
-      {
-        id:"mnp", icon:"🔄", title:"MNPって何？",
-        qa:[
-          { q:"MNPとは何ですか？", a:"MNP（番号ポータビリティ）とは、今使っている電話番号をそのままに、別のキャリアへ乗り換えられる制度のことです。" },
-          { q:"MNPの手順を教えてください", a:"①今のキャリアでMNP予約番号を取得（オンラインや店舗で可能）→②乗り換え先のキャリアで新規契約時にMNP予約番号を提示→③開通手続き完了、という流れです。" },
-          { q:"MNP予約番号の有効期限は？", a:"MNP予約番号の有効期限は15日間です。乗り換え先キャリアへの申し込みは有効期限内に行う必要があります。" },
-          { q:"乗り換えで電話番号は変わりますか？", a:"MNPを利用すれば電話番号はそのまま引き継げます。ただしMNPを使わずに新規契約した場合は新しい番号になります。" },
-        ],
-        related:["simfree","carrier","sub"]
-      },
-      {
-        id:"simfree", icon:"📵", title:"SIMフリーって何？",
-        qa:[
-          { q:"SIMフリーとは何ですか？", a:"特定のキャリアに縛られず、どのSIMカードでも使えるスマートフォンのことです。キャリアのSIMロックがかかっていない状態を指します。" },
-          { q:"SIMロックとの違いは？", a:"SIMロックとは、特定のキャリアのSIMカードしか使えないように制限がかかった状態のことです。2021年以降に販売されたスマートフォンはSIMロックなしが義務化されています。" },
-          { q:"SIMフリースマホのメリットは？", a:"どのキャリアのSIMカードでも使えるため、乗り換えが自由にできます。格安SIMと組み合わせることで維持費を大幅に抑えられます。" },
-          { q:"購入時の注意点はありますか？", a:"キャリアで購入した端末は対応バンド（周波数帯）が限られている場合があります。格安SIMで使う場合は、対応バンドの確認が必要です。" },
-        ],
-        related:["esim","dualsim","mnp"]
-      },
-      {
-        id:"esim", icon:"💳", title:"eSIMって何？",
-        qa:[
-          { q:"eSIMとは何ですか？", a:"スマートフォンに内蔵された電子SIMのことです。物理的なSIMカードを差し込まなくても、オンラインで通信サービスを開通できます。" },
-          { q:"物理SIMとの違いは？", a:"物理SIMはカードを端末に挿入する従来の方式です。eSIMはカード不要でオンラインだけで開通できるため、即日利用が可能です。" },
-          { q:"eSIMのメリットは？", a:"契約してすぐ使えること、カードの紛失や破損がないこと、デュアルSIM（2つの番号を1台で使う）が簡単にできることが主なメリットです。" },
-          { q:"対応していない機種はありますか？", a:"古い機種はeSIM非対応のものもあります。最新のiPhoneやAndroid上位機種はほぼ対応していますが、購入前に確認することをおすすめします。" },
-        ],
-        related:["dualsim","simfree","mvno"]
-      },
-      {
-        id:"dualsim", icon:"📲", title:"デュアルSIMって何？",
-        qa:[
-          { q:"デュアルSIMとは何ですか？", a:"1台のスマートフォンで2つのSIMカード（または1枚の物理SIM＋eSIM）を使える機能のことです。2つの電話番号を使い分けられます。" },
-          { q:"どんな使い方ができますか？", a:"仕事用と個人用で番号を分ける、メインのキャリアとデータ通信専用の格安SIMを組み合わせる、海外旅行時に現地SIMを入れるなど、さまざまな使い方ができます。" },
-          { q:"対応機種は？", a:"最新のiPhone・Androidの多くが対応しています。ただし物理SIM2枚が使えるかeSIM対応かは機種によって異なります。" },
-        ],
-        related:["esim","simfree","mvno"]
-      },
-      {
-        id:"5g", icon:"🚀", title:"5Gって何？",
-        qa:[
-          { q:"5Gとは何ですか？", a:"第5世代移動通信システムのことです。4Gと比べて最大100倍の通信速度、低遅延、多数同時接続が特徴です。" },
-          { q:"4Gとどう違うの？", a:"5Gは通信速度が大幅に速く、動画のストリーミングやオンラインゲームがより快適になります。ただし現時点では対応エリアがまだ限られています。" },
-          { q:"5Gを使うには何が必要？", a:"5G対応のスマートフォンと、5Gに対応したプランへの加入が必要です。また対応エリア内にいる必要があります。" },
-          { q:"今すぐ5Gにする必要はありますか？", a:"エリアが広がってきているため、5G対応機種を選んでおくと長く使えます。ただし4Gでも日常使用では十分快適です。" },
-        ],
-        related:["carrier","sub","esim"]
-      },
-      {
-        id:"support", icon:"📞", title:"各キャリアのカスタマーセンター",
-        qa:[
-          { q:"docomoのカスタマーセンターは？", a:"携帯から：151（無料）\n一般電話から：0120-800-000（無料）\n受付時間：9:00〜20:00（年中無休）" },
-          { q:"auのカスタマーセンターは？", a:"携帯から：157（無料）\n一般電話から：0077-7-111（無料）\n受付時間：9:00〜20:00（年中無休）" },
-          { q:"SoftBankのカスタマーセンターは？", a:"携帯から：157（無料）\n一般電話から：0800-919-0157（無料）\n受付時間：9:00〜20:00（年中無休）" },
-          { q:"UQ mobileのカスタマーセンターは？", a:"携帯・一般電話から：0120-001-659（無料）\n受付時間：9:00〜20:00（年中無休）" },
-          { q:"Y!mobileのカスタマーセンターは？", a:"携帯から：151（無料）\n一般電話から：0120-921-156（無料）\n受付時間：9:00〜20:00（年中無休）" },
-          { q:"楽天モバイルのカスタマーセンターは？", a:"Rakuten Linkアプリから：無料通話で問い合わせ可能\nチャットサポート：my楽天モバイルアプリから24時間対応" },
-        ],
-        related:["carrier","mnp","sub"]
-      },
-    ];
-
-    const scrollTo = (id) => {
-      setOpenId(id);
-      setTimeout(()=>{
-        const el = document.getElementById("qa-"+id);
-        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
-      }, 50);
-    };
-
-    return (
-      <div style={W}>
-        <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
-          <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>Q&A</div>
-          <div style={{fontSize:22,fontWeight:900}}>よくある質問・Q&A</div>
-          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>現役ケータイショップ店員が解説します。</div>
-        </div>
-        <div style={{padding:"12px"}}>
-          {articles.map(a=>(
-            <div id={"qa-"+a.id} key={a.id} style={{marginBottom:10,borderRadius:12,overflow:"hidden",border:`1px solid ${C.border}`,background:C.card}}>
-              <button onClick={()=>setOpenId(openId===a.id?null:a.id)} style={{
-                width:"100%",padding:"16px",background:"none",border:"none",
-                cursor:"pointer",fontFamily:"inherit",textAlign:"left",
-                display:"flex",alignItems:"center",gap:12,
-              }}>
-                <span style={{fontSize:24}}>{a.icon}</span>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:14,fontWeight:900,color:C.text,lineHeight:1.4}}>{a.title}</div>
-                </div>
-                <span style={{fontSize:12,color:C.sub,fontWeight:700}}>{openId===a.id?"▲":"▼"}</span>
-              </button>
-              {openId===a.id && (
-                <div style={{padding:"0 16px 16px"}}>
-                  <div style={{height:1,background:C.border,marginBottom:16}}/>
-                  <div style={{display:"inline-block",fontSize:10,color:C.accent,fontWeight:700,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"3px 10px",borderRadius:20,marginBottom:12}}>
-                    👨‍💼 現役店員が解説
-                  </div>
-                  {a.qa.map((item,i)=>(
-                    <div key={i} style={{marginBottom:14}}>
-                      <div style={{fontSize:12,fontWeight:900,color:C.accent,marginBottom:4}}>Q. {item.q}</div>
-                      <div style={{fontSize:12,color:C.sub,lineHeight:1.8,paddingLeft:12,borderLeft:`2px solid ${C.border}`,whiteSpace:"pre-line"}}>{item.a}</div>
-                    </div>
-                  ))}
-                  {a.related && (
-                    <div style={{marginTop:16,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
-                      <div style={{fontSize:11,color:C.sub,fontWeight:700,marginBottom:8}}>関連記事</div>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                        {a.related.map(rid=>{
-                          const rel = articles.find(x=>x.id===rid);
-                          if(!rel) return null;
-                          return (
-                            <button key={rid} onClick={()=>scrollTo(rid)} style={{
-                              fontSize:11,padding:"5px 12px",borderRadius:20,
-                              border:`1px solid ${C.accent}`,background:C.accentG,
-                              color:C.accent,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
-                            }}>{rel.icon} {rel.title}</button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.8}}>
-          ※この情報は2026年6月時点のものです。最新情報は各社公式サイトでご確認ください。<br/>
-          ※本サイトはアフィリエイト広告を利用しています
-        </div>
-        <TabBar/>
-      </div>
-    );
-  }
+  // データSIM一覧
   if (tab==="data") {
     const carriers = [...new Set(DATA_PLANS.map(p=>p.carrier))];
     return (
@@ -1200,7 +1016,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※この情報は2026年6月時点のものです。料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
         </div>
         <TabBar/>
       </div>
@@ -1239,7 +1055,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※この情報は2026年6月時点のものです。料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
         </div>
         <TabBar/>
       </div>
@@ -1288,7 +1104,7 @@ function App() {
           }}>📱 おすすめスマホを診断する →</button>
         </div>
         <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-          ※この情報は2026年6月時点のものです。料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。
+          ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年6月29日時点のものです）
         </div>
         <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSe89nBA8-l6rjiusEgNpRuYgNMLku5Fn_OovoMK4pmJSub6eQ/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:C.sub,textDecoration:"none"}}>
@@ -1297,9 +1113,6 @@ function App() {
           <button onClick={()=>setShowPrivacy(true)} style={{fontSize:11,color:C.sub,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0}}>
             🔒 プライバシーポリシー
           </button>
-        </div>
-        <div style={{fontSize:10,color:C.sub,textAlign:"center",marginTop:8}}>
-          ※本サイトはアフィリエイト広告を利用しています
         </div>
       </div>
       <TabBar/>
@@ -1378,7 +1191,7 @@ function App() {
             <div style={{fontSize:12,color:C.sub,lineHeight:1.7}}>{aiData.summary}</div>
           </>
         ):(
-          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめプラン</div>
+          <div style={{fontSize:20,fontWeight:900}}>あなたへのおすすめ Top {results.length}</div>
         )}
       </div>
       <AdBanner slotKey="result"/>
@@ -1399,7 +1212,7 @@ function App() {
           fontFamily:"inherit",cursor:"pointer",marginBottom:14,
         }}>📱 スマホも診断する →</button>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:20}}>
-          ※この情報は2026年6月時点のものです。料金は税込・割引適用後の参考価格です。<br/>
+          ※料金は税込・割引適用後の参考価格です。<br/>
           ※最新・正確な情報は各社公式サイトでご確認ください。
         </div>
       </div>
