@@ -469,10 +469,10 @@ function SmartphoneCard({ phone, rank, onGoDiagnose }) {
   const m = MAKER_INFO[phone.maker] || { color:"#888", bg:"rgba(136,136,136,0.08)", icon:"?" };
   const isTop = rank===0;
   return (
-    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1.5px solid ${isTop?m.color:"#d0e4f7"}`,background:isTop?`linear-gradient(135deg,#fff 0%,${m.bg} 100%)`:"#fff"}}>
-      <div style={{background:isTop?m.color:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":"#607d8b",letterSpacing:1}}>{isTop?"🏆 第1位 · 最もおすすめ":`# ${rank+1}位`}</span>
-        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":"#607d8b"}}>{phone.os}</span>
+    <div style={{borderRadius:14,marginBottom:10,overflow:"hidden",border:`1px solid #d0e4f7`,background:"#fff"}}>
+      <div style={{background:"#f0f7ff",padding:"6px 14px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontSize:11,fontWeight:900,color:"#607d8b",letterSpacing:1}}>おすすめ</span>
+        <span style={{fontSize:10,color:"#607d8b"}}>{phone.os}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -570,13 +570,13 @@ async function fetchAIResult(answers, topPlans) {
     return `・${q.q} → ${c?.label||"未回答"}`;
   }).join("\n");
   const planList = topPlans.slice(0,3).map((p,i)=>
-    `${i+1}位: ${p.carrier}「${p.name}」月${p.price.toLocaleString()}円 (${p.gb>=9999?"無制限":p.gb+"GB"}, ${p.callType})`
+    `プラン${["A","B","C"][i]}: ${p.carrier}「${p.name}」月${p.price.toLocaleString()}円 (${p.gb>=9999?"無制限":p.gb+"GB"}, ${p.callType})`
   ).join("\n");
   const res = await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST", headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:600,
       messages:[{ role:"user", content:
-        `あなたは携帯ショップのAIアシスタントです。お客様の回答をもとに提案文を書いてください。\n\n【お客様の回答】\n${qa}\n\n【上位プラン】\n${planList}\n\nJSONのみ返してください:\n{"headline":"一言キャッチ(20文字以内)","summary":"選定理由(60-80文字・です・ます調)","comments":["1位ひとこと(40文字以内)","2位ひとこと(40文字以内)","3位ひとこと(40文字以内)"]}`
+        `あなたは携帯ショップのAIアシスタントです。お客様の回答をもとに提案文を書いてください。\n\n【お客様の回答】\n${qa}\n\n【おすすめプラン】\n${planList}\n\nJSONのみ返してください:\n{"headline":"一言キャッチ(20文字以内)","summary":"選定理由(60-80文字・です・ます調)","comments":["プランAひとこと(40文字以内)","プランBひとこと(40文字以内)","プランCひとこと(40文字以内)"]}`
       }]
     })
   });
@@ -652,18 +652,18 @@ function PlanCard({ plan, rank, comment, answers }) {
 
   return (
     <div style={{
-      borderRadius:14, border:`1.5px solid ${isTop?cs.color:C.border}`,
-      background: isTop ? `linear-gradient(135deg,${C.card} 0%,${cs.bg} 100%)` : C.card,
+      borderRadius:14, border:`1px solid ${C.border}`,
+      background: C.card,
       overflow:"hidden", marginBottom:10,
     }}>
       <div style={{
-        background: isTop?cs.color:C.card2, padding:"6px 14px",
+        background: C.card2, padding:"6px 14px",
         display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
-        <span style={{fontSize:11,fontWeight:900,color:isTop?"#fff":C.sub,letterSpacing:1}}>
-          {isTop?"🏆 第1位 · 最もおすすめ":`# ${rank}位`}
+        <span style={{fontSize:11,fontWeight:900,color:C.sub,letterSpacing:1}}>
+          おすすめ
         </span>
-        <span style={{fontSize:10,color:isTop?"rgba(255,255,255,0.65)":C.sub}}>{CAT[plan.cat]||plan.cat}</span>
+        <span style={{fontSize:10,color:C.sub}}>{CAT[plan.cat]||plan.cat}</span>
       </div>
       <div style={{padding:"14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
@@ -677,7 +677,7 @@ function PlanCard({ plan, rank, comment, answers }) {
             <div style={{fontSize:11,color:C.sub,marginTop:2}}>{plan.name}</div>
           </div>
           <div style={{textAlign:"right",flexShrink:0}}>
-            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:isTop?cs.color:C.accent}}>
+            <div style={{fontSize:30,fontWeight:900,lineHeight:1,color:C.accent}}>
               {plan.price.toLocaleString()}
             </div>
             <div style={{fontSize:10,color:C.sub}}>円/月（税込）</div>
