@@ -14,6 +14,8 @@
   <script type="text/babel">
 const { useState } = React;
 
+const LAST_UPDATED = "2026年7月21日";
+
 const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXXX";
 const AD_SLOTS = { top: "1111111111", mid: "2222222222", result: "3333333333" };
 
@@ -796,6 +798,12 @@ function App() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const W = {minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Hiragino Sans','Noto Sans JP',sans-serif",maxWidth: isMobile ? 480 : "100%",margin:"0 auto",paddingBottom:80};
 
+  const UpdatedBadge = () => (
+    <div style={{display:"inline-flex",alignItems:"center",gap:5,fontSize:10,fontWeight:700,color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"4px 10px",borderRadius:20}}>
+      🕓 最終更新日：{LAST_UPDATED}
+    </div>
+  );
+
   const TabBar = () => (
     <div style={{
       position:"fixed", bottom:0, left:0, right:0,
@@ -863,7 +871,7 @@ function App() {
           {PHONE_CATEGORIES.map(cat=>(<CategorySection key={cat.id} cat={cat} onGoDiagnose={()=>{ setPhoneSubTab("diagnose"); setPhoneScreen("top"); }}/>))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.8}}>
-          ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+          ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
         </div>
         <PhoneTabBar/>
@@ -898,7 +906,7 @@ function App() {
             })}
           </div>
           <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 80px",lineHeight:1.7}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
           </div>
           <PhoneTabBar/>
@@ -909,6 +917,7 @@ function App() {
     if (phoneScreen==="top") return (
       <div style={W}>
         <div style={{padding:"36px 20px 28px",textAlign:"center"}}>
+          <div style={{marginBottom:14}}><UpdatedBadge/></div>
           <div style={{display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"5px 14px",borderRadius:20,marginBottom:18}}>ケータイショップ店員おすすめ</div>
           <div style={{fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>おすすめスマホ<br/>かんたん診断</div>
           <div style={{fontSize:13,color:C.sub,lineHeight:1.8,marginBottom:24}}>AIがあなたにぴったりの1台を提案します</div>
@@ -926,7 +935,7 @@ function App() {
             <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,cursor:"pointer",fontFamily:"inherit"}}>🔍 プランをAI診断する →</button>
           </div>
           <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-            ※価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+            ※価格帯は目安です。キャリアや購入方法によって異なります。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
           </div>
           <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
@@ -994,7 +1003,7 @@ function App() {
           <button onClick={phoneRestart} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.border}`,background:C.card,color:C.sub,fontSize:13,fontFamily:"inherit",cursor:"pointer",marginBottom:10}}>もう一度診断する</button>
           <button onClick={()=>{ setTab("diagnose"); setScreen("top"); }} style={{width:"100%",padding:"14px",borderRadius:10,border:`1px solid ${C.accent}`,background:C.accentG,color:C.accent,fontSize:13,fontWeight:900,fontFamily:"inherit",cursor:"pointer",marginBottom:14}}>🔍 プランもAI診断する →</button>
           <div style={{fontSize:10,color:C.sub,lineHeight:1.8,textAlign:"center",paddingBottom:80}}>
-            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+            ※価格帯は目安です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
           </div>
         </div>
@@ -1025,7 +1034,7 @@ function App() {
           { q:"どんな人におすすめ？", a:"月々の料金を抑えたいけど、店舗サポートも使いたい方に最適です。格安SIM（MVNO）より安定した通信速度を求める方にも向いています。" },
           { q:"サブブランドは「格安SIM」なの？", a:"厳密には違います。UQ mobileやY!mobileは大手キャリア（KDDI・SoftBank）が自社で運営する「サブブランド」で、大手から回線を借りて運営するMVNO（IIJmioやmineoなど）とは区別されます。ただし世間一般では料金が安いという意味で、サブブランドも含めてざっくり「格安SIM」と呼ばれることも多いです。" },
         ],
-        related:["uq","ymobile","mvno"]
+        related:["uq","ymobile","mvno","family-hikari"]
       },
       {
         id:"uq", icon:"🟠", title:"UQ mobileのメリットを教えて！",
@@ -1105,7 +1114,37 @@ function App() {
           { q:"MNP予約番号の有効期限は？", a:"MNP予約番号の有効期限は15日間です。乗り換え先キャリアへの申し込みは有効期限内に行う必要があります。オンライン申し込みの場合、有効期限が10日以上残っている必要がある場合が多いです。" },
           { q:"乗り換えで電話番号は変わりますか？", a:"MNPを利用すれば電話番号はそのまま引き継げます。ただしMNPを使わずに新規契約した場合は新しい番号になります。" },
         ],
-        related:["simfree","carrier","sub"]
+        related:["simfree","carrier","sub","switch-steps","cancel-fee"]
+      },
+      {
+        id:"switch-steps", icon:"🚚", title:"乗り換えの具体的な流れを教えて！",
+        qa:[
+          { q:"乗り換えの基本的な流れは？", a:"①新しいキャリアを決める→②MNP予約番号を取得する→③新キャリアで申し込む→④SIM／eSIMが届いたら開通手続きをする→⑤動作確認をする、という5ステップが基本です。" },
+          { q:"乗り換え作業にかかる時間は？", a:"オンライン契約の場合、申し込みから開通まで即日〜数日程度です。店舗契約ならその場で完了することも多く、急いでいる方は店舗の方が早い場合があります。" },
+          { q:"乗り換え前に準備しておくことは？", a:"本人確認書類、支払い用のクレジットカードまたは口座情報、利用中のキャリアの契約状況（端末代金の残債の有無など）を確認しておくとスムーズです。" },
+          { q:"乗り換え時に電話番号は引き継げますか？", a:"MNP予約番号を利用すれば、今使っている電話番号をそのまま新しいキャリアで使えます。番号を変えたくない方は必ずMNPの手続きを行いましょう。" },
+        ],
+        related:["mnp","simfree","esim"]
+      },
+      {
+        id:"cancel-fee", icon:"💸", title:"契約解除料・違約金について教えて！",
+        qa:[
+          { q:"今も契約解除料はかかりますか？", a:"2019年の法改正以降、多くのプランで契約解除料は撤廃されましたが、一部のキャリアや新規契約から一定期間内の解約には解除料が発生する場合があります。" },
+          { q:"どんな時に解除料がかかりますか？", a:"例えば新規契約から一定期間（1年など）以内に解約すると、プランに応じて数百円〜1,000円程度の解除料が発生するケースがあります。契約時に条件を確認しておきましょう。" },
+          { q:"端末の分割払いが残っている場合は？", a:"通信契約とは別に、端末代金の分割払い残債はキャリアを乗り換えても支払い義務が残ります。完済してから乗り換えるか、残債を一括精算する必要があります。" },
+          { q:"解除料を避ける方法はありますか？", a:"各社が定める最低利用期間を超えてから解約する、またはキャンペーンで解除料無料の乗り換え先を選ぶといった方法があります。契約前に解除料の条件を確認しておくと安心です。" },
+        ],
+        related:["mnp","carrier","sub"]
+      },
+      {
+        id:"family-hikari", icon:"🏠", title:"家族割・光回線セット割の選び方",
+        qa:[
+          { q:"家族割と光セット割、どっちがお得？", a:"家族で複数回線を同じキャリアにまとめるなら家族割、自宅の固定回線（光回線・ホームルーター）と同じキャリアで契約するなら光セット割が有利です。多くの場合どちらか一方しか併用できません。" },
+          { q:"一人暮らしでも割引は使えますか？", a:"家族割は同一名義・家族間契約が条件のため一人暮らしでは使いにくいですが、光セット割は自分名義の光回線があれば単身でも適用可能です。" },
+          { q:"割引額はどのくらい違いますか？", a:"キャリアやプランによりますが、月額500円〜1,650円程度の幅があります。契約前に各社の公式サイトで最新の割引額を確認するのがおすすめです。" },
+          { q:"光回線を持っていない場合はどうすれば？", a:"家族割を優先するか、ホームルーター（例：SoftBank Airなど）とのセットでも光セット割と同等の割引が受けられる場合があります。" },
+        ],
+        related:["carrier","sub","support"]
       },
       {
         id:"simfree", icon:"📵", title:"SIMフリーって何？",
@@ -1115,7 +1154,7 @@ function App() {
           { q:"SIMフリースマホのメリットは？", a:"どのキャリアのSIMカードでも使えるため、乗り換えが自由にできます。格安SIMと組み合わせることで維持費を大幅に抑えられます。" },
           { q:"購入時の注意点はありますか？", a:"キャリアで購入した端末は対応バンド（周波数帯）が限られている場合があります。格安SIMで使う場合は、対応バンドの確認が必要です。" },
         ],
-        related:["esim","dualsim","mnp"]
+        related:["esim","dualsim","mnp","tradein"]
       },
       {
         id:"esim", icon:"💳", title:"eSIMって何？",
@@ -1147,6 +1186,16 @@ function App() {
         related:["carrier","sub","esim"]
       },
       {
+        id:"tradein", icon:"♻️", title:"スマホの下取り・買取について教えて！",
+        qa:[
+          { q:"使わなくなったスマホはどうすればいい？", a:"各キャリアの下取りプログラムに出す、買取専門店に売る、フリマアプリで売るなどの方法があります。それぞれメリット・デメリットがあるので比較して選びましょう。" },
+          { q:"キャリア下取りのメリットは？", a:"新機種購入時にその場で割引やポイント還元が受けられる手軽さが魅力です。ただし買取専門店より査定額が低めになる場合があります。" },
+          { q:"下取りに出す前にやることは？", a:"データのバックアップ、初期化（工場出荷状態に戻す）、SIMカードの取り外し、各種アカウントからのログアウトが必須です。忘れると個人情報漏洩のリスクがあります。" },
+          { q:"画面割れなど故障している端末でも売れますか？", a:"状態によりますが、多くの買取店・下取りプログラムでは故障品でも査定対象になります。査定額は下がりますが、処分するよりは価値があります。" },
+        ],
+        related:["simfree","carrier"]
+      },
+      {
         id:"support", icon:"📞", title:"各キャリアのカスタマーセンター",
         qa:[
           { q:"docomoのカスタマーセンターは？", a:"携帯から：151（無料）\n一般電話から：0120-800-000（無料）\n受付時間：9:00〜20:00（年中無休）" },
@@ -1171,6 +1220,7 @@ function App() {
     return (
       <div style={W}>
         <div style={{padding:"20px 16px 12px",borderBottom:`1px solid ${C.border}`}}>
+          <div style={{marginBottom:10}}><UpdatedBadge/></div>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>Q&A</div>
           <div style={{fontSize:22,fontWeight:900}}>よくある質問・Q&A</div>
           <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>現役ケータイショップ店員が解説します。</div>
@@ -1225,7 +1275,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.8}}>
-          ※この情報は2026年7月7日時点のものです。最新情報は各社公式サイトでご確認ください。<br/>
+          ※この情報は{LAST_UPDATED}時点のものです。最新情報は各社公式サイトでご確認ください。<br/>
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
         </div>
         <TabBar/>
@@ -1239,6 +1289,7 @@ function App() {
     return (
       <div style={W}>
         <div style={{padding:"20px 16px 12px", borderBottom:`1px solid ${C.border}`}}>
+          <div style={{marginBottom:10}}><UpdatedBadge/></div>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>DATA SIM</div>
           <div style={{fontSize:22,fontWeight:900}}>データ専用SIM一覧</div>
           <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>「通話は不要、データだけ使えればOK」という方向け。タブレットやサブ端末にもおすすめです。</div>
@@ -1250,7 +1301,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
         </div>
         <TabBar/>
@@ -1269,6 +1320,7 @@ function App() {
     return (
       <div style={W}>
         <div style={{padding:"20px 16px 12px", borderBottom:`1px solid ${C.border}`}}>
+          <div style={{marginBottom:10}}><UpdatedBadge/></div>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>PLAN LIST</div>
           <div style={{fontSize:22,fontWeight:900}}>おすすめプラン一覧</div>
           <div style={{fontSize:11,color:C.sub,marginTop:4}}>現役店員監修・最新プラン情報</div>
@@ -1290,7 +1342,7 @@ function App() {
           ))}
         </div>
         <div style={{fontSize:10,color:C.sub,textAlign:"center",padding:"8px 16px 32px",lineHeight:1.7}}>
-          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+          ※料金は税込・参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
         </div>
         <TabBar/>
@@ -1303,6 +1355,7 @@ function App() {
     <div style={W}>
       <AdBanner slotKey="top"/>
       <div style={{padding:"36px 20px 28px",textAlign:"center"}}>
+        <div style={{marginBottom:14}}><UpdatedBadge/></div>
         <div style={{
           display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,
           color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,
@@ -1340,7 +1393,7 @@ function App() {
           }}>📱 おすすめスマホを診断する →</button>
         </div>
         <div style={{fontSize:10,color:C.sub,marginTop:8,lineHeight:1.6,textAlign:"center"}}>
-          ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は2026年7月7日時点のものです）
+          ※料金は税込・割引適用後の参考価格です。最新情報は各社公式サイトでご確認ください。（この情報は{LAST_UPDATED}時点のものです）
           ※本サイトは事業者からのアフィリエイト成果報酬によって運営しております。
         </div>
         <div style={{textAlign:"center",marginTop:12,display:"flex",justifyContent:"center",gap:20}}>
