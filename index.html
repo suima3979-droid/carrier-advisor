@@ -208,14 +208,12 @@ function scorePlan(plan, a) {
   if (a.family==="yes") sc += ["docomo","au","SoftBank","UQ mobile","Y!mobile"].includes(plan.carrier)?15:0;
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
-  // U18・U12は18歳以下以外には表示しない
+  // U18・U12は18歳以下以外には表示しない（対象年齢でも通信量など他の回答に応じて自然に競合させる）
   const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
-  if (isYouthPlan && a.age==="young") sc += 30;
-  // シニアプランは60歳以上以外には表示しない
+  // シニアプランは60歳以上以外には表示しない（対象年齢でも通信量など他の回答に応じて自然に競合させる）
   const isSeniorPlan = ["au_senior"].includes(plan.id);
   if (isSeniorPlan && a.age!=="senior") sc -= 999;
-  if (isSeniorPlan && a.age==="senior") sc += 30;
   return sc;
 }
 
