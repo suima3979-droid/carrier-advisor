@@ -14,7 +14,7 @@
   <script type="text/babel">
 const { useState } = React;
 
-const LAST_UPDATED = "2026年7月21日";
+const LAST_UPDATED = "2026年8月15日";
 
 const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXXX";
 const AD_SLOTS = { top: "1111111111", mid: "2222222222", result: "3333333333" };
@@ -918,11 +918,11 @@ function App() {
       <div style={W}>
         <div style={{padding:"36px 20px 28px",textAlign:"center"}}>
           <div style={{marginBottom:14}}><UpdatedBadge/></div>
-          <div style={{display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"5px 14px",borderRadius:20,marginBottom:18}}>ケータイショップ店員おすすめ</div>
+          <div style={{display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"5px 14px",borderRadius:20,marginBottom:18}}>AIかんたん診断</div>
           <div style={{fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>おすすめスマホ<br/>かんたん診断</div>
           <div style={{fontSize:13,color:C.sub,lineHeight:1.8,marginBottom:24}}>AIがあなたにぴったりの1台を提案します</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
-            {[["📷","カメラ・性能・バッテリー"],["📊","主要メーカーから選ぶ"],["👨‍💼","現役店員が監修"],["⏱️","所要時間 約1分"]].map(([icon,text])=>(
+            {[["📷","カメラ・性能・バッテリー"],["📊","主要メーカーから選ぶ"],["🔄","最新情報に更新"],["⏱️","所要時間 約1分"]].map(([icon,text])=>(
               <div key={text} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 8px",textAlign:"center"}}>
                 <div style={{fontSize:22,marginBottom:6}}>{icon}</div>
                 <div style={{fontSize:11,color:C.sub,lineHeight:1.4}}>{text}</div>
@@ -1217,6 +1217,46 @@ function App() {
         ],
         related:["carrier","sub"]
       },
+      {
+        id:"tethering", icon:"🔗", title:"テザリングって何？",
+        qa:[
+          { q:"テザリングとは何ですか？", a:"スマートフォンのデータ通信を経由して、パソコンやタブレットなど他の機器をインターネットに接続する機能です。Wi-Fiルーターの代わりとして使えます。" },
+          { q:"追加料金はかかりますか？", a:"多くのプランでは標準搭載されており追加料金は不要ですが、一部の格安SIMやキャンペーン中のプランでは月額料金がかかったりデータ容量が制限される場合があります。契約前に確認しておくと安心です。" },
+          { q:"テザリングを使うとデータ消費は早い？", a:"テザリングで接続した機器の通信量も、契約しているプランのデータ容量から消費されます。パソコンでの作業や動画視聴はデータ消費が大きいため、容量に余裕のあるプランがおすすめです。" },
+          { q:"設定方法は難しい？", a:"多くのスマートフォンは設定アプリの「テザリング」または「インターネット共有」からワンタップで有効にできます。機種によって呼び方は異なりますが、操作は簡単です。" },
+        ],
+        related:["esim","dualsim"]
+      },
+      {
+        id:"carrier-mail", icon:"📧", title:"キャリアメールって今も使える？",
+        qa:[
+          { q:"キャリアメールとは何ですか？", a:"docomo.ne.jpやau.comなど、契約している携帯電話会社が提供するメールアドレスのことです。" },
+          { q:"格安SIMやオンライン専用プランでも使えますか？", a:"ahamo・povo・LINEMOなどのオンライン専用プランや、多くの格安SIMではキャリアメールが提供されていません。GmailなどのフリーメールやSMSでの代替が一般的です。" },
+          { q:"乗り換えるとキャリアメールはどうなりますか？", a:"契約解除と同時にキャリアメールも使えなくなるのが基本です。一部キャリアには有料で継続利用できる「メール持ち運びサービス」があります。" },
+          { q:"乗り換え前に準備しておくことは？", a:"キャリアメールで登録しているサービス（銀行・SNSなど）がある場合は、乗り換え前にフリーメールアドレスへの変更を済ませておくとスムーズです。" },
+        ],
+        related:["mnp","switch-steps","online"]
+      },
+      {
+        id:"roaming", icon:"✈️", title:"海外でスマホを使うには？",
+        qa:[
+          { q:"海外旅行中もそのままスマホを使えますか？", a:"多くのキャリアでは国際ローミングサービスに対応しており、追加の手続きなしで海外でも通話・データ通信が利用できます（対応エリア・プランは要確認）。" },
+          { q:"料金はどうなりますか？", a:"定額で使えるプランを用意しているキャリアも多く、例えば楽天モバイルは対象国で毎月2GBまで海外データ無料、ahamoは対象国・地域で30GBまで海外ローミングが無料など、キャリアによって条件が異なります。" },
+          { q:"海外用のSIMを別に用意した方がいい？", a:"長期滞在や大容量通信が必要な場合は、現地SIMや海外用eSIMを別途用意した方が割安になることがあります。短期旅行なら手持ちのキャリアのローミングサービスで十分な場合が多いです。" },
+          { q:"出発前に確認しておくことは？", a:"契約中のプランが国際ローミングに対応しているか、対応エリアや無料になるデータ量の上限を事前に確認しておきましょう。海外での高額請求トラブルを防げます。" },
+        ],
+        related:["ahamo","esim"]
+      },
+      {
+        id:"data-carryover", icon:"📦", title:"データ繰り越し・増量オプションって何？",
+        qa:[
+          { q:"データ繰り越しとは何ですか？", a:"その月に使い切らなかったデータ容量を、翌月に持ち越せる仕組みです。対応しているプランとしていないプランがあります。" },
+          { q:"増量オプションとは？", a:"契約中のプランのデータ容量を、追加料金を払って一時的または恒久的に増やせるオプションです。データ不足が続く場合の対策になります。" },
+          { q:"データを使い切るとどうなりますか？", a:"多くのプランは低速通信（128kbpsや300kbpsなど）に切り替わりますが、そのまま通信は継続できます。追加でデータチャージを購入して通常速度に戻すことも可能です。" },
+          { q:"プラン変更とどちらがお得ですか？", a:"毎月データが足りない状態が続くなら、上位プランへの変更や増量オプションの恒久利用の方が割安になることが多いです。一時的な不足ならデータチャージで様子を見るのもひとつの手です。" },
+        ],
+        related:["carrier","mvno"]
+      },
     ];
 
     const scrollTo = (id) => {
@@ -1233,7 +1273,7 @@ function App() {
           <div style={{marginBottom:10}}><UpdatedBadge/></div>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>Q&A</div>
           <div style={{fontSize:22,fontWeight:900}}>よくある質問・Q&A</div>
-          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>現役ケータイショップ店員が解説します。</div>
+          <div style={{fontSize:11,color:C.sub,marginTop:4,lineHeight:1.7}}>スマホ・キャリア選びでよくいただく質問をまとめました。</div>
         </div>
         <div style={{padding:"12px"}}>
           {articles.map(a=>(
@@ -1252,9 +1292,6 @@ function App() {
               {openId===a.id && (
                 <div style={{padding:"0 16px 16px"}}>
                   <div style={{height:1,background:C.border,marginBottom:16}}/>
-                  <div style={{display:"inline-block",fontSize:10,color:C.accent,fontWeight:700,background:C.accentG,border:`1px solid ${C.accent}44`,padding:"3px 10px",borderRadius:20,marginBottom:12}}>
-                    👨‍💼 現役店員が解説
-                  </div>
                   {a.qa.map((item,i)=>(
                     <div key={i} style={{marginBottom:14}}>
                       <div style={{fontSize:12,fontWeight:900,color:C.accent,marginBottom:4}}>Q. {item.q}</div>
@@ -1333,7 +1370,7 @@ function App() {
           <div style={{marginBottom:10}}><UpdatedBadge/></div>
           <div style={{fontSize:10,color:C.accent,fontWeight:700,letterSpacing:2,marginBottom:4}}>PLAN LIST</div>
           <div style={{fontSize:22,fontWeight:900}}>おすすめプラン一覧</div>
-          <div style={{fontSize:11,color:C.sub,marginTop:4}}>現役店員監修・最新プラン情報</div>
+          <div style={{fontSize:11,color:C.sub,marginTop:4}}>最新プラン情報をまとめて比較</div>
         </div>
         <div style={{display:"flex",gap:8,padding:"12px 16px",overflowX:"auto"}}>
           {[["all","すべて"],["mno","大手"],["sub","サブブランド"],["mvno","格安SIM"]].map(([key,label])=>(
@@ -1370,7 +1407,7 @@ function App() {
           display:"inline-block",fontSize:10,fontWeight:700,letterSpacing:3,
           color:C.accent,background:C.accentG,border:`1px solid ${C.accent}44`,
           padding:"5px 14px",borderRadius:20,marginBottom:18,
-        }}>ケータイショップ店員おすすめ</div>
+        }}>AIかんたん診断</div>
         <div style={{
           fontSize:44,fontWeight:900,lineHeight:1.15,letterSpacing:-1,marginBottom:12,
           background:`linear-gradient(135deg,${C.text} 0%,${C.accent} 100%)`,
@@ -1380,7 +1417,7 @@ function App() {
           AIがあなたに合わせて最適なプランを提案します
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
-          {[["🤖","AIが最適プランを選定"],["📊","主要キャリア対応"],["👨‍💼","現役店員が監修"],["⏱️","所要時間 1分以内"]].map(([icon,text])=>(
+          {[["🤖","AIが最適プランを選定"],["📊","主要キャリア対応"],["🔄","最新情報に更新"],["⏱️","所要時間 1分以内"]].map(([icon,text])=>(
             <div key={text} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 8px",textAlign:"center"}}>
               <div style={{fontSize:22,marginBottom:6}}>{icon}</div>
               <div style={{fontSize:11,color:C.sub,lineHeight:1.4}}>{text}</div>
