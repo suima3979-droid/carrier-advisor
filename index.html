@@ -41,6 +41,8 @@ const PLANS = [
   { id:"ahamoL", carrier:"ahamo", name:"ahamo大盛り 110GB", cat:"mno", gb:110, price:4950, callType:"5分かけ放題込", support:"オンライン", network:"docomo", features:["大容量110GB","5分かけ放題込","5G対応"], note:"オンライン専用" },
   { id:"dcm_mini_4", carrier:"docomo", name:"ドコモmini 4GB", cat:"mno", gb:4, price:880, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["低価格","5G対応","dポイント"], note:"割引適用後の価格（基本2,750円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
   { id:"dcm_mini_10", carrier:"docomo", name:"ドコモmini 10GB", cat:"mno", gb:10, price:1980, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["5G対応","dポイント"], note:"割引適用後の価格（基本3,850円）。dカードお支払割220円＋ドコモ光セット割1,100円＋ドコモでんきセット割110円＋その他550円適用" },
+  { id:"dcm_debut_u15_s", carrier:"docomo", name:"スマホデビューU15 〜5GB", cat:"mno", gb:5, price:2508, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["5〜15歳限定","段階式料金","親子割対象"], note:"5〜15歳限定・新規契約/機種変更が対象（他社からのMNPは対象外）。基本料金2,508円。ドコモ親子割1,100円引き＋dカードお支払割（GOLD会員550円引き）を併用すると最大1年間858円まで下がる（2年目以降は1,958円〜）。契約解除料は1年以内解約で1,100円（2025年7月1日以降新規契約が対象）" },
+  { id:"dcm_debut_u15_l", carrier:"docomo", name:"スマホデビューU15 5GB超〜20GB", cat:"mno", gb:20, price:3278, callType:"従量(22円/30秒)", support:"店舗", network:"docomo", features:["5〜15歳限定","段階式料金","親子割対象"], note:"5〜15歳限定・新規契約/機種変更が対象（他社からのMNPは対象外）。基本料金3,278円。ドコモ親子割は5GB超〜20GB利用時1,870円引き。dカードお支払割との併用でさらに割引。契約解除料は1年以内解約で1,100円（2025年7月1日以降新規契約が対象）" },
   { id:"au_value", carrier:"au", name:"auバリューリンクプラン 無制限", cat:"mno", gb:9999, price:5478, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["auスマートバリュー対応","家族割対象"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本8,008円）。1GB以下の利用で1,650円引き（実質3,828円）" },
   { id:"au_mini_1", carrier:"au", name:"スマホミニプラン＋（〜1GB）", cat:"mno", gb:1, price:2398, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["少量利用で安い","段階式料金"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本4,928円）" },
   { id:"au_mini_3", carrier:"au", name:"スマホミニプラン＋（〜3GB）", cat:"mno", gb:3, price:4048, callType:"従量(22円/30秒)", support:"店舗", network:"au", features:["段階式料金","auスマートバリュー対応"], note:"auスマートバリュー1,100円＋家族割プラス(3人以上)1,210円＋auPAYカード割220円適用後の価格（基本6,578円）" },
@@ -209,7 +211,7 @@ function scorePlan(plan, a) {
   if (a.age==="senior") { if(plan.support==="店舗") sc+=15; if(plan.cat==="mvno") sc-=10; }
   if (a.age==="young" && plan.price<=2000) sc+=10;
   // U18・U12は18歳以下以外には表示しない（対象年齢でも通信量など他の回答に応じて自然に競合させる）
-  const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20"].includes(plan.id);
+  const isYouthPlan = ["au_u18_s","au_u18_l","sb_debut4","sb_debut20","dcm_debut_u15_s","dcm_debut_u15_l"].includes(plan.id);
   if (isYouthPlan && a.age!=="young") sc -= 999;
   // シニアプランは60歳以上以外には表示しない（対象年齢でも通信量など他の回答に応じて自然に競合させる）
   const isSeniorPlan = ["au_senior"].includes(plan.id);
@@ -1204,6 +1206,16 @@ function App() {
           { q:"楽天モバイルのカスタマーセンターは？", a:"Rakuten Linkアプリから：無料通話で問い合わせ可能\nチャットサポート：my楽天モバイルアプリから24時間対応" },
         ],
         related:["carrier","mnp","sub"]
+      },
+      {
+        id:"docomo-u15", icon:"👦", title:"ドコモの新プラン「スマホデビューU15」について教えて！",
+        qa:[
+          { q:"「スマホデビューU15」ってどんなプラン？", a:"2026年8月7日から始まった、5〜15歳向けの新料金プランです。月間データ利用量が5GB以下なら月額2,508円、5GB超〜20GBなら月額3,278円の2段階制です。" },
+          { q:"どのくらい安くなるの？", a:"「ドコモ親子割」とdカードお支払割（GOLD会員）を併用すると、5GB以下の場合は最大1年間月額858円まで下がります。ただし割引は最大12ヶ月間で、2年目以降は1,958円〜に戻ります。" },
+          { q:"誰でも申し込めるの？", a:"新規契約・機種変更が対象で、他社からのMNP（乗り換え）は対象外という条件があります。契約前に対象条件を確認しておきましょう。" },
+          { q:"注意点はある？", a:"2025年7月1日以降に新規契約した場合、1年以内に解約すると契約解除料1,100円がかかります。また「ドコモ親子割」は本人分だけでなく、同じファミリー割引グループの家族（ドコモMAX・ahamoなど契約中）の料金も最大12ヶ月間550円割引になります。" },
+        ],
+        related:["carrier","sub"]
       },
     ];
 
